@@ -20,12 +20,17 @@ import altair as alt
 import duckdb
 import streamlit.components.v1 as components
 coef = 'file.txt'
+fp_league = 'Ligaska_KONACAN_STAS.csv'
+save_csv_Expend = "sportska_kubska_statsitika_OBRDENO.csv"
+save_csv_Expend_BATCH = 'BATCH_sportska_kubska_statsitika_OBRDENO.csv'
 
 def app():
-    st.subheader("Home") 
-    DFrame = DataFrameFunc('Ligaska_KONACAN_STAS.csv')
-    df = EFPA_MAIN(DFrame)
-    st.write(df)
+    # st.subheader("Home") 
+    # DFrame = DataFrameFunc('Ligaska_KONACAN_STAS.csv')
+    # df = EFPA_MAIN(DFrame)
+    st.write("read dataframe ")
+
+    #st.dataframe(DataFrameFunc(save_csv_Expend))
 
     col1, col2 = st.beta_columns(2)
 

@@ -88,6 +88,7 @@ def EFPA_base(DFrame):
     return df
 
 
+
 def EFPA_MAIN(DFrame):
     #dframe = EFPA_base(DFrame)
 
@@ -168,75 +169,78 @@ def EFPA_MAIN(DFrame):
     # ,"Year_of_Season statistic","Nationality statistic"
 
 
-    colums,col2 = st.beta_columns(2)
+    # colums,col2 = st.beta_columns(2)
 
-    with colums:
-        flag = 0
-        flagTemp = '0'
-        task = st.selectbox("Task",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
-        st.write("type(task)",type(task))
+    # with colums:
+    flag = 0
+    flagTemp = '0'
+    task = st.selectbox("Task task meni",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
+    st.write("type(task)",type(task))
 
-        if task == "LEAUGE statistic":
-            flag = 1
-            cont_LEAUGE = 0
+    if task == "LEAUGE statistic":
+        flag = 1
+        cont_LEAUGE = 0
         
-            st.write("Meni  LEAUGE statistic")
-            for i in range(0,len(listLEAUGE)):
-                cont_LEAUGE += 1
-            options = ['0'] * cont_LEAUGE
+        st.write("Meni  LEAUGE statistic")
+        for i in range(0,len(listLEAUGE)):
+            cont_LEAUGE += 1
+        options = ['0'] * cont_LEAUGE
         
-            for i in range(0,len(listLEAUGE)):
-                options[i] = listLEAUGE[i]
+        for i in range(0,len(listLEAUGE)):
+            options[i] = listLEAUGE[i]
 
-            remeber = st.selectbox("Select Dynamic", options= list(options))
-            flagTemp = remeber
-            cnt = 1
-            for i in range(0,len(listLEAUGE)):
-                if listLEAUGE[i] == remeber:
-                    break
-                cnt +=1
+        remeber = st.selectbox("Select Dynamic", options= list(options))
+        st.write("Added ",remeber)
+        flagTemp = remeber
+        cnt = 1
+        for i in range(0,len(listLEAUGE)):
+            if listLEAUGE[i] == remeber:
+                break
+            cnt +=1
 
-        elif task == "Year_of_Season statistic":
+    elif task == "Year_of_Season statistic":
 
-            flag = 2
-            cont_LEAUGE = 0
+        flag = 2
+        cont_LEAUGE = 0
         
-            st.write("Meni  Year_of_Season statistic")
-            for i in range(0,len(listYear_of_Season)):
-                cont_LEAUGE += 1
-            options = ['0'] * cont_LEAUGE
+        st.write("Meni  Year_of_Season statistic")
+        for i in range(0,len(listYear_of_Season)):
+            cont_LEAUGE += 1
+        options = ['0'] * cont_LEAUGE
 
-            for i in range(0,len(listYear_of_Season)):
-                options[i] = listYear_of_Season[i]
+        for i in range(0,len(listYear_of_Season)):
+            options[i] = listYear_of_Season[i]
 
-            remeber = st.selectbox("Select Dynamic", options= list(options))
-            flagTemp = remeber
-            cnt = 1
-            for i in range(0,len(listYear_of_Season)):
-                if listYear_of_Season[i] == remeber:
-                    break
-                cnt +=1
+        remeber = st.selectbox("Select Dynamic", options= list(options))
+        st.write("Added ",remeber)
+        flagTemp = remeber
+        cnt = 1
+        for i in range(0,len(listYear_of_Season)):
+            if listYear_of_Season[i] == remeber:
+                break
+            cnt +=1
         
-        elif task == "Nationality statistic":
+    elif task == "Nationality statistic":
 
-            flag = 3
-            cont_LEAUGE = 0
+        flag = 3
+        cont_LEAUGE = 0
         
-            st.write("Meni  listNationality")
-            for i in range(0,len(listNationality)):
-                cont_LEAUGE += 1
-            options = ['0'] * cont_LEAUGE
+        st.write("Meni  listNationality")
+        for i in range(0,len(listNationality)):
+            cont_LEAUGE += 1
+        options = ['0'] * cont_LEAUGE
         
-            for i in range(0,len(listNationality)):
-                options[i] = listNationality[i]
+        for i in range(0,len(listNationality)):
+            options[i] = listNationality[i]
 
-            remeber = st.selectbox("Select Dynamic", options= list(options))
-            flagTemp = remeber
-            cnt = 1
-            for i in range(0,len(listNationality)):
-                if listNationality[i] == remeber:
-                    break
-                cnt +=1
+        remeber = st.selectbox("Select Dynamic", options= list(options))
+        st.write("Added ",remeber)
+        flagTemp = remeber
+        cnt = 1
+        for i in range(0,len(listNationality)):
+            if listNationality[i] == remeber:
+                break
+            cnt +=1
 
 
     #count number of rows in date frame
@@ -349,67 +353,61 @@ def EFPA_MAIN(DFrame):
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
     df_new.columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
-    return df_new     
+    return df_new,remeber     
     
 
 def inputMeni_sort(DFN):
     st.subheader("meni")
-    col1,col2 = st.beta_columns(2)
-
-    with col1:
-        while True:
+    
         
-            options = st.selectbox("Task",["Sort data BY Name of League","Sort data BY Nationality","Sort data BY Year of Season","Sort data BY Expend by player","Sort data BY Expend + Inflation by player"],key='key22')
-            if options == "Sort data BY Name of League":
-                st.subheader("Sort data BY Name of League")
-                b = Chose_sort()
-                a =  sorted(DFN, key=lambda DFN: str(DFN[0]),reverse = b) 
-                return a
-                break
-
-            elif options == "Sort data BY Year of Season":
-                st.subheader("Sort data BY Year of Season")
-                b = Chose_sort()
-                a = sorted(DFN, key=lambda DFN: int(DFN[1]),reverse = b) 
-                return a
-                break    
+    options = st.selectbox("Option",["Sort data BY Name of League","Sort data BY Nationality","Sort data BY Year of Season","Sort data BY Expend by player","Sort data BY Expend + Inflation by player"])
+    if options =="Sort data BY Name of League":
+        st.subheader("Sort data BY Name of League")
+        b = Chose_sort()
+        a =  sorted(DFN, key=lambda DFN: str(DFN[0]),reverse = b) 
+        return a
         
-            elif options == "Sort data BY Nationality":
-                st.subheader("Sort data BY Nationality")
-                b = Chose_sort()
-                a = sorted(DFN, key=lambda DFN: str(DFN[2]),reverse = b) 
-                return a
-                break
 
-            elif options == "Sort data BY Expend by player":
-                st.subheader("Sort data BY Expend by player")
-                b = Chose_sort()
-                a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
-                return a
-                break
+    elif options == "Sort data BY Year of Season":
+        st.subheader("Sort data BY Year of Season")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: int(DFN[1]),reverse = b) 
+        return a
+            
+        
+    elif options == "Sort data BY Nationality":
+        st.subheader("Sort data BY Nationality")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: str(DFN[2]),reverse = b) 
+        return a
+            
 
-            elif options == "Sort data BY Expend + Inflation by player":
-                st.subheader("Sort data BY Expend + Inflation by player")
-                b = Chose_sort()
-                a = sorted(DFN, key=lambda DFN: float(DFN[4]),reverse = b) 
-                return a
-                break
+    elif options == "Sort data BY Expend by player":
+        st.subheader("Sort data BY Expend by player")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
+        return a
+            
+
+    elif options == "Sort data BY Expend + Inflation by playe":
+        st.subheader("Sort data BY Expend + Inflation by player")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: float(DFN[4]),reverse = b) 
+        return a
+            
 
 def Chose_sort():
-    while True:
 
-        sort_option = st.selectbox("Option",["Clasic sort","Reverse sort"],key='key33')
+    sort_option = st.radio("Option",["Clasic sort","Reverse sort"])
 
-        if sort_option == "Clasic sort":
-            a = False
-            return a
-            break
-        elif sort_option == "Reverse sort":
-            a = True
-            return a
-            break
-
-
+    if sort_option == "Clasic sort":
+        a = False
+        return a
+            
+    elif sort_option == "Reverse sort":
+        a = True
+        return a
+            
 
 def stringToList(string):
     listRes = list(string.split(" "))

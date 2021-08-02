@@ -1,9 +1,10 @@
+from numpy.core.numeric import True_
 import streamlit as st 
 import pandas as pd
 import numpy as np
 from sqlite3.dbapi2 import paramstyle
 import bcrypt
-from functions import check_email,make_password,check_hashes,GETCoefficients,remove_duplicates
+from functions import *
 from database import create_usertable,add_user_data,check_double_email,check_double_username,login_user,check_userdatatable
 import datetime
 #from data_functions_clubs import*
@@ -19,8 +20,13 @@ import altair as alt
 from bokeh.plotting import figure
 import duckdb
 import subprocess
+from html_temp import *
+import os
 coef = 'file.txt'
-
+fp_league = 'Ligaska_KONACAN_STAS.csv'
+save_csv_Expend = 'sportska_kubska_statsitika_OBRDENO.csv'
+save_csv_Expend_BATCH = 'BATCH_sportska_kubska_statsitika_OBRDENO.csv'
+rem_niz = []
 def app():
     st.subheader("LogIn")
     username = st.sidebar.text_input("Username")
@@ -37,7 +43,7 @@ def app():
         if result:
             st.success("Logged in as :: {}".format(username))
                 
-            task = st.selectbox("Task",["Add Posts","Metricss"],key='key123')
+            task = st.selectbox("task op",["Add Posts","Metricss"],key='key123')
 
             if task == "Add Posts":
                 st.subheader("Add Articles")
@@ -47,67 +53,135 @@ def app():
                 st.subheader("Metricss")
 
                 if st.checkbox("Metrics"):
-                    st.title("Let's create a table!")
-                    DFrame = DataFrameFunc('Ligaska_KONACAN_STAS.csv')
-                    df = EFPA_MAIN(DFrame)
-                    st.write(df)
 
-                    # chart_data = pd.DataFrame(df,
-                    #       columns=[c, '  Expend + Inflation by player|  '])
-                    # st.bar_chart(chart_data)
-                    #################################
+                    # Create a menu for the data analysis process
+                    col1,col2 = st.beta_columns(2)
+                    with col1:
+                        
+                        if st.checkbox("Processed Data by average league EXPEND for player ARRIVALS"):
 
-                     
-                    #df.plot(x="   Year of Season |  ", y=["  Expend + Inflation by player|  ","    Expend by player|  "])
-                    #plt.show()
-                    #st.pyplot()
+                            
+                            leuge_DF = DataFrameFunc(fp_league)
 
-                    # x = df['   Year of Season |  ']
-                    # y = df['    Expend by player|  ']
+                            a_leuge_DF = EFPA_base(leuge_DF)
+                            #st.dataframe(a_leuge_DF)
 
-                    # p = figure(
+                            st.success("Final result ")
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")
+                            if submit:
+                                df_file = a_leuge_DF.to_csv('file_name_clubs.csv')
+                                f_file = 'file_name_clubs.csv'
+                                st.write("Postoji",df_file)
 
-                    #     title='simple line example',
-                    #     x_axis_label='x',
-                    #     y_axis_label='y')
+                                # if os.path.isfile(df_file) or os.path.exists(df_file):
+                                #     st.write("Postoji")
+                                
+                                # if (os.path.exists(df_file) and os.path.isfile(df_file)):
+                                #Write_multiple_DF(f_file,a_leuge_DF)
+                                
+                                    
+                                #Delite_DataFrame_from_memory(leuge_DF)
+                                #Delite_DataFrame_from_memory(a_leuge_DF)
+                                #st.dataframe(DataFrameFunc(df_file))
 
-                    # p.line(x, y, legend_label='Trend', line_width=2)
+                            submit = my_form.form_submit_button(label = "Delite datas")
+                            if submit:
+                                st.success("Delite Datas")
+                                #a_leuge_DF.drop(a_leuge_DF.index, inplace=True)
+                                #Delite_DataFrame_from_memory(leuge_DF)
+                                if(os.path.exists(df_file) and os.path.isfile(df_file)):
+                                    os.remove(df_file)
+                                    print("file deleted")
+                                    #st.success("Delite Datas")
+                                else:
+                                    print("file not found")
+                            #if(os.path.exists(df_file) and os.path.isfile(df_file)):
+                                
+                                st.dataframe(DataFrameFuncExpend(df_file))
 
-                    # st.bokeh_chart(p, use_container_width=True)
+                        if st.checkbox("BATCH Data by average league EXPEND for player ARRIVALS"):
+                            leuge_DF = DataFrameFunc(fp_league)
+                            a_leuge_DF_B,rememmber = EFPA_MAIN(leuge_DF)
+                            
 
-                    # lines = alt.Chart(df).mark_line().encode(
+                            #a_leuge_DF_B.to_csv('BATCH_file_name_clubs.csv')
+                            save_csv_Expend_BATCH = 'BATCH_file_name_clubs.csv'
+                            Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+                            # for i in range(0,len(rem_niz)):
+                            #     st.write("test",rem_niz[i])
 
-                    #     x=alt.X('Season ',axis=alt.Axis(title='   Year of Season |  '))
-                    #     #y=alt.Y('Expend',axis=alt.Axis(title='    Expend by player|  '))
-                    # ).properties(
-                    #     width=600,
-                    #     height=300
-                    # )
-                    # st.altair_chart(lines)
-                    # DFrame = DataFrameFunc('Ligaska_KONACAN_STAS.csv')
-                    # df = EFPA_MAIN(DFrame)
-                    # st.write(df)
+                            st.dataframe(a_leuge_DF_B)
 
-                    #st.write(" : ",duckdb.query("SELECT * FROM df WHERE '' ").to_df())
-                    # df.reset_index().plot(
-                    # x="   Year of Season |  ", y=["    Expend by player|  ", "  Expend + Inflation by player|  "], kind="bar"
-                    # )
-                    # plt.title("Mince Pie Consumption 18/19")
-                    # plt.xlabel("   Year of Season |  ")
-                    # plt.ylabel("Expend")
-                    # chart = alt.Chart(df).mark_line().encode(
-                    #   x=alt.X('   Year of Season |  '),
-                    #   y=alt.Y('value:Q'),
-                    #   color=alt.Color("name:N")
-                    # ).properties(title="Hello World")
-                    # st.altair_chart(chart, use_container_width=True)
-                #st.pyplot()
-                    # y = df['    Expend by player|  ']
-                    # x = df['   Year of Season |  ']
-                    # plt.pie(x,y)
-                    # plt.title("title")
-                    # plt.ylabel("Expend by player")
-                    # plt.xlabel("Year of Season")
-                    # plt.show()
+                            # st.success("Final result ")
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")
+                            #a_leuge_DF_B.to_csv('BATCH_file_name_clubs.csv')
+                            #df_file_batch = 'BATCH_file_name_clubs.csv'
+                            
+                            if submit:
+                                rem_niz.append(rememmber)
+                                save_csv_Expend_BATCH = 'BATCH_file_name_clubs.csv'
+                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                st.dataframe(DataFrameFuncExpend(save_csv_Expend_BATCH))
+                                #Write_multiple_DF('BATCH_file_name_clubs.csv',a_leuge_DF_B)
+                                
+                                #st.data   frame(DataFrameFuncExpend(df_file_batch))
+                            st.write("Youe Choose : ")
+                            for i in range(0,len(rem_niz)):
+                                st.write(i+1," ::: ",rem_niz[i])
+                            #   ,"Specific Proces data by average league EXPEND for player ARRIVALS"
+                            #options = st.selectbox("Select Option", ["Processed Data by average league EXPEND for player ARRIVALS","Specific Proces data by average league EXPEND for player ARRIVALS"],key='123412')
+
+                            # if options == "Processed Data by average league EXPEND for player ARRIVALS":
+
+                            #     if count_1 == 0:
+                            #         st.write("You choose option Get AVERAGE Expend for player arrivals")
+                            #         leuge_DF = DataFrameFunc(fp_league)
+                                    
+
+                                    
+                            #         a_leuge_DF = EFPA_base(leuge_DF)
+                            #         #st.dataframe(a_leuge_DF)
+                            #         Write_multiple_DF(save_csv_Expend,a_leuge_DF)
+                            #         Delite_DataFrame_from_memory(leuge_DF)
+                            #         Delite_DataFrame_from_memory(a_leuge_DF)
+                            #         count_1 +=1
+                            #         st.success("Final result ")
+                            #         my_form = st.form(key = "form1")
+                            #         submit = my_form.form_submit_button(label = "Submit")
+                            #         if submit:
+                            #             break
+
+                            #     if count_1 == 1:
+                            #         #st.warning("You can use this function only one")
+                            #         st.warning("ou can use this function only one, Pleas use something else  :-) ")
+                            
+                            # if options == "Specific Proces data by average league EXPEND for player ARRIVALS":
+                                # st.write("You choose option Specific Proces data by average league EXPEND for player ARRIVALS")
+                                # leuge_DF = DataFrameFunc(fp_league)
+                                # a_leuge_DF = EFPA_MAIN(leuge_DF)
+                                # #st.dataframe(a_leuge_DF)
+                                # Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF)
+                                # Delite_DataFrame_from_memory(leuge_DF)
+                                # Delite_DataFrame_from_memory(a_leuge_DF)
+                                # my_form = st.form(key = "form1")
+                                # submit = my_form.form_submit_button(label = "Submit")
+                                # if submit:
+                                #     break
+                                
+
+
+                        
+                        
+
+
+                        
+
+                    
+                    
+
+                    
 
 
