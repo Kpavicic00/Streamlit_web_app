@@ -55,7 +55,7 @@ def app():
                 flag = 0
                 st.subheader("Metricss")
 
-                task = st.selectbox("task op",["Processed Data by average league EXPEND for player ARRIVALS","BATCH Data by average league EXPEND for player ARRIVALS","Processed Data by average league INCOME for player DEPARTURES"],key='key123dsa')
+                task = st.selectbox("task op",["Processed Data by average league EXPEND for player ARRIVALS","BATCH Data by average league EXPEND for player ARRIVALS","Processed Data by average league INCOME for player DEPARTURES","BATCH Data by average league INCOME for player DEPARTURES"],key='key123dsa')
                         
                 if task == "Processed Data by average league EXPEND for player ARRIVALS":
 
@@ -203,7 +203,56 @@ def app():
                             else:
                                 st.warning("file not found")           
                     
+                elif task == "BATCH Data by average league INCOME for player DEPARTURES":
+                    col1,col2 = st.beta_columns(2)
+                    with col1:
+                        
+                        if st.checkbox("Process data "):
+                            
 
+                            # Submit data 
+                            save_csv_Expend_BATCH = 'datas/BATCH_INCOME_file_name_clubs.csv'
+                            
+                            leuge_DF = DataFrameFunc(fp_league)
+                            a_leuge_DF_B,rememmber = IFPD_MAIN(leuge_DF)
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")  
+                                                     
+                            if submit:                            
+                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                #st.dataframe(a_leuge_DF_B)
+                                rem_niz.append(rememmber)
+                                #save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
+                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                st.dataframe(DataFrameFunc(save_csv_Expend_BATCH))
+                                st.write("Youe Choose : ")
+                                for i in range(0,len(rem_niz)):
+                                    st.write(i+1," ::: ",rem_niz[i])
+
+                        # Export datas
+                        form_export_csv = st.form(key = "export_form")
+                        submit = form_export_csv.form_submit_button(label = "Export datas")
+                        if submit:
+                            save_csv_Expend_BATCH = 'datas/BATCH_INCOME_file_name_clubs.csv'
+                                
+                            if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
+                                    st.markdown(get_table_download_link_csv(DataFrameFuncIncome(save_csv_Expend_BATCH)), unsafe_allow_html=True)
+                                    st.success("Export Datas")
+                            else:
+                                st.warning("file not found")
+
+                        # Delite datas 
+                        my_form_delite = st.form(key = "form12")
+                        submit = my_form_delite.form_submit_button(label = "Delite datas")
+                        if submit:
+                            save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
+                            if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
+                                os.remove(save_csv_Expend_BATCH)
+                                st.success("Delite Datas")
+                            else:
+                                st.warning("file not found")
                     
 
 
