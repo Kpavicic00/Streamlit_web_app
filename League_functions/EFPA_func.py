@@ -1,14 +1,12 @@
-from numpy.core.einsumfunc import einsum
 import streamlit as st 
 import pandas as pd
 import numpy as np
 from functions import*
+import base64
 
 
 
 def EFPA_base(DFrame):
-
-
     count = NumberOfRows(DFrame)
 
     # reserving arraya for cast
@@ -32,7 +30,6 @@ def EFPA_base(DFrame):
     # st.write("DFrame Competition ")
     # st.dataframe(DFrame["Competition"])
     a = NumberOfRows(DFrame)
-    st.write("a",a)
     i = 0
     for i in range(0,count):
         Name_of_leauge[i] = DFrame["Competition"][i] # ind 0
@@ -64,22 +61,22 @@ def EFPA_base(DFrame):
         ###############################################################################
 
     # conversion to numpy
-    np_Expend = np.asarray(expenditures, dtype='float64') # ind 0
-    np_arrivals_players = np.asarray(arrivals_players, dtype='int64') # ind 1
-    np_Year_of_Season = np.asarray(Year_of_Season, dtype='int64') # ind 2
+    np_Expend = np.asarray(expenditures, dtype='float') # ind 0
+    np_arrivals_players = np.asarray(arrivals_players, dtype='int') # ind 1
+    np_Year_of_Season = np.asarray(Year_of_Season, dtype='int') # ind 2
     npNationality_leuge = np.asarray(Nationality_leuge, dtype='str') # ind 3
     np_Name_of_leauge = np.asarray(Name_of_leauge, dtype='str') # ind 4
-    np_expend_inflation = np.asarray(expend_inflation, dtype='float64') # ind 5
+    np_expend_inflation = np.asarray(expend_inflation, dtype='float') # ind 5
     ###############################################################################
 
     niz = np.stack((np_Name_of_leauge,np_Year_of_Season,npNationality_leuge,np.round((np_Expend/np_arrivals_players),2),np.round((np_expend_inflation/np_arrivals_players),2)), axis = -1)
                         ###############################################################################
     #a =  sorted(niz, key=lambda niz: str(niz[0]),reverse = False) 
 
-    a = inputMeni_sort(niz)
+    nizz = inputMeni_sort(niz)
     #a = Input_chose_of_GetAVGExpendFORplayerArrivals(niz)
     # convert from stack with values to data for dataFrame
-    data = np.array(a)
+    data = np.array(nizz)
     # set to DataFrame
     df = pd.DataFrame(data)
     # name of labels for head or names of collums
@@ -88,10 +85,7 @@ def EFPA_base(DFrame):
     return df
 
 
-
 def EFPA_MAIN(DFrame):
-    #dframe = EFPA_base(DFrame)
-
     nDFRAME = EFPA_base(DFrame)
 
     #count number of rows in date frame
@@ -175,7 +169,6 @@ def EFPA_MAIN(DFrame):
     flag = 0
     flagTemp = '0'
     task = st.selectbox("Task task meni",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
-    st.write("type(task)",type(task))
 
     if task == "LEAUGE statistic":
         flag = 1
@@ -190,7 +183,8 @@ def EFPA_MAIN(DFrame):
             options[i] = listLEAUGE[i]
 
         remeber = st.selectbox("Select Dynamic", options= list(options))
-        st.write("Added ",remeber)
+        #st.write("Added ",remeber)
+        remm = remeber
         flagTemp = remeber
         cnt = 1
         for i in range(0,len(listLEAUGE)):
@@ -212,7 +206,8 @@ def EFPA_MAIN(DFrame):
             options[i] = listYear_of_Season[i]
 
         remeber = st.selectbox("Select Dynamic", options= list(options))
-        st.write("Added ",remeber)
+        #st.write("Added ",remeber)
+        remm = remeber
         flagTemp = remeber
         cnt = 1
         for i in range(0,len(listYear_of_Season)):
@@ -233,9 +228,10 @@ def EFPA_MAIN(DFrame):
         for i in range(0,len(listNationality)):
             options[i] = listNationality[i]
 
-        remeber = st.selectbox("Select Dynamic", options= list(options))
-        st.write("Added ",remeber)
+        remeber = st.selectbox("Select Dynamic",options= list(options))
+        #st.write("Added ",remeber)
         flagTemp = remeber
+        remm = remeber
         cnt = 1
         for i in range(0,len(listNationality)):
             if listNationality[i] == remeber:
@@ -353,62 +349,60 @@ def EFPA_MAIN(DFrame):
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
     df_new.columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
-    return df_new,remeber     
+    return df_new,remm     
     
 
 def inputMeni_sort(DFN):
-    st.subheader("meni")
-    
+    st.subheader("Meni options :: ")
+    #   ,"Sort data by Expend + Inflation by player"
         
-    options = st.selectbox("Option",["Sort data BY Name of League","Sort data BY Nationality","Sort data BY Year of Season","Sort data BY Expend by player","Sort data BY Expend + Inflation by player"])
-    if options =="Sort data BY Name of League":
-        st.subheader("Sort data BY Name of League")
+    options = st.selectbox("Chose sort option by ::: ",["Sort data by Name of League","Sort data by Nationality","Sort data by Year of Season","Sort data by Expend by player"])
+    if options =="Sort data by Name of League":
+        st.subheader("Sort data by Name of League")
         b = Chose_sort()
         a =  sorted(DFN, key=lambda DFN: str(DFN[0]),reverse = b) 
         return a
         
 
-    elif options == "Sort data BY Year of Season":
-        st.subheader("Sort data BY Year of Season")
+    elif options == "Sort data by Year of Season":
+        st.subheader("Sort data by Year of Season")
         b = Chose_sort()
         a = sorted(DFN, key=lambda DFN: int(DFN[1]),reverse = b) 
         return a
             
         
-    elif options == "Sort data BY Nationality":
-        st.subheader("Sort data BY Nationality")
+    elif options == "Sort data by Nationality":
+        st.subheader("Sort data by Nationality")
         b = Chose_sort()
         a = sorted(DFN, key=lambda DFN: str(DFN[2]),reverse = b) 
         return a
             
 
-    elif options == "Sort data BY Expend by player":
-        st.subheader("Sort data BY Expend by player")
+    elif options == "Sort data by Expend by player":
+        st.subheader("Sort data by Expend by player")
         b = Chose_sort()
         a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
         return a
             
 
-    elif options == "Sort data BY Expend + Inflation by playe":
-        st.subheader("Sort data BY Expend + Inflation by player")
-        b = Chose_sort()
-        a = sorted(DFN, key=lambda DFN: float(DFN[4]),reverse = b) 
-        return a
+    # elif options == "Sort data by Expend by player":
+    #     st.subheader("Sort data by Expend by player")
+    #     b = Chose_sort()
+    #     a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
+    #     return a
             
-
-def Chose_sort():
-
-    sort_option = st.radio("Option",["Clasic sort","Reverse sort"])
-
-    if sort_option == "Clasic sort":
-        a = False
-        return a
-            
-    elif sort_option == "Reverse sort":
-        a = True
-        return a
             
 
 def stringToList(string):
     listRes = list(string.split(" "))
     return listRes
+
+
+def get_table_download_link(df):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded
+    in:  dataframe
+    out: href string
+    """
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'

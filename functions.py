@@ -1,5 +1,6 @@
 # functions
 from os import makedirs
+import streamlit as st
 import bcrypt
 import re
 import hashlib
@@ -12,7 +13,42 @@ import numpy as np
 import pandas as pd
 import csv
 import sys
+import base64
 coef = 'file.txt'
+
+def stringToList(string):
+    listRes = list(string.split(" "))
+    return listRes
+
+
+def get_table_download_link(df):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded
+    in:  dataframe
+    out: href string
+    """
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
+
+def Chose_sort():
+
+    sort_option = st.radio("Sort option",["Clasic sort","Reverse sort"])
+
+    if sort_option == "Clasic sort":
+        a = False
+        return a
+            
+    elif sort_option == "Reverse sort":
+        a = True
+        return a
+
+def get_table_download_link_csv(df):
+    #csv = df.to_csv(index=False)
+    csv = df.to_csv().encode()
+    #b64 = base64.b64encode(csv.encode()).decode() 
+    b64 = base64.b64encode(csv).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="captura.csv" target="_blank">Download csv file</a>'
+    return href
 
 def GETCoefficients(files,year):
 
@@ -58,6 +94,12 @@ def Delite_DataFrame_from_memory(DatFr):
 def Write_multiple_DF(csv_file,dat):
     with open(csv_file, 'a') as f:  # Use append mode.
         dat.to_csv(f, index=False,header=False)
+
+def DataFrameFuncIncome(filePath):
+
+    colls = ["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
 
 def DataFrameFuncExpend(filePath):
 
@@ -138,7 +180,7 @@ def GETCoefficients(files,year):
     return np_specific_coefficient
 
 # Security functions
-
+#   -----------------------------------------------------------------
 def check_email(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     return re.match(regex, email)

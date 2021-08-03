@@ -101,7 +101,7 @@ def app():
     # st.altair_chart(altara)
     #df['DataFrame Column'] = pd.to_datetime(df['DataFrame Column'], format=specify your format)
     colls = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
-    dat = pd.read_csv('test_data.csv',header = None , names = colls)
+    dat = pd.read_csv('datas/test_data.csv',header = None , names = colls)
     dat['Year'] = pd.to_datetime(dat['Year'], format='%Y')
     c_line = alt.Chart(dat).mark_line(point=True).encode(
         x = "Year",
