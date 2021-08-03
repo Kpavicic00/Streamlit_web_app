@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from functions import*
-import base64
-
 
 
 def IFPD_base(DFrame):
@@ -319,8 +317,8 @@ def IFPD_MAIN(DFrame):
 
     #Initialize a new array
     np_niz1 = np.asarray(niz_N1, dtype = 'str')
-    np_niz2 = np.asarray(niz_N1, dtype = 'int64')
-    np_niz3 = np.asarray(niz_N1, dtype = 'float64')
+    np_niz2 = np.asarray(niz_N1, dtype = 'int')
+    np_niz3 = np.asarray(niz_N1, dtype = 'float')
 
     #set arr to stack for operations with data lik sort and convert
     new_niz = np.stack((np_niz1,np_niz2,np_niz1,np_niz3,np_niz3),axis= -1)
@@ -346,7 +344,6 @@ def IFPD_MAIN(DFrame):
     # name of labels for head or names of collums
     df_new.columns = ["Name_of_Legue", "Year","Nationality", "Income_by_player", "Income_INFLACION"]
     return df_new,remm
-
 
 def input_Menisort(DFN):
     st.subheader("Meni options :: ")

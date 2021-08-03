@@ -14,6 +14,8 @@ from League_functions.avg_Income_for_player_Departures import  BATCH_for_GetAVGE
 from functions import DataFrameFunc,NumberOfRows
 from League_functions.EFPA_func import*
 from League_functions.IFPD_func import*
+from League_functions.BFPD_func import*
+from League_functions.DFLS_func import*
 import matplotlib.pyplot as plt
 import altair as alt
 from bokeh.plotting import figure
@@ -27,6 +29,8 @@ fp_league = 'datas/Ligaska_KONACAN_STAS.csv'
 save_csv_Expend = 'datas/sportska_kubska_statsitika_OBRDENO.csv'
 save_csv_Expend_BATCH = 'datas/BATCH_sportska_kubska_statsitika_OBRDENO.csv'
 rem_niz = []
+rem_niz_INCOME = []
+rem_niz_BALANCE = []
 flag = 0
 def app():
     st.subheader("LogIn")
@@ -55,7 +59,7 @@ def app():
                 flag = 0
                 st.subheader("Metricss")
 
-                task = st.selectbox("task op",["Processed Data by average league EXPEND for player ARRIVALS","BATCH Data by average league EXPEND for player ARRIVALS","Processed Data by average league INCOME for player DEPARTURES","BATCH Data by average league INCOME for player DEPARTURES"],key='key123dsa')
+                task = st.selectbox("task op",["Processed Data by average league EXPEND for player ARRIVALS","BATCH Data by average league EXPEND for player ARRIVALS","Processed Data by average league INCOME for player DEPARTURES","BATCH Data by average league INCOME for player DEPARTURES","Processed Data by average league BALANCE for player DEPARTURES","BATCH Data by average league BALANCE for player DEPARTURES","Processed Data by average LEAGUE by AVG SESONS statistic","BATCH Data by average LEAGUE by AVG SESONS statistic"],key='key123dsa')
                         
                 if task == "Processed Data by average league EXPEND for player ARRIVALS":
 
@@ -123,14 +127,14 @@ def app():
                             submit = my_form.form_submit_button(label = "Submit")  
                                                      
                             if submit:                            
-                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+                                #Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
 
                                 #st.dataframe(a_leuge_DF_B)
                                 rem_niz.append(rememmber)
                                 #save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
                                 Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
 
-                                st.dataframe(DataFrameFunc(save_csv_Expend_BATCH))
+                                st.dataframe(DataFrameFuncExpend(save_csv_Expend_BATCH))
                                 st.write("Youe Choose : ")
                                 for i in range(0,len(rem_niz)):
                                     st.write(i+1," ::: ",rem_niz[i])
@@ -154,6 +158,7 @@ def app():
                             save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
                             if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                 os.remove(save_csv_Expend_BATCH)
+                                rem_niz.clear()
                                 st.success("Delite Datas")
                             else:
                                 st.warning("file not found")
@@ -216,20 +221,19 @@ def app():
                             leuge_DF = DataFrameFunc(fp_league)
                             a_leuge_DF_B,rememmber = IFPD_MAIN(leuge_DF)
                             my_form = st.form(key = "form1")
-                            submit = my_form.form_submit_button(label = "Submit")  
-                                                     
+                            submit = my_form.form_submit_button(label = "Submit")                               
                             if submit:                            
-                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+                                #Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
 
                                 #st.dataframe(a_leuge_DF_B)
-                                rem_niz.append(rememmber)
+                                rem_niz_BALANCE.append(rememmber)
                                 #save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
                                 Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
 
-                                st.dataframe(DataFrameFunc(save_csv_Expend_BATCH))
+                                st.dataframe(DataFrameFuncIncome(save_csv_Expend_BATCH))
                                 st.write("Youe Choose : ")
-                                for i in range(0,len(rem_niz)):
-                                    st.write(i+1," ::: ",rem_niz[i])
+                                for i in range(0,len(rem_niz_BALANCE)):
+                                    st.write(i+1," ::: ",rem_niz_BALANCE[i])
 
                         # Export datas
                         form_export_csv = st.form(key = "export_form")
@@ -247,12 +251,205 @@ def app():
                         my_form_delite = st.form(key = "form12")
                         submit = my_form_delite.form_submit_button(label = "Delite datas")
                         if submit:
-                            save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
+                            save_csv_Expend_BATCH = 'datas/BATCH_INCOME_file_name_clubs.csv'
                             if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                 os.remove(save_csv_Expend_BATCH)
+                                rem_niz_BALANCE.clear()
                                 st.success("Delite Datas")
                             else:
                                 st.warning("file not found")
                     
+                elif task == "Processed Data by average league BALANCE for player DEPARTURES":
+                    col1,col2 = st.beta_columns(2)
+                    with col1:
+                            
+                        
+
+                        st.info(" For restart data you must delete data and start over !!!")
+                        # Processd data
+                        if st.checkbox("Process data "):
+                       
+                            leuge_DF = DataFrameFunc(fp_league)
+                            a_leuge_DF = BFPD_base(leuge_DF)
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")
+                            f_file = 'datas/BALANCE_file_name_clubs.csv'
+                            st.dataframe(a_leuge_DF)
+                            if submit:
+                                Write_multiple_DF(f_file,a_leuge_DF)
+                                st.success("Datas processd :  ")
+                                st.dataframe(a_leuge_DF)
+                            
+
+                        
+                        # Export datas
+                        form_export_csv = st.form(key = "export_form")
+                        submit = form_export_csv.form_submit_button(label = "Export datas")
+                        if submit:
+                                
+                            if(os.path.exists(f_file) and os.path.isfile(f_file)):
+                                    st.markdown(get_table_download_link_csv(DataFrameFuncBalance(f_file)), unsafe_allow_html=True)
+                                    st.success("Export Datas")
+                            else:
+                                st.warning("file not found")
+
+                        # Delite datas 
+                        my_form_delite = st.form(key = "form12")
+                        submit = my_form_delite.form_submit_button(label = "Delite datas")
+                        if submit:
+                            if(os.path.exists(f_file) and os.path.isfile(f_file)):
+                                os.remove(f_file)
+                                st.success("Delite Datas")
+                            else:
+                                st.warning("file not found") 
+
+                elif task == "BATCH Data by average league BALANCE for player DEPARTURES":
+                    col1,col2 = st.beta_columns(2)
+                    with col1:
+                        
+                        if st.checkbox("Process data "):
+                            
+
+                            # Submit data 
+                            save_csv_Expend_BATCH = 'datas/BATCH_BALANCE_file_name_clubs.csv'
+                            
+                            leuge_DF = DataFrameFunc(fp_league)
+                            a_leuge_DF_B,rememmber = BFPD_MAIN(leuge_DF)
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")  
+                                                     
+                            if submit:                            
+                                #Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                #st.dataframe(a_leuge_DF_B)
+                                rem_niz_BALANCE.append(rememmber)
+                                #save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
+                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                st.dataframe(DataFrameFuncBalance(save_csv_Expend_BATCH))
+                                st.write("Youe Choose : ")
+                                for i in range(0,len(rem_niz_BALANCE)):
+                                    st.write(i+1," ::: ",rem_niz_BALANCE[i])
+
+                        # Export datas
+                        form_export_csv = st.form(key = "export_form")
+                        submit = form_export_csv.form_submit_button(label = "Export datas")
+                        if submit:
+                            save_csv_Expend_BATCH = 'datas/BATCH_BALANCE_file_name_clubs.csv'
+                                
+                            if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
+                                    st.markdown(get_table_download_link_csv(DataFrameFuncBalance(save_csv_Expend_BATCH)), unsafe_allow_html=True)
+                                    st.success("Export Datas")
+                            else:
+                                st.warning("file not found")
+
+                        # Delite datas 
+                        my_form_delite = st.form(key = "form12")
+                        submit = my_form_delite.form_submit_button(label = "Delite datas")
+                        if submit:
+                            save_csv_Expend_BATCH = 'datas/BATCH_BALANCE_file_name_clubs.csv'
+                            if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
+                                os.remove(save_csv_Expend_BATCH)
+                                rem_niz_BALANCE.clear()
+                                st.success("Delite Datas")
+                            else:
+                                st.warning("file not found")
+
+                elif task == "Processed Data by average LEAGUE by AVG SESONS statistic":
+                    col1,col2 = st.beta_columns(2)
+                    with col1:
+                            
+                        
+
+                        st.info(" For restart data you must delete data and start over !!!")
+                        # Processd data
+                        if st.checkbox("Process data "):
+                       
+                            leuge_DF = DataFrameFunc(fp_league)
+                            a_leuge_DF = DFLS_base(leuge_DF)
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")
+                            f_file = 'datas/SEASON_file_name_clubs.csv'
+                            st.dataframe(a_leuge_DF)
+                            if submit:
+                                Write_multiple_DF(f_file,a_leuge_DF)
+                                st.success("Datas processd :  ")
+                                st.dataframe(a_leuge_DF)
+                            
+
+                        
+                        # Export datas
+                        form_export_csv = st.form(key = "export_form")
+                        submit = form_export_csv.form_submit_button(label = "Export datas")
+                        if submit:
+                                
+                            if(os.path.exists(f_file) and os.path.isfile(f_file)):
+                                    st.markdown(get_table_download_link_csv(DataFrameFuncSeasons(f_file)), unsafe_allow_html=True)
+                                    st.success("Export Datas")
+                            else:
+                                st.warning("file not found")
+
+                        # Delite datas 
+                        my_form_delite = st.form(key = "form12")
+                        submit = my_form_delite.form_submit_button(label = "Delite datas")
+                        if submit:
+                            if(os.path.exists(f_file) and os.path.isfile(f_file)):
+                                os.remove(f_file)
+                                st.success("Delite Datas")
+                            else:
+                                st.warning("file not found")
+
+                elif task == "BATCH Data by average LEAGUE by AVG SESONS statistic":
+                    col1,col2 = st.beta_columns(2)
+                    with col1:
+                        
+                        if st.checkbox("Process data "):
+                            
+
+                            # Submit data 
+                            save_csv_Expend_BATCH = 'datas/BATCH_SEASONS_file_name_clubs.csv'
+                            
+                            leuge_DF = DataFrameFunc(fp_league)
+                            a_leuge_DF_B,rememmber = DFLS_MAIN(leuge_DF)
+                            my_form = st.form(key = "form1")
+                            submit = my_form.form_submit_button(label = "Submit")                                                       
+                            if submit:                            
+                                #Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                #st.dataframe(a_leuge_DF_B)
+                                rem_niz_BALANCE.append(rememmber)
+                                #save_csv_Expend_BATCH = 'datas/BATCH_file_name_clubs.csv'
+                                Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
+
+                                st.dataframe(DataFrameFuncSeasons(save_csv_Expend_BATCH))
+                                st.write("Youe Choose : ")
+                                for i in range(0,len(rem_niz_BALANCE)):
+                                    st.write(i+1," ::: ",rem_niz_BALANCE[i])
+
+                        # Export datas
+                        form_export_csv = st.form(key = "export_form")
+                        submit = form_export_csv.form_submit_button(label = "Export datas")
+                        if submit:
+                            save_csv_Expend_BATCH = 'datas/BATCH_SEASONS_file_name_clubs.csv'
+                                
+                            if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
+                                    st.markdown(get_table_download_link_csv(DataFrameFuncSeasons(save_csv_Expend_BATCH)), unsafe_allow_html=True)
+                                    st.success("Export Datas")
+                            else:
+                                st.warning("file not found")
+
+                        # Delite datas 
+                        my_form_delite = st.form(key = "form12")
+                        submit = my_form_delite.form_submit_button(label = "Delite datas")
+                        if submit:
+                            save_csv_Expend_BATCH = 'datas/BATCH_SEASONS_file_name_clubs.csv'
+                            if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
+                                os.remove(save_csv_Expend_BATCH)
+                                rem_niz_BALANCE.clear()
+                                st.success("Delite Datas")
+                            else:
+                                st.warning("file not found")
+
+                            
 
 

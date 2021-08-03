@@ -2,91 +2,121 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from functions import*
-import base64
 
 
+def BFPD_base(DFrame):
 
-def EFPA_base(DFrame):
-    count = NumberOfRows(DFrame)
+        #count number of rows in date frame
+        count = NumberOfRows(DFrame)
 
-    # reserving arraya for cast
-    Name_of_leauge = [0] * count
-    Year_of_Season = [0] * count
-    arrivals_players = [0] * count
-    Nationality_leuge = [0] * count
-    expenditures = [0] * count
-
-    koef = [0] * count
-    int_koef = [0] * count
-    expend_inflation = [0] * count
-    ###############################################################################
-
-    # cast data from Data to float, int and str
-    DFrame["Competition"].astype(str) # ind 0
-    DFrame["Year"].astype(int) # ind 1
-    DFrame["Arrivals"].astype(int) # ind 2
-    DFrame["Nationality"].astype(str) # ind 3
-    DFrame["Expenditures"].astype(int) # ind 4
-    # st.write("DFrame Competition ")
-    # st.dataframe(DFrame["Competition"])
-    a = NumberOfRows(DFrame)
-    i = 0
-    for i in range(0,count):
-        Name_of_leauge[i] = DFrame["Competition"][i] # ind 0
-        Year_of_Season[i] = DFrame["Year"][i] # ind 1
-        arrivals_players[i] = DFrame["Arrivals"][i] # ind 2
-        Nationality_leuge[i] = DFrame["Nationality"][i] # ind 3
-        expenditures[i] = DFrame["Expenditures"][i] # ind 4
-    ###################################################
-        # st.dataframe(Nationality_leuge)
-
-
-    # the inflation calculation coefficient operatorion
-    for i in range(0,count):
-        temp = Year_of_Season[i]
-        a = GETCoefficients(coef,temp)
-        koef[i] = a
-    ###############################################################################
-
-    # save coefficient to specific array
-    for i in range(0,len(int_koef)):
-        temp = float(koef[i])
-        int_koef[i] = temp
+        #reserving the number of elements in a row
+        Nationality = [0] * count
+        Balance = [0] * count
+        Departures = [0] * count
+        leauge = [0] * count
+        Season = [0] * count
+        koef = [0] * count
+        CUT =  [0] * count
+        interception = [0] * count
+        int_koef = [0] * count
         ###############################################################################
 
-     # operation of inflation
-    for i in range(0,count):
-        a = float(expenditures[i])*int_koef[i]
-        expend_inflation[i] = round(a,2)
+        # cast DataFrame rows to folat and int
+        DFrame["Balance"].astype(np.int)
+        DFrame["Departures"].astype(np.int)
+        DFrame["Competition"].astype(np.str)
+        DFrame["Nationality"].astype(np.str)
+        DFrame["Year"].astype(np.int)
         ###############################################################################
 
-    # conversion to numpy
-    np_Expend = np.asarray(expenditures, dtype='float') # ind 0
-    np_arrivals_players = np.asarray(arrivals_players, dtype='int') # ind 1
-    np_Year_of_Season = np.asarray(Year_of_Season, dtype='int') # ind 2
-    npNationality_leuge = np.asarray(Nationality_leuge, dtype='str') # ind 3
-    np_Name_of_leauge = np.asarray(Name_of_leauge, dtype='str') # ind 4
-    np_expend_inflation = np.asarray(expend_inflation, dtype='float') # ind 5
-    ###############################################################################
+        #save values from the dateframe to a string
+        i = 0
+        for i in range(0,count):
+            Balance[i] = DFrame["Balance"][i]
+            Departures[i] = DFrame["Departures"][i]
+            leauge[i] = DFrame["Competition"][i]
+            Season[i] = DFrame["Year"][i]
+            Nationality[i] = DFrame["Nationality"][i]
+            ###############################################################################
+        for i in range(0,count):
+            temp = Season[i]
+            a = GETCoefficients(coef,temp)
+            koef[i] = a
+            ###############################################################################
 
-    niz = np.stack((np_Name_of_leauge,np_Year_of_Season,npNationality_leuge,np.round((np_Expend/np_arrivals_players),2),np.round((np_expend_inflation/np_arrivals_players),2)), axis = -1)
-                        ###############################################################################
-    #a =  sorted(niz, key=lambda niz: str(niz[0]),reverse = False) 
+        for i in range(0,len(int_koef)):
+            temp = float(koef[i])
+            int_koef[i] = temp
+            ###############################################################################
 
-    nizz = inputMeni_sort(niz)
-    #a = Input_chose_of_GetAVGExpendFORplayerArrivals(niz)
-    # convert from stack with values to data for dataFrame
-    data = np.array(nizz)
-    # set to DataFrame
-    df = pd.DataFrame(data)
-    # name of labels for head or names of collums
-    df.columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
+        for i in range(0,count):
+            a = float(Balance[i])*int_koef[i]
+            interception[i] = round(a,2)
+            ###############################################################################
 
-    return df
+        # conversion to numpy
+        np_Balance = np.asarray(Balance, dtype='float')
+        np_Departures = np.asarray(Departures, dtype='int')
+        npNationality = np.asarray(Nationality, dtype='str')
+        np_Season = np.asarray(Season, dtype='int')
+        npLeauge = np.asarray(leauge, dtype='str')
+        np_CUT = np.asarray(CUT, dtype='float')
+        np_Interception = np.asarray(interception, dtype='float')
+        ###############################################################################
+
+        np_CUT = np_Balance/np_Departures
+        np_CUT_inflation = np_Interception/np_Departures
 
 
-def EFPA_MAIN(DFrame):
-    nDFRAME = EFPA_base(DFrame)
+        niz = np.stack((npLeauge,np_Season,npNationality,np.round(np_CUT,2),np.round(np_CUT_inflation,2)), axis = -1)
+
+        ###############################################################################
+        a = input_Menisort(niz)
+        # set to DataFrame
+        data = np.array(a)
+        # set to DataFrame
+        df = pd.DataFrame(data)
+        # name of labels for head or names of collums
+        ###############################################################################
+        df.columns = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "BalanceINFLACION"]
+        # return DataFrame with head an names of collums
+        return df
+
+def input_Menisort(DFN):
+    st.subheader("Meni options :: ")
+    #   ,"Sort data by Expend + Inflation by player"
+        
+    options = st.selectbox("Chose sort option by ::: ",["Sort data by Name of League","Sort data by Nationality","Sort data by Year of Season","Sort data by Balance_ by player"])
+    if options =="Sort data by Name of League":
+        st.subheader("Sort data by Name of League")
+        b = Chose_sort()
+        a =  sorted(DFN, key=lambda DFN: str(DFN[0]),reverse = b) 
+        return a
+        
+
+    elif options == "Sort data by Year of Season":
+        st.subheader("Sort data by Year of Season")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: int(DFN[1]),reverse = b) 
+        return a
+            
+        
+    elif options == "Sort data by Nationality":
+        st.subheader("Sort data by Nationality")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: str(DFN[2]),reverse = b) 
+        return a
+            
+
+    elif options == "Sort data by Balance_ by player":
+        st.subheader("Sort data by Balance_ by player")
+        b = Chose_sort()
+        a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
+        return a
+
+def BFPD_MAIN(DFrame):
+    # DataFrame to ecstract data
+    nDFRAME = BFPD_base(DFrame)
 
     #count number of rows in date frame
     count = NumberOfRows(nDFRAME)
@@ -96,15 +126,15 @@ def EFPA_MAIN(DFrame):
     Name_of_leauge  = [0] * count # indx 0
     Year_of_Season = [0] * count # indx 1
     Nationality = [0] * count # indx 2
-    Expend_by_player = [0] * count # indx 3
-    Expend_Inflation_by_player = [0] * count # indx 4
+    Balance_by_player = [0] * count # indx 3
+    Balance_Inflation_by_player = [0] * count # indx 4
 
-    # cast from DataFrame to str int an float
-    nDFRAME["Name_of_Legue"].astype(str)# ind 0
-    nDFRAME["Year"].astype(int)# ind 1
-    nDFRAME["Nationality"].astype(str)# ind 2
-    nDFRAME["Expend_by_player"].astype(float)# ind 3
-    nDFRAME["Expend_INFLACION"].astype(float)# ind 4
+    # cast DataFrame rows to folat and int
+    nDFRAME["Name_of_Legue"].astype(np.str)# ind 0
+    nDFRAME["Year"].astype(np.int)# ind 1
+    nDFRAME["Nationality"].astype(np.str)# ind 2
+    nDFRAME["Balance_by_player"].astype(np.float)# ind 3
+    nDFRAME["BalanceINFLACION"].astype(np.float)# ind 4
     ###############################################################################
 
     #save values from the dateframe to a arrays
@@ -113,20 +143,20 @@ def EFPA_MAIN(DFrame):
         Name_of_leauge[i] =  nDFRAME["Name_of_Legue"][i] # indx 0
         Year_of_Season[i] = nDFRAME["Year"][i] # indx 1
         Nationality[i] = nDFRAME["Nationality"][i] # indx 2
-        Expend_by_player[i] = nDFRAME["Expend_by_player"][i] # indx 3
-        Expend_Inflation_by_player[i] = nDFRAME["Expend_INFLACION"][i] # indx 4
+        Balance_by_player[i] = nDFRAME["Balance_by_player"][i] # indx 3
+        Balance_Inflation_by_player[i] = nDFRAME["BalanceINFLACION"][i] # indx 4
         ###############################################################################
 
     # conversion to numpy
     np_Name_of_leauge = np.asarray(Name_of_leauge, dtype = 'str') # indx 0
-    np_Year_of_Season = np.asarray(Year_of_Season,dtype='int64')# indx 1
+    np_Year_of_Season = np.asarray(Year_of_Season,dtype='int')# indx 1
     np_Nationality = np.asarray(Nationality,dtype='str')# indx 2
-    np_Expend_by_player= np.asarray(Expend_by_player, dtype = 'float64') # indx 3
-    np_Expend_Inflation_by_player = np.asarray(Expend_Inflation_by_player,dtype='float64') # indx 4
+    np_Balance_by_player = np.asarray(Balance_by_player, dtype = 'float') # indx 3
+    np_Balance_Inflation_by_player = np.asarray(Balance_Inflation_by_player,dtype='float') # indx 4
     ###############################################################################
 
     # set the numpy arrays values into stack
-    a = np.stack((np_Name_of_leauge,np_Year_of_Season,np_Nationality,np_Expend_by_player,np_Expend_Inflation_by_player),axis= -1)
+    a = np.stack((np_Name_of_leauge,np_Year_of_Season,np_Nationality,np_Balance_by_player,np_Balance_Inflation_by_player),axis= -1)
     ###############################################################################
 
     # convert from stack with values to data for dataFrame
@@ -134,8 +164,10 @@ def EFPA_MAIN(DFrame):
     # set to DataFrame
     df_a = pd.DataFrame(a_data)
     # name of labels for head or names of collums
-    df_a.columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
+    df_a.columns = ['Name_of_Legue', 'Year','Nationality', 'Balance_by_player', 'BalanceINFLACION ']
+    ###############################################################################
 
+    # convert data from numpay ndarray to list and remove duplicates elemtes of list for LEAUGE
     listLEAUGE = np_Name_of_leauge.tolist()
     listLEAUGE = remove_duplicates(listLEAUGE)
     listLEAUGE.sort()
@@ -151,7 +183,6 @@ def EFPA_MAIN(DFrame):
     listNationality = np_Nationality.tolist()
     listNationality = remove_duplicates(listNationality)
     listNationality.sort()
-
     ###############################################################################
     #######################################################################################################################################
 
@@ -159,13 +190,7 @@ def EFPA_MAIN(DFrame):
     # a function in which a user selects a choice of country or championship,
     # and chooses the name of the state or championship after which the data is printed
 
-    # temporary variables that note the value the ticker 
-    # ,"Year_of_Season statistic","Nationality statistic"
-
-
-    # colums,col2 = st.beta_columns(2)
-
-    # with colums:
+    # temporary variables that note the value the ticker chooses
     flag = 0
     flagTemp = '0'
     task = st.selectbox("Task task meni",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
@@ -348,47 +373,8 @@ def EFPA_MAIN(DFrame):
     # set to DataFrame
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
-    df_new.columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
-    return df_new,remm     
-    
+    df_new.columns = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "BalanceINFLACION"]
+    return df_new,remm
 
-def inputMeni_sort(DFN):
-    st.subheader("Meni options :: ")
-    #   ,"Sort data by Expend + Inflation by player"
-        
-    options = st.selectbox("Chose sort option by ::: ",["Sort data by Name of League","Sort data by Nationality","Sort data by Year of Season","Sort data by Expend by player"])
-    if options =="Sort data by Name of League":
-        st.subheader("Sort data by Name of League")
-        b = Chose_sort()
-        a =  sorted(DFN, key=lambda DFN: str(DFN[0]),reverse = b) 
-        return a
-        
 
-    elif options == "Sort data by Year of Season":
-        st.subheader("Sort data by Year of Season")
-        b = Chose_sort()
-        a = sorted(DFN, key=lambda DFN: int(DFN[1]),reverse = b) 
-        return a
-            
-        
-    elif options == "Sort data by Nationality":
-        st.subheader("Sort data by Nationality")
-        b = Chose_sort()
-        a = sorted(DFN, key=lambda DFN: str(DFN[2]),reverse = b) 
-        return a
-            
 
-    elif options == "Sort data by Expend by player":
-        st.subheader("Sort data by Expend by player")
-        b = Chose_sort()
-        a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
-        return a
-            
-
-    # elif options == "Sort data by Expend by player":
-    #     st.subheader("Sort data by Expend by player")
-    #     b = Chose_sort()
-    #     a = sorted(DFN, key=lambda DFN: float(DFN[3]),reverse = b) 
-    #     return a
-            
-            

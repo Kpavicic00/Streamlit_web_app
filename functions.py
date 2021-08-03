@@ -95,6 +95,18 @@ def Write_multiple_DF(csv_file,dat):
     with open(csv_file, 'a') as f:  # Use append mode.
         dat.to_csv(f, index=False,header=False)
 
+def DataFrameFuncSeasons(filePath):
+
+    colls = ["Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
+
+def DataFrameFuncBalance(filePath):
+
+    colls = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "BalanceINFLACION"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
+
 def DataFrameFuncIncome(filePath):
 
     colls = ["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]
