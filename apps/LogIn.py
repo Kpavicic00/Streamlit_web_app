@@ -32,7 +32,7 @@ coef = 'file.txt'
 fp_league = 'datas/Ligaska_KONACAN_STAS.csv'
 save_csv_Expend = 'datas/sportska_kubska_statsitika_OBRDENO.csv'
 save_csv_Expend_BATCH = 'datas/BATCH_sportska_kubska_statsitika_OBRDENO.csv'
-rem_niz = []
+rem_niz_niz = []
 rem_niz_INCOME = []
 rem_niz_BALANCE = []
 rem_niz_SEASON = []
@@ -40,6 +40,9 @@ rem_niz_CLUB_SEASON = []
 rem_niz_CLUB_TROUGHT_SEASON = []
 flag = 0
 def app():
+
+    
+
     st.subheader("LogIn")
     username = st.sidebar.text_input("Username")
     password = st.sidebar.text_input("Password",type='password')
@@ -49,6 +52,7 @@ def app():
         create_usertable()
         hashed_pswd = make_password(password)
         result = login_user(username,check_hashes(password,hashed_pswd))
+        
 
         if result:
             # st.success("Logged in as :: {}".format(username))
@@ -78,7 +82,7 @@ def app():
                         
                                 leuge_DF = DataFrameFunc(fp_league)
                                 a_leuge_DF = EFPA_base(leuge_DF)
-                                f_file = 'datas/exportedGetAVGExpendFORplayerArrivals.csv'
+                                f_file = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
                                 st.dataframe(a_leuge_DF)
 
                                 my_form = st.form(key = "form1")
@@ -108,7 +112,7 @@ def app():
                                     st.warning("file not found")
                                 
                     elif task == "BATCH Data by average league EXPEND for player ARRIVALS":
-
+                        
                         col1,col2 = st.beta_columns(2)
                         with col1:                        
                             if st.checkbox("Process data "):
@@ -121,13 +125,13 @@ def app():
                                 submit = my_form.form_submit_button(label = "Submit")                                                       
                                 if submit:                            
      
-                                    rem_niz.append(rememmber)
+                                    rem_niz_niz.append(rememmber)
                                     Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
 
                                     st.dataframe(DataFrameFuncExpend(save_csv_Expend_BATCH))
                                     st.write("Youe Choose : ")
-                                    for i in range(0,len(rem_niz)):
-                                        st.write(i+1," ::: ",rem_niz[i])
+                                    for i in range(0,len(rem_niz_niz)):
+                                        st.write(i+1," ::: ",rem_niz_niz[i])
 
                             # Export datas
                             form_export_csv = st.form(key = "export_form")
@@ -148,7 +152,8 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/ATCH_GetAVGExpendFORplayerArrivals.csv'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz.clear()
+                                    del rem_niz_niz[:]
+                                    rem_niz_niz = []
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
@@ -201,6 +206,7 @@ def app():
                         col1,col2 = st.beta_columns(2)
                         with col1:
                             
+                            rem_niz_BALANCE = []
                             if st.checkbox("Process data "):
                                 
                                 st.info(" For restart data you must delete data and start over !!!")
@@ -238,7 +244,7 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/BATCH_for_GetAVGIncomeFORplayerDepartures'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz_BALANCE.clear()
+                                    del rem_niz_BALANCE
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
@@ -289,6 +295,7 @@ def app():
                         col1,col2 = st.beta_columns(2)
                         with col1:
                             
+                            rem_niz_BALANCE = []
                             if st.checkbox("Process data "):
                                 st.info(" For restart data you must delete data and start over !!!") 
 
@@ -327,7 +334,7 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/BATCH_for_GetAVGBalanceFORplayerDepartures.csv'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz_BALANCE.clear()
+                                    del rem_niz_BALANCE
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
@@ -372,8 +379,11 @@ def app():
                                     st.warning("file not found")
 
                     elif task == "BATCH Data by average LEAGUE by AVG SESONS statistic":
+
                         col1,col2 = st.beta_columns(2)
                         with col1:
+
+                            rem_niz_SEASON = []
                             st.info(" For restart data you must delete data and start over !!!")
                             if st.checkbox("Process data "):
                                 # Submit data 
@@ -408,7 +418,7 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/BATCH_for_GetDataForLeauge_AVG_Seasons.csv'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz_SEASON.clear()
+                                    del rem_niz_SEASON
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
@@ -456,6 +466,7 @@ def app():
                         col1,col2 = st.beta_columns(2)
                         with col1:
                             
+                            rem_niz_SEASON = []
                             st.info(" For restart data you must delete data and start over !!!")
                             if st.checkbox("Process data "):
                                 # Submit data 
@@ -490,7 +501,7 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/BATCH_for_GetBYyear.csv'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz_SEASON.clear()
+                                    del rem_niz_SEASON
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
@@ -538,6 +549,8 @@ def app():
                     elif task_clubs == "BATCH Data by Data CLUBS statistic without   SESONS":
                         col1,col2 = st.beta_columns(2)
                         with col1:
+
+                            rem_niz_CLUB_SEASON = []
                             st.info(" For restart data you must delete data and start over !!!")
                             if st.checkbox("Process data "):
                                 # Submit data 
@@ -570,7 +583,7 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/BATCH_for_GETDataClubs_with_seasons.csv'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz_CLUB_SEASON.clear()
+                                    del rem_niz_CLUB_SEASON
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
@@ -615,6 +628,8 @@ def app():
                     elif task_clubs == "BATCH Data by Data CLUBS statistic through all   SESONS":
                         col1,col2 = st.beta_columns(2)
                         with col1:
+
+                            rem_niz_CLUB_TROUGHT_SEASON = []
                             st.info(" For restart data you must delete data and start over !!!")
                             if st.checkbox("Process data "):
                                 # Submit data 
@@ -647,7 +662,7 @@ def app():
                                 save_csv_Expend_BATCH = 'datas/exported/BATCH_for_GetDate_for_Clubs_throught_all_seasons.csv'
                                 if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
                                     os.remove(save_csv_Expend_BATCH)
-                                    rem_niz_CLUB_TROUGHT_SEASON.clear()
+                                    del rem_niz_CLUB_TROUGHT_SEASON
                                     st.success("Delite Datas")
                                 else:
                                     st.warning("file not found")
