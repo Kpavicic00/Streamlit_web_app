@@ -95,6 +95,28 @@ def Write_multiple_DF(csv_file,dat):
     with open(csv_file, 'a') as f:  # Use append mode.
         dat.to_csv(f, index=False,header=False)
 
+def DataFrameFunc_THROUGHT_Seasons(filePath):
+
+    colls = ["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
+
+def DataFrameFunc_CLUB_THROUGHT_Seasons(filePath):
+
+    colls = ["Order_of_Expend","Club","State","Competition","Expenditures",
+                             "Income","Arrivals","Departures","Balance",
+                             "inflation_Expenditure","inflation_Income","inflation_Balance"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
+
+def DataFrameFunc_CLUBS_Seasons(filePath):
+
+    colls = ["Order","Club","State","Competition","Expenditures",
+                    "Arrivals","Income","Departures","Balance","Season",
+                    "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
+
 def DataFrameFuncSeasons(filePath):
 
     colls = ["Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]
@@ -116,6 +138,12 @@ def DataFrameFuncIncome(filePath):
 def DataFrameFuncExpend(filePath):
 
     colls = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
+    dat = pd.read_csv(filePath,header = None , names = colls)
+    return dat
+
+def DataFrameFuncClubs(filePath):
+
+    colls = ["Order","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season"]
     dat = pd.read_csv(filePath,header = None , names = colls)
     return dat
 
