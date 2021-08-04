@@ -16,10 +16,10 @@ import sys
 import base64
 coef = 'file.txt'
 
+
 def stringToList(string):
     listRes = list(string.split(" "))
     return listRes
-
 
 def get_table_download_link(df):
     """Generates a link allowing the data in a given panda dataframe to be downloaded

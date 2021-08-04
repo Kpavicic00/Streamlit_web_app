@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from functions import*
 
+
 def CDWS_base(DFrame):
     #count number of rows in date frame
     count = NumberOfRows(DFrame)

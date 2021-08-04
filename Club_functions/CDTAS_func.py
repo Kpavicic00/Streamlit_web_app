@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from functions import*
 
+
 def DCTAS_base(DFrame):
 
     #count number of rows in date frame
