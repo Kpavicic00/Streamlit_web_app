@@ -18,7 +18,9 @@ from Club_functions.CDWS_func import*
 from Club_functions.CDTAS_func import*
 #    import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
+import sqlite3
 import time
+from database import*
 import os
 import altair as alt
 import duckdb
@@ -34,73 +36,95 @@ save_csv_Expend_BATCH = 'datas/BATCH_sportska_kubska_statsitika_OBRDENO.csv'
 f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
 #------------------------------------
 def app():
+    st.write("home")
+    create_EFPA()
 
-    df = DataFrameFuncExpend(f_datas)
-    df['Year']= pd.to_datetime(df['Year'],format='%Y')
-    st.dataframe(df)
-    if st.checkbox("Viusalize data "):
-        # Build an empty graph
-        lines = alt.Chart(df).mark_bar(size=25).encode(
-          x=alt.X('Year',axis=alt.Axis(title='date')),
-          y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
-          ).properties(
-              width=600,
-              height=300
-          )
-        def plot_animation(df):
-            lines = alt.Chart(df).mark_bar(size=25).encode(
-            x=alt.X('Year', axis=alt.Axis(title='date')),
-            y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
-            ).properties(
-                width=600, 
-                height=300
-            )
-            return lines
+    # f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
+    # df = DataFrameFuncExpend(f_datas)
+    # df['Year']= pd.to_datetime(df['Year'],format='%Y')
+    # #st.dataframe(df)
+    # conn = sqlite3.connect('data.db', check_same_thread=False)
+    # #create_EFPA()
+    # #df.to_sql(name='Users', con=conn)
+    # #   EFPA_table
+    # df.to_sql('EFPA_table',con=conn,if_exists='append')
+    # conn.close()
+    #c = conn.cursor()
+    # df.to_sql(name='Users', con=conn)
+    # conn.close()
 
-        N = df.shape[0] # number of elements in the dataframe
-        burst = 6       # number of elements (months) to add to the plot
-        size = burst    # size of the current dataset
+    # conn.execute('SELECT plot_id FROM plots WHERE plot_type="Control"')
+    # cur = conn.cursor()
 
-        line_plot = st.altair_chart(lines)
-        start_btn = st.button('Start')
+    # The result of a "cursor.execute" can be iterated over by row
+    # df_read = pd.read_sql('SELECT * FROM Users', conn)
+    # #c.fetchall()
+    # st.dataframe(df_read)
+    # Be sure to close the connection
+    #c.close()
+    # if st.checkbox("Viusalize data "):
+    #     # Build an empty graph
+    #     lines = alt.Chart(df_read).mark_bar(size=25).encode(
+    #       x=alt.X('Year',axis=alt.Axis(title='date')),
+    #       y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+    #       ).properties(
+    #           width=600,
+    #           height=300
+    #       )
+    #     def plot_animation(df_read):
+    #         lines = alt.Chart(df_read).mark_bar(size=25).encode(
+    #         x=alt.X('Year', axis=alt.Axis(title='date')),
+    #         y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+    #         ).properties(
+    #             width=600, 
+    #             height=300
+    #         )
+    #         return lines
 
-        if start_btn:
-            for i in range(1,N):
-                step_df = df.iloc[0:size]       
-                lines = plot_animation(step_df)
-                line_plot = line_plot.altair_chart(lines)
-                size = i + burst
-                if size >= N:
-                    size = N - 1  
-                time.sleep(0.2)
+    #     N = df_read.shape[0] # number of elements in the dataframe
+    #     burst = 6       # number of elements (months) to add to the plot
+    #     size = burst    # size of the current dataset
+
+    #     line_plot = st.altair_chart(lines)
+    #     start_btn = st.button('Start')
+
+    #     if start_btn:
+    #         for i in range(1,N):
+    #             step_df = df_read.iloc[0:size]       
+    #             lines = plot_animation(step_df)
+    #             line_plot = line_plot.altair_chart(lines)
+    #             size = i + burst
+    #             if size >= N:
+    #                 size = N - 1  
+    #             time.sleep(0.2)
 
 
-    chartline1 = alt.Chart(df).mark_bar(size=22,color='blue').encode(
+    # chartline1 = alt.Chart(df).mark_bar(size=22,color='blue').encode(
 
-        # x=df['Year'],
-        # y=df['Nationality'],
-        x=alt.X('Year', axis=alt.Axis(title='date')),
-        y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
-        # color='Expend_by_player',
-        # size='Expend_by_player'
-        ).properties(
+    #     # x=df['Year'],
+    #     # y=df['Nationality'],
+    #     x=alt.X('Year', axis=alt.Axis(title='date')),
+    #     y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+    #     # color='Expend_by_player',
+    #     # size='Expend_by_player'
+    #     ).properties(
 
-            width=800, 
-            height=600
-        )
+    #         width=800, 
+    #         height=600
+    #     )
 
-    chartline2 = alt.Chart(df).mark_bar(size=12,color='red').encode(
+    # chartline2 = alt.Chart(df).mark_bar(size=12,color='red').encode(
 
-        # x=df['Year'],
-        # y=df['Nationality'],
-        x=alt.X('Year', axis=alt.Axis(title='date')),
-        y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
-        # color='Expend_INFLACION',
-        # size='Expend_INFLACION'
-        ).properties(
+    #     # x=df['Year'],
+    #     # y=df['Nationality'],
+    #     x=alt.X('Year', axis=alt.Axis(title='date')),
+    #     y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+    #     # color='Expend_INFLACION',
+    #     # size='Expend_INFLACION'
+    #     ).properties(
 
-            width=800, 
-            height=600
-        )
-    st.altair_chart(chartline1 + chartline2)
+    #         width=800, 
+    #         height=600
+    #     )
+    # st.altair_chart(chartline1 + chartline2)
 
