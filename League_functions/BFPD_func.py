@@ -78,7 +78,7 @@ def BFPD_base(DFrame):
         df = pd.DataFrame(data)
         # name of labels for head or names of collums
         ###############################################################################
-        df.columns = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "BalanceINFLACION"]
+        df.columns = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "Balance_INFLACION"]
         # return DataFrame with head an names of collums
         return df
 

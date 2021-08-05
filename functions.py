@@ -125,7 +125,7 @@ def DataFrameFuncSeasons(filePath):
 
 def DataFrameFuncBalance(filePath):
 
-    colls = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "BalanceINFLACION"]
+    colls = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "Balance_INFLACION"]
     dat = pd.read_csv(filePath,header = None , names = colls)
     return dat
 
