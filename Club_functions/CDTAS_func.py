@@ -32,7 +32,7 @@ def DCTAS_base(DFrame):
     ###############################################################################
 
     # cast DataFrame rows to folat and int
-    DFrame["Order"].astype(np.int)# ind 0
+    DFrame["Order_of_Expend"].astype(np.int)# ind 0
     DFrame["Club"].astype(np.str)# ind 1
     DFrame["State"].astype(np.str)# ind 2
     DFrame["Competition"].astype(np.str)# ind 3
@@ -48,7 +48,7 @@ def DCTAS_base(DFrame):
     i = 0
     for i in range(0,count):
 
-        Order[i] = DFrame["Order"][i] # indx 0
+        Order[i] = DFrame["Order_of_Expend"][i] # indx 0
         Name_of_club[i] = DFrame["Club"][i] # indx 1
         State_of_club[i] =  DFrame["State"][i]# indx 2
         Competition[i] = DFrame["Competition"][i] # indx 3

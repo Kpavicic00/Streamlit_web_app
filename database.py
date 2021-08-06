@@ -5,6 +5,46 @@ c = conn.cursor()
 
 
 ### DATABASE FUNCTIONS !!
+#----------------------------------
+# BATCHED 
+#----------------------------------
+
+# EFPA_BATCH
+
+def return_id_EFPA_BATCH_table(id):
+    c.execute('SELECT  user_id FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_EFPA_BATCH(id):
+    c.execute('DELETE FROM EFPA_BATCH_table WHERE user_id="{}"'.format(id))
+    conn.commit()
+
+def create_EFPA_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_table(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
+
+def create_EFPA_BATCH_temp():
+    c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_table(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
+
+
+#----------------------------------
+# Processed 
+#----------------------------------
+
+# DCTAS
+def return_id_DCTAS_table(id):
+    c.execute('SELECT  user_id FROM DCTAS_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DCTAS(id):
+    c.execute('DELETE FROM DCTAS_table WHERE user_id="{}"'.format(id))
+    conn.commit()
+
+def create_DCTAS():
+    c.execute('CREATE TABLE IF NOT EXISTS DCTAS_table(DCTAS_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Income INTEGER,Arrivals INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,inflation_Expenditure REAL,inflation_Income REAL,inflation_Balance REAL,user_id TEXT,FOREIGN KEY(DCTAS_id) REFERENCES usertable(id))')
+
+##################################################################################
 
 # CDWS
 def return_id_CDWS_table(id):
@@ -15,9 +55,7 @@ def return_id_CDWS_table(id):
 def delite_CDWS(id):
     c.execute('DELETE FROM CDWS_table WHERE user_id="{}"'.format(id))
     conn.commit()
-#   Order_of_Expend","Club","State","Competition","Expenditures",
-#                    "Arrivals","Income","Departures","Balance","Season",
-#                    "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"
+
 def create_CDWS():
     c.execute('CREATE TABLE IF NOT EXISTS CDWS_table(CDWS_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Income INTEGER,Arrivals INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,Inflacion_Income REAL,Inflacion_Expenditures REAL,inflacion_Balance REAL,user_id TEXT,FOREIGN KEY(CDWS_id) REFERENCES usertable(id))')
 
@@ -32,10 +70,9 @@ def return_id_DCWS_table(id):
 def delite_DCWS(id):
     c.execute('DELETE FROM DCWS_table WHERE user_id="{}"'.format(id))
     conn.commit()
-#   "Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"
+
 def create_DCWS():
     c.execute('CREATE TABLE IF NOT EXISTS DCWS_table(DCWS_id INTEGER PRIMARY KEY,"index" INTEGER,Year_of_Season INTEGER,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DCWS_id) REFERENCES usertable(id))')
-
 
 ##################################################################################
 
@@ -48,28 +85,10 @@ def return_id_DFLS_table(id):
 def delite_DFLS(id):
     c.execute('DELETE FROM DFLS_table WHERE user_id="{}"'.format(id))
     conn.commit()
-#   "Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"
+
 def create_DFLS():
     c.execute('CREATE TABLE IF NOT EXISTS DFLS_table(DFLS_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DFLS_id) REFERENCES usertable(id))')
 
-
-##################################################################################
-
-
-# BFPD
-def return_id_BFPD_table(id):
-    c.execute('SELECT  user_id FROM BFPD_table WHERE user_id = "{}"'.format(id))
-    data = c.fetchall()
-    return data
-
-def delite_BFPD(id):
-    c.execute('DELETE FROM BFPD_table WHERE user_id="{}"'.format(id))
-    conn.commit()
-
-def create_BFPD():
-    c.execute('CREATE TABLE IF NOT EXISTS BFPD_table(BFPD_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Balance_by_player REAL,Balance_INFLACION REAL,user_id TEXT,FOREIGN KEY(BFPD_id) REFERENCES usertable(id))')
-
-
 ##################################################################################
 
 # BFPD
@@ -85,6 +104,20 @@ def delite_BFPD(id):
 def create_BFPD():
     c.execute('CREATE TABLE IF NOT EXISTS BFPD_table(BFPD_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Balance_by_player REAL,Balance_INFLACION REAL,user_id TEXT,FOREIGN KEY(BFPD_id) REFERENCES usertable(id))')
 
+##################################################################################
+
+# BFPD
+def return_id_BFPD_table(id):
+    c.execute('SELECT  user_id FROM BFPD_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_BFPD(id):
+    c.execute('DELETE FROM BFPD_table WHERE user_id="{}"'.format(id))
+    conn.commit()
+
+def create_BFPD():
+    c.execute('CREATE TABLE IF NOT EXISTS BFPD_table(BFPD_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Balance_by_player REAL,Balance_INFLACION REAL,user_id TEXT,FOREIGN KEY(BFPD_id) REFERENCES usertable(id))')
 
 ##################################################################################
 
@@ -117,10 +150,11 @@ def create_EFPA():
     c.execute('CREATE TABLE IF NOT EXISTS EFPA_table(EFPA_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_id) REFERENCES usertable(id))')
 
 ##################################################################################
-
+#-----------------------------------------
+# Processed  END OF PROCESSED FUNCTION
+#-----------------------------------------
 def create_usertable():
     c.execute('CREATE TABLE IF NOT EXISTS usertable(id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT,password TEXT,email TEXT,postdate DATE)')
-
 
 def add_user_data(username,password,email,postdate):
     c.execute('INSERT INTO usertable(username,password,email,postdate) VALUES(?,?,?,?) ',(username,password,email,postdate))
@@ -145,6 +179,7 @@ def return_user_id(username):
     c.execute('SELECT  id FROM usertable WHERE username = "{}"'.format(username))
     data = c.fetchall()
     return data
+
 def check_userdatatable():
     c.execute('SELECT name FROM sqlite_master')
     data = c.fetchall()

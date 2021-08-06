@@ -50,6 +50,7 @@ rem_niz_CLUB_TROUGHT_SEASON = []
 df_empt = pd.DataFrame()
 flag = 0
 rem_niz_nizz = []
+
 def app():
 
     
@@ -317,51 +318,113 @@ def app():
                                     st.info("Please procces data again !!")
 
                     elif task == "BATCH Data by average league EXPEND for player ARRIVALS":
+
                         
                         col1,col2 = st.beta_columns(2)
                         with col1:                        
-                            if st.checkbox("Process data "):
+                            if st.checkbox("Test"):
+                                #   df_save = pd.DataFrame()
                                 st.info(" For restart data you must delete data and start over !!!")
-                                # Submit data 
-                                #save_csv_Expend_BATCH = 'datas/exported/BATCH_GetAVGExpendFORplayerArrivals.csv' 
-                                                          
-                                leuge_DF = DataFrameFunc(fp_league)
-                                a_leuge_DF_B,rememmber = EFPA_MAIN(leuge_DF)
-                                my_form = st.form(key = "form1")
-                                submit = my_form.form_submit_button(label = "Submit")                                                       
-                                if submit:                            
-                                    
-                                    rem_niz_nizz.append(rememmber)
-                                   #Write_multiple_DF(save_csv_Expend_BATCH,a_leuge_DF_B)
-                                    df_empt = a_leuge_DF_B
-                                    st.dataframe(df_empt)
-                                    st.write("Youe Choose : ")
-                                    for i in range(0,len(rem_niz_nizz)):
-                                        st.write(i+1," ::: ",rem_niz_nizz[i])
+                            # Processd data
+                            # to_append = [5, 6]
+                            # a_series = pd.Series(to_append, index = df.columns)
+                            # df = df.append(a_series, ignore_index=True)
+                                if st.checkbox("Process data "):
+                                    create_EFPA_BATCH_temp()
 
-                            # Export datas
-                            form_export_csv = st.form(key = "export_form")
-                            submit = form_export_csv.form_submit_button(label = "Export datas")
-                            if submit:
-                                save_csv_Expend_BATCH = 'datas/exported/ATCH_GetAVGExpendFORplayerArrivals.csv'
-                                    
-                                if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
-                                        st.markdown(get_table_download_link_csv(DataFrameFuncExpend(save_csv_Expend_BATCH)), unsafe_allow_html=True)
-                                        st.success("Export Datas")
-                                else:
-                                    st.warning("file not found")
+                                    df = pd.read_sql('SELECT * FROM League_datas', conn)
+                                    df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
+                                    to_append,rememmberr = EFPA_MAIN(df_new)
+                                    columns = ["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]    
+                                    #st.dataframe(df_new)
+                                    #a_leuge_DF = EFPA_MAIN(df_new)
+                                    my_form = st.form(key = "form123")
+                                    submit = my_form.form_submit_button(label = "Submit")
+                                    if submit:
+                                        
+                                        columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
+                                        st.dataframe(to_append)
+                                        #a_series = pd.Series(to_append)
+                                        #to_append = df_save.append(to_append)
+                                        to_append.to_sql('EFPA_BATCH_temp',con=conn,if_exists='append')
+
+                                        #st.dataframe(df_save)
+                                        st.success("Datas processes  :  ")
+                                        #a_series = pd.Series(df_test,index = df.columns)
+                                        # df = df.append(df_test, ignore_index=True)
+                                        # st.dataframe(df)
+                                        
+
+                                # my_form_save = st.form(key = "form1")
+                                # st.info("For process data you must save data to database")
+                                # submit = my_form_save.form_submit_button(label = "Save data")
+                                # if submit:
+                                #     return_user_idd = return_user_id(username)
+                                #     i = (return_user_idd[0])
+                                #     res = int(''.join(map(str, i)))
+                                #     te = int(res)
+
+                                #     flag = return_id_EFPA_BATCH(te)
+                                #     if flag == []:
+
+                                #         df = a_leuge_DF
+                                #         size = NumberOfRows(df)
+                                #         size = len(df)
+                                #         list1 = [0] *size
+
+
+                                #         for i in range(0,size):
+                                #             list1[i] = te
+                                #         df['user_id'] = list1
+                                #         create_EFPA_BATCH()
+                                #         df.to_sql('EFPA_BATCH_table',con=conn,if_exists='append')
+                                #         st.success("Data successfuly saved !")
+                                #     else:
+                                #         st.warning("Please first delite your records from database !!")
+
+                            # # Export datas
+                            # form_export_csv = st.form(key = "export_form")
+                            # submit = form_export_csv.form_submit_button(label = "Export datas")
+                            # if submit:                                
+                            #     if submit:
+
+                            #         return_user_idd = return_user_id(username)
+                            #         (return_user_idd)
+                            #         i = (return_user_idd[0])
+                            #         res = int(''.join(map(str, i)))
+                            #         te = int(res)
+                            #         flag = return_id_EFPA_table(te)
+                            #         if flag != []:
+                            #             if int(te) > 0:
+                            #                 df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
+                            #                 df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                            #                 st.markdown(get_table_download_link_csv(df_new), unsafe_allow_html=True)
+                            #                 st.success("Export Datas")
+                            #         else:
+                            #             st.warning("file not found")
+                            #             st.info("Please procces data again !!")
+
+
 
                             # Delite datas 
                             my_form_delite = st.form(key = "form12")
                             submit = my_form_delite.form_submit_button(label = "Delite datas")
                             if submit:
-                                save_csv_Expend_BATCH = 'datas/exported/ATCH_GetAVGExpendFORplayerArrivals.csv'
-                                if(os.path.exists(save_csv_Expend_BATCH) and os.path.isfile(save_csv_Expend_BATCH)):
-                                    os.remove(save_csv_Expend_BATCH)
-                                    
-                                    st.success("Delite Datas")
+
+                                return_user_idd = return_user_id(username)
+                                i = (return_user_idd[0])
+                                res = int(''.join(map(str, i)))
+                                te = int(res)
+                                flag = (return_id_EFPA_table(te))                               
+                                if flag != []:
+                                    if int(te) > 0:
+
+                                        delite_EFPA(te)
+                                        st.success("Delite Datas")
+                                        st.info("Please procces data")
                                 else:
                                     st.warning("file not found")
+                                    st.info("Please procces data again !!")
                             
                     elif task == "Processed Data by average league INCOME for player DEPARTURES":
                         col1,col2 = st.beta_columns(2)
@@ -1157,7 +1220,6 @@ def app():
                                     i = (return_user_idd[0])
                                     res = int(''.join(map(str, i)))
                                     te = int(res)
-                                    st.write("user id ",te)
 
                                     flag = return_id_CDWS_table(te)
                                     if flag == []:
@@ -1264,39 +1326,91 @@ def app():
                     elif task_clubs == "Processed Data by Data CLUBS statistic through all   SESONS":
                         col1,col2 = st.beta_columns(2)
                         with col1:
-                            
-                                                                    
+                                                
                             st.info(" For restart data you must delete data and start over !!!")
                             # Processd data
-                            if st.checkbox("Process CLUB data "):
-                                leuge_DF = DataFrameFuncClubs(fp_clubs)
-                                a_leuge_DF = DCTAS_base(leuge_DF)
-                                st.dataframe(a_leuge_DF)
-                                my_form = st.form(key = "form1")
+                            if st.checkbox("Process data "):
+
+                                df = pd.read_sql('SELECT * FROM Clubs_datas', conn)
+                                df_new = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season"]]
+                                
+                                st.dataframe(df_new)
+                                a_leuge_DF = DCTAS_base(df_new)
+                                my_form = st.form(key = "form123")
+                                create_DCTAS()
                                 submit = my_form.form_submit_button(label = "Submit")
-                                f_file = 'datas/exported/GetDate_for_Clubs_throught_all_seasons.csv'
                                 if submit:
-                                    Write_multiple_DF(f_file,a_leuge_DF)
+
                                     st.success("Datas processes  :  ")
-                            # Export datas  
+
+                                my_form_save = st.form(key = "form1")
+                                st.info("For process data you must save data to database")
+                                submit = my_form_save.form_submit_button(label = "Save data")
+                                if submit:
+                                    return_user_idd = return_user_id(username)
+                                    i = (return_user_idd[0])
+                                    res = int(''.join(map(str, i)))
+                                    te = int(res)
+
+                                    flag = return_id_DCTAS_table(te)
+                                    if flag == []:
+
+                                        df = a_leuge_DF
+                                        size = NumberOfRows(df)
+                                        size = len(df)
+                                        list1 = [0] *size
+
+
+                                        for i in range(0,size):
+                                            list1[i] = te
+                                        df['user_id'] = list1
+                                        create_DCTAS()
+                                        df.to_sql('DCTAS_table',con=conn,if_exists='append')
+                                        st.success("Data successfuly saved !")
+                                    else:
+                                        st.warning("Please first delite your records from database !!")
+                            # Export datas
                             form_export_csv = st.form(key = "export_form")
                             submit = form_export_csv.form_submit_button(label = "Export datas")
-                            if submit:
-                                    
-                                if(os.path.exists(f_file) and os.path.isfile(fp_clubs)):
-                                        st.markdown(get_table_download_link_csv(DataFrameFunc_CLUB_THROUGHT_Seasons(f_file)), unsafe_allow_html=True)
-                                        st.success("Export Datas")
-                                else:
-                                    st.warning("file not found")
+                            if submit:                                
+                                if submit:
+
+                                    return_user_idd = return_user_id(username)
+                                    i = (return_user_idd[0])
+                                    res = int(''.join(map(str, i)))
+                                    te = int(res)
+                                    flag = return_id_CDWS_table(te)
+                                    if flag != []:
+                                        if int(te) > 0:
+                                            df = pd.read_sql_query('SELECT * FROM DCTAS_table WHERE user_id = "{}"'.format(te),conn)
+                                            df_new = df[["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]]
+                                            st.markdown(get_table_download_link_csv(df_new), unsafe_allow_html=True)
+                                            st.success("Export Datas")
+                                    else:
+                                        st.warning("file not found")
+                                        st.info("Please procces data again !!")
+
+
+
                             # Delite datas 
                             my_form_delite = st.form(key = "form12")
                             submit = my_form_delite.form_submit_button(label = "Delite datas")
                             if submit:
-                                if(os.path.exists(f_file) and os.path.isfile(f_file)):
-                                    os.remove(f_file)
-                                    st.success("Delite Datas")
+
+                                return_user_idd = return_user_id(username)
+                                i = (return_user_idd[0])
+                                res = int(''.join(map(str, i)))
+                                te = int(res)
+                                flag = return_id_DCTAS_table(te)
+                                if flag != []:
+                                    if int(te) > 0:
+
+                                        delite_DCTAS(te)
+                                        st.success("Delite Datas")
+                                        st.info("Please procces data")
                                 else:
                                     st.warning("file not found")
+                                    st.info("Please procces data again !!")
 
                     elif task_clubs == "BATCH Data by Data CLUBS statistic through all   SESONS":
                         col1,col2 = st.beta_columns(2)
