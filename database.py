@@ -5,7 +5,39 @@ c = conn.cursor()
 
 
 ### DATABASE FUNCTIONS !!
-### DATABASE FUNCTIONS !!
+
+# CDWS
+def return_id_CDWS_table(id):
+    c.execute('SELECT  user_id FROM CDWS_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_CDWS(id):
+    c.execute('DELETE FROM CDWS_table WHERE user_id="{}"'.format(id))
+    conn.commit()
+#   Order_of_Expend","Club","State","Competition","Expenditures",
+#                    "Arrivals","Income","Departures","Balance","Season",
+#                    "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"
+def create_CDWS():
+    c.execute('CREATE TABLE IF NOT EXISTS CDWS_table(CDWS_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Income INTEGER,Arrivals INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,Inflacion_Income REAL,Inflacion_Expenditures REAL,inflacion_Balance REAL,user_id TEXT,FOREIGN KEY(CDWS_id) REFERENCES usertable(id))')
+
+##################################################################################
+
+# DCWS
+def return_id_DCWS_table(id):
+    c.execute('SELECT  user_id FROM DCWS_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DCWS(id):
+    c.execute('DELETE FROM DCWS_table WHERE user_id="{}"'.format(id))
+    conn.commit()
+#   "Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"
+def create_DCWS():
+    c.execute('CREATE TABLE IF NOT EXISTS DCWS_table(DCWS_id INTEGER PRIMARY KEY,"index" INTEGER,Year_of_Season INTEGER,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DCWS_id) REFERENCES usertable(id))')
+
+
+##################################################################################
 
 # DFLS
 def return_id_DFLS_table(id):

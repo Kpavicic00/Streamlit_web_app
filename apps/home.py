@@ -25,6 +25,13 @@ import os
 import altair as alt
 import duckdb
 import streamlit.components.v1 as components
+import sqlite3
+# save_df = DataFrameFuncClubs('datas/sportska_kubska_statsitika_OBRDENO.csv')
+# conn = sqlite3.connect('data.db', check_same_thread=False)
+# c = conn.cursor()
+# sqlite_table = "Clubs_datas"
+# save_df.to_sql(sqlite_table, con=conn, if_exists='fail')
+
 rem_niz_CLUB_SEASON = []
 rem_niz_CLUB_TROUGHT_SEASON = []
 coef = 'file.txt'

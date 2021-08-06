@@ -143,7 +143,7 @@ def DataFrameFuncExpend(filePath):
 
 def DataFrameFuncClubs(filePath):
 
-    colls = ["Order","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season"]
+    colls = ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season"]
     dat = pd.read_csv(filePath,header = None , names = colls)
     return dat
 

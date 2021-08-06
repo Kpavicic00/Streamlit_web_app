@@ -28,7 +28,7 @@ def CDWS_base(DFrame):
     ###############################################################################
 
     # cast DataFrame rows to folat and int
-    DFrame["Order"].astype(np.int) # 0
+    DFrame["Order_of_Expend"].astype(np.int) # 0
     DFrame["Club"].astype(np.str) # 1
     DFrame["State"].astype(np.str) # 2
     DFrame["Competition"].astype(np.str) # 3
@@ -45,7 +45,7 @@ def CDWS_base(DFrame):
     i = 0
     for i in range(0,count):
 
-        Order[i] = DFrame["Order"][i] # 0
+        Order[i] = DFrame["Order_of_Expend"][i] # 0
         Name_of_club[i] = DFrame["Club"][i] # 1
         State[i] = DFrame["State"][i] # 2
         Competition[i] = DFrame["Competition"][i] # 3
@@ -110,7 +110,7 @@ def CDWS_base(DFrame):
     # set to DataFrame
     df = pd.DataFrame(data)
 
-    df.columns = ["Order","Club","State","Competition","Expenditures",
+    df.columns = ["Order_of_Expend","Club","State","Competition","Expenditures",
                     "Arrivals","Income","Departures","Balance","Season",
                     "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
     ###############################################################################
@@ -231,7 +231,7 @@ def CDWS_MENI(DFrame):
     #                "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"
 
     # cast DataFrame rows to folat and int
-    nDFRAME["Order"].astype(np.int)# ind 0
+    nDFRAME["Order_of_Expend"].astype(np.int)# ind 0
     nDFRAME["Club"].astype(np.str)# ind 1
     nDFRAME["State"].astype(np.str)# ind 2
     nDFRAME["Competition"].astype(np.str)# ind 3
@@ -250,7 +250,7 @@ def CDWS_MENI(DFrame):
     i = 0
     for i in range(0,count):
 
-        Order[i] =  nDFRAME["Order"][i] # indx 0
+        Order[i] =  nDFRAME["Order_of_Expend"][i] # indx 0
         Club[i] = nDFRAME["Club"][i] # indx 1
         State[i] = nDFRAME["State"][i] # indx 2
         Competition[i] = nDFRAME["Competition"][i] # indx 3
@@ -291,7 +291,7 @@ def CDWS_MENI(DFrame):
     # set to DataFrame
     df_a = pd.DataFrame(a_data)
     # name of labels for head or names of collums
-    df_a.columns = ["Order","Club","State","Competition","Expenditures",
+    df_a.columns = ["Order_of_Expend","Club","State","Competition","Expenditures",
                     "Arrivals","Income","Departures","Balance","Season",
                     "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
     ###############################################################################
@@ -600,7 +600,7 @@ def CDWS_MENI(DFrame):
     # set to DataFrame
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
-    df_new.columns = ["Order","Club","State","Competition","Expenditures",
+    df_new.columns = ["Order_of_Expend","Club","State","Competition","Expenditures",
                     "Arrivals","Income","Departures","Balance","Season",
                     "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
     return df_new,remm

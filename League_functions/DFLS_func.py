@@ -4,6 +4,7 @@ import numpy as np
 from functions import*
 
 
+
 def DFLS_base(DFrame):
     #count number of rows in date frame
     count = NumberOfRows(DFrame)
@@ -544,4 +545,3 @@ def DFLS_MAIN(DFrame):
                            "sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues",
                           "avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]
     return df_new,remm
-

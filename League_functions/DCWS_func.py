@@ -282,7 +282,6 @@ def input_Menisort(DFN):
         a =  sorted(DFN, key=lambda DFN: float(DFN[12]),reverse = b) #calculate avg Balance/Season sort ,float
         return a
 
-
 def DCWS_MAIN(DFrame):
     # DataFrame to ecstract data
     nDFRAME = DCWS_base(DFrame)

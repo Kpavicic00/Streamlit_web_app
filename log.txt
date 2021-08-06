@@ -1,0 +1,354 @@
+[2021-08-06 11:27:01.980] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:27:01.980] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:27:01.980] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:27:01.980] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:27:01.987] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:27:01.987] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:01.987] [E/1] [info] provided cache path file:///tmp/tuplex-cache-dule/E1 does not exist. Attempting to create it.
+[2021-08-06 11:27:01.990] [E/1] [info] created cache directory file:///tmp/tuplex-cache-dule/E1
+[2021-08-06 11:27:01.990] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:01.990] [E/2] [info] provided cache path file:///tmp/tuplex-cache-dule/E2 does not exist. Attempting to create it.
+[2021-08-06 11:27:01.990] [E/2] [info] created cache directory file:///tmp/tuplex-cache-dule/E2
+[2021-08-06 11:27:01.990] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:01.990] [E/3] [info] provided cache path file:///tmp/tuplex-cache-dule/E3 does not exist. Attempting to create it.
+[2021-08-06 11:27:01.991] [E/3] [info] created cache directory file:///tmp/tuplex-cache-dule/E3
+[2021-08-06 11:27:01.991] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:01.991] [E/4] [info] provided cache path file:///tmp/tuplex-cache-dule/E4 does not exist. Attempting to create it.
+[2021-08-06 11:27:01.991] [E/4] [info] created cache directory file:///tmp/tuplex-cache-dule/E4
+[2021-08-06 11:27:01.991] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:01.991] [E/1] [info] starting detached process queue
+[2021-08-06 11:27:01.991] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:01.991] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:01.991] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:01.991] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:01.991] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:01.991] [driver] [info] provided cache path file:///tmp/tuplex-cache-dule/driver does not exist. Attempting to create it.
+[2021-08-06 11:27:01.992] [driver] [info] created cache directory file:///tmp/tuplex-cache-dule/driver
+[2021-08-06 11:27:01.992] [local execution engine] [info] started driver (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:01.992] [E/4] [info] starting detached process queue
+[2021-08-06 11:27:01.992] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:01.992] [E/2] [info] starting detached process queue
+[2021-08-06 11:27:01.992] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:02.001] [E/3] [info] starting detached process queue
+[2021-08-06 11:27:02.002] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:02.529] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:27:02.529] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:27:02.529] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:27:02.530] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:27:45.403] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:27:45.403] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:27:45.403] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:27:45.403] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:27:45.412] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:27:45.412] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:45.412] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:45.412] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:45.412] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:27:45.412] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:45.412] [E/1] [info] starting detached process queue
+[2021-08-06 11:27:45.412] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:45.412] [E/2] [info] starting detached process queue
+[2021-08-06 11:27:45.412] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:45.413] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:45.413] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:45.413] [E/4] [info] starting detached process queue
+[2021-08-06 11:27:45.413] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:27:45.413] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:45.413] [E/3] [info] starting detached process queue
+[2021-08-06 11:27:45.426] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:27:45.426] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:27:45.426] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:27:45.428] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:27:45.428] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:29:59.356] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:29:59.356] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:29:59.356] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:29:59.356] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:29:59.364] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:29:59.364] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:29:59.364] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:29:59.365] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:29:59.365] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:29:59.365] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:29:59.365] [E/1] [info] starting detached process queue
+[2021-08-06 11:29:59.365] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:29:59.365] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:29:59.365] [E/2] [info] starting detached process queue
+[2021-08-06 11:29:59.365] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:29:59.365] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:29:59.365] [E/4] [info] starting detached process queue
+[2021-08-06 11:29:59.366] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:29:59.365] [E/3] [info] starting detached process queue
+[2021-08-06 11:29:59.366] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:29:59.365] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:31:09.760] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:31:09.760] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:31:09.760] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:31:09.761] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:31:09.768] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:31:09.768] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:31:09.768] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:31:09.768] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:31:09.768] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:31:09.768] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:31:09.768] [E/1] [info] starting detached process queue
+[2021-08-06 11:31:09.768] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:31:09.768] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:31:09.768] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:31:09.768] [E/3] [info] starting detached process queue
+[2021-08-06 11:31:09.769] [E/2] [info] starting detached process queue
+[2021-08-06 11:31:09.769] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:31:09.769] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:31:09.774] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:31:09.774] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:31:09.774] [local execution engine] [info] started driver (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:31:09.781] [E/4] [info] starting detached process queue
+[2021-08-06 11:31:09.781] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:31:09.814] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:31:09.815] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:31:09.815] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:31:09.815] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:32:12.090] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:32:12.090] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:32:12.090] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:32:12.091] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:32:12.098] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:32:12.098] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:32:12.099] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:32:12.099] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:32:12.099] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:32:12.099] [E/1] [info] starting detached process queue
+[2021-08-06 11:32:12.099] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:32:12.099] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:32:12.099] [E/2] [info] starting detached process queue
+[2021-08-06 11:32:12.099] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:32:12.099] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:32:12.111] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:32:12.111] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:32:12.113] [E/4] [info] starting detached process queue
+[2021-08-06 11:32:12.113] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:32:12.130] [E/3] [info] starting detached process queue
+[2021-08-06 11:32:12.130] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:34:34.880] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:34:34.880] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:34:34.880] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:34:34.881] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:34:34.888] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:34:34.888] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:34:34.888] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:34:34.888] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:34:34.888] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:34:34.888] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:34:34.888] [E/1] [info] starting detached process queue
+[2021-08-06 11:34:34.888] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:34:34.888] [E/2] [info] starting detached process queue
+[2021-08-06 11:34:34.888] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:34:34.888] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:34:34.888] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:34:34.888] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:34:34.889] [E/4] [info] starting detached process queue
+[2021-08-06 11:34:34.893] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:34:34.893] [local execution engine] [info] started driver (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:34:34.893] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:34:34.894] [E/3] [info] starting detached process queue
+[2021-08-06 11:34:34.897] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:34:34.914] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:34:34.914] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:34:34.914] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:34:34.914] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:35:31.674] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:35:31.674] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:35:31.674] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:35:31.675] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:35:31.681] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:35:31.681] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:35:31.681] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:35:31.681] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:35:31.681] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:35:31.682] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:35:31.682] [E/1] [info] starting detached process queue
+[2021-08-06 11:35:31.682] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:35:31.682] [E/2] [info] starting detached process queue
+[2021-08-06 11:35:31.682] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:35:31.682] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:35:31.683] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:35:31.683] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:35:31.691] [E/4] [info] starting detached process queue
+[2021-08-06 11:35:31.691] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:35:31.693] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:35:31.693] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:35:31.693] [E/3] [info] starting detached process queue
+[2021-08-06 11:35:31.695] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:35:31.695] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:35:31.695] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:36:51.771] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:36:51.771] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:36:51.771] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:36:51.771] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:36:51.778] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:36:51.778] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:36:51.778] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:36:51.778] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:36:51.778] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:36:51.778] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:36:51.779] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:36:51.779] [E/2] [info] starting detached process queue
+[2021-08-06 11:36:51.779] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:36:51.778] [E/1] [info] starting detached process queue
+[2021-08-06 11:36:51.779] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:36:51.779] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:36:51.779] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:36:51.779] [E/4] [info] starting detached process queue
+[2021-08-06 11:36:51.784] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:36:51.779] [E/3] [info] starting detached process queue
+[2021-08-06 11:36:51.786] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:36:51.786] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:36:51.793] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:36:51.793] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:36:51.793] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:38:09.723] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:38:09.723] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:38:09.723] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:38:09.724] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:38:09.732] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:38:09.732] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:38:09.732] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:38:09.732] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:38:09.733] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:38:09.733] [E/1] [info] starting detached process queue
+[2021-08-06 11:38:09.733] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:38:09.733] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:38:09.733] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:38:09.734] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:38:09.734] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:38:09.734] [E/4] [info] starting detached process queue
+[2021-08-06 11:38:09.734] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:38:09.739] [E/3] [info] starting detached process queue
+[2021-08-06 11:38:09.740] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:38:09.733] [E/2] [info] starting detached process queue
+[2021-08-06 11:38:09.745] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:38:09.754] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:38:09.754] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:38:09.754] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:38:09.754] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:39:43.195] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:39:43.195] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:39:43.195] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:39:43.195] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:39:43.201] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:39:43.201] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:39:43.201] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:39:43.201] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:39:43.201] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:39:43.201] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:39:43.201] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:39:43.201] [E/2] [info] starting detached process queue
+[2021-08-06 11:39:43.201] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:39:43.201] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:39:43.201] [E/4] [info] starting detached process queue
+[2021-08-06 11:39:43.201] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:39:43.201] [E/1] [info] starting detached process queue
+[2021-08-06 11:39:43.202] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:39:43.202] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:39:43.201] [E/3] [info] starting detached process queue
+[2021-08-06 11:39:43.211] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:39:43.213] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:39:43.213] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:39:43.213] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:39:43.214] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:41:22.939] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:41:22.939] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:41:22.939] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:41:22.939] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:41:22.945] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:41:22.945] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:41:22.945] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:41:22.945] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:41:22.945] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:41:22.946] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:41:22.946] [E/1] [info] starting detached process queue
+[2021-08-06 11:41:22.946] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:41:22.946] [E/2] [info] starting detached process queue
+[2021-08-06 11:41:22.946] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:41:22.946] [E/3] [info] starting detached process queue
+[2021-08-06 11:41:22.946] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:41:22.946] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:41:22.946] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:41:22.949] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:41:22.959] [E/4] [info] starting detached process queue
+[2021-08-06 11:41:22.959] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:41:22.968] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:41:22.968] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:41:22.968] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:41:22.968] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:42:49.723] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:42:49.723] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:42:49.723] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:42:49.724] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:42:49.729] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:42:49.729] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:42:49.729] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:42:49.729] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:42:49.730] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:42:49.730] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:42:49.730] [E/1] [info] starting detached process queue
+[2021-08-06 11:42:49.730] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:42:49.730] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:42:49.730] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:42:49.730] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:42:49.730] [E/3] [info] starting detached process queue
+[2021-08-06 11:42:49.730] [E/2] [info] starting detached process queue
+[2021-08-06 11:42:49.730] [E/4] [info] starting detached process queue
+[2021-08-06 11:42:49.730] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:42:49.730] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:42:49.735] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:42:49.735] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:42:49.738] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:42:49.738] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:42:49.739] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 11:43:26.682] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 11:43:26.682] [local ee] [info] initializing LLVM backend
+[2021-08-06 11:43:26.682] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 11:43:26.682] [LLVM] [info] compiling code for broadwell
+[2021-08-06 11:43:26.690] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 11:43:26.690] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:43:26.690] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:43:26.691] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:43:26.691] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 11:43:26.691] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:43:26.691] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:43:26.691] [E/2] [info] starting detached process queue
+[2021-08-06 11:43:26.692] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:43:26.692] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:43:26.693] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 11:43:26.692] [E/1] [info] starting detached process queue
+[2021-08-06 11:43:26.694] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:43:26.692] [E/3] [info] starting detached process queue
+[2021-08-06 11:43:26.704] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:43:26.700] [E/4] [info] starting detached process queue
+[2021-08-06 11:43:26.706] [E/4] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 11:43:26.706] [local execution engine] [info] Stopped local executor E/1
+[2021-08-06 11:43:26.707] [local execution engine] [info] Stopped local executor E/2
+[2021-08-06 11:43:26.707] [local execution engine] [info] Stopped local executor E/3
+[2021-08-06 11:43:26.707] [local execution engine] [info] Stopped local executor E/4
+[2021-08-06 15:13:29.883] [local ee] [info] loaded runtime library from/home/dule/.local/lib/python3.8/site-packages/tuplex/libexec/tuplex_runtime.cpython-38-x86_64-linux-gnu.so
+[2021-08-06 15:13:29.883] [local ee] [info] initializing LLVM backend
+[2021-08-06 15:13:29.883] [local ee] [warning] init JIT compiler also only in local mode
+[2021-08-06 15:13:29.883] [LLVM] [info] compiling code for broadwell
+[2021-08-06 15:13:29.890] [history server] [warning] could not connect to http://localhost:5000/api/version, if you wish to disable the webui consider setting tuplex.webui=False for the context.
+[2021-08-06 15:13:29.890] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 15:13:29.891] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 15:13:29.891] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 15:13:29.891] [memory] [info] allocated bitmap managed memory region (1.00 GB, 32.00 MB block size)
+[2021-08-06 15:13:29.891] [local execution engine] [info] started local executor E/1 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 15:13:29.891] [E/1] [info] starting detached process queue
+[2021-08-06 15:13:29.891] [local execution engine] [info] started local executor E/2 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 15:13:29.891] [E/2] [info] starting detached process queue
+[2021-08-06 15:13:29.891] [E/1] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 15:13:29.891] [E/2] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 15:13:29.891] [local execution engine] [info] started local executor E/3 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 15:13:29.891] [E/3] [info] starting detached process queue
+[2021-08-06 15:13:29.898] [E/3] [info] initialized runtime memory (4.00 MB)
+[2021-08-06 15:13:29.898] [local execution engine] [info] started local executor E/4 (1.00 GB, 32.00 MB default partition size)
+[2021-08-06 15:13:29.907] [E/4] [info] starting detached process queue
+[2021-08-06 15:13:29.907] [E/4] [info] initialized runtime memory (4.00 MB)
