@@ -28,7 +28,9 @@ from html_temp import *
 import os
 import time
 
-
+#################
+from apps.login_pages import metrics, post
+######################
 import sqlite3
 save_df = DataFrameFunc('datas/Ligaska_KONACAN_STAS.csv')
 conn = sqlite3.connect('data.db', check_same_thread=False)
@@ -51,6 +53,8 @@ df_empt = pd.DataFrame()
 flag = 0
 rem_niz_nizz = []
 
+
+
 def app():
 
     
@@ -62,6 +66,9 @@ def app():
 
         st.write("Log in as ::: ",username)
         create_usertable()
+        st.write("username",username,"type(username)",type(username))
+        temp_user()
+        temp_add_user_data(username)
         hashed_pswd = make_password(password)
         result = login_user(username,check_hashes(password,hashed_pswd))
 
@@ -144,6 +151,20 @@ def app():
         if result:
             # st.success("Logged in as :: {}".format(username))
                 
+            
+
+            PAGES = {
+                "Metrics": metrics,
+                "Post": post
+            }
+            st.title('Meni')
+            selection = st.radio("Go to", list(PAGES.keys()))
+            page = PAGES[selection]
+            page.app()
+
+            st.write("########################################################")
+            st.write("########################################################")
+            st.write("########################################################")
             task = st.radio("task op",["Add Posts","Metricss"],key='key123')
 
             if task == "Add Posts":
@@ -158,201 +179,215 @@ def app():
                     st.write(" Leauges ")
                     task = st.selectbox("task op",["Processed Data by average league EXPEND for player ARRIVALS","BATCH Data by average league EXPEND for player ARRIVALS","Processed Data by average league INCOME for player DEPARTURES","BATCH Data by average league INCOME for player DEPARTURES","Processed Data by average league BALANCE for player DEPARTURES","BATCH Data by average league BALANCE for player DEPARTURES","Processed Data by average LEAGUE by AVG SESONS statistic","BATCH Data by average LEAGUE by AVG SESONS statistic","Processed Data by average -> LEAGUE by YEAR statistic","BATCH Data by average -> LEAGUE by YEAR statistic"],key='key123dsa')                        
                     if task == "Processed Data by average league EXPEND for player ARRIVALS":
+                        st.warning("Function removed to full complet apps part !!! -> metrics folder !!")
 
-                        col1,col2 = st.beta_columns(2)
-                        with col1:
+                        # col1,col2 = st.beta_columns(2)
+                        # with col1:
                                                 
-                            st.info(" For restart data you must delete data and start over !!!")
-                            # Processd data
-                            if st.checkbox("Process data "):
+                        #     st.info(" For restart data you must delete data and start over !!!")
+                        #     # Processd data
+                        #     if st.checkbox("Process data "):
 
-                                df = pd.read_sql('SELECT * FROM League_datas', conn)
-                                df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
-                                st.dataframe(df_new)
-                                a_leuge_DF = EFPA_base(df_new)
-                                my_form = st.form(key = "form123")
-                                submit = my_form.form_submit_button(label = "Submit")
-                                if submit:
+                        #         df = pd.read_sql('SELECT * FROM League_datas', conn)
+                        #         df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
+                        #         st.dataframe(df_new)
+                        #         a_leuge_DF = EFPA_base(df_new)
+                        #         my_form = st.form(key = "form123")
+                        #         submit = my_form.form_submit_button(label = "Submit")
+                        #         if submit:
 
-                                    st.success("Datas processes  :  ")
+                        #             st.success("Datas processes  :  ")
 
-                                my_form_save = st.form(key = "form1")
-                                st.info("For process data you must save data to database")
-                                submit = my_form_save.form_submit_button(label = "Save data")
-                                if submit:
-                                    return_user_idd = return_user_id(username)
-                                    i = (return_user_idd[0])
-                                    res = int(''.join(map(str, i)))
-                                    te = int(res)
+                        #         my_form_save = st.form(key = "form1")
+                        #         st.info("For process data you must save data to database")
+                        #         submit = my_form_save.form_submit_button(label = "Save data")
+                        #         if submit:
+                        #             return_user_idd = return_user_id(username)
+                        #             i = (return_user_idd[0])
+                        #             res = int(''.join(map(str, i)))
+                        #             te = int(res)
 
-                                    flag = return_id_EFPA_table(te)
-                                    if flag == []:
+                        #             flag = return_id_EFPA_table(te)
+                        #             if flag == []:
                                         
-                                        df = a_leuge_DF
-                                        size = NumberOfRows(df)
-                                        size = len(df)
-                                        list1 = [0] *size
+                        #                 df = a_leuge_DF
+                        #                 size = NumberOfRows(df)
+                        #                 size = len(df)
+                        #                 list1 = [0] *size
 
 
-                                        for i in range(0,size):
-                                            list1[i] = te
-                                        df['user_id'] = list1
-                                        create_EFPA()
-                                        df.to_sql('EFPA_table',con=conn,if_exists='append')
-                                        st.success("Data successfuly saved !")
-                                    else:
-                                        st.warning("Please first delite your records from database !!")
-                            # Export datas
-                            form_export_csv = st.form(key = "export_form")
-                            submit = form_export_csv.form_submit_button(label = "Export datas")
-                            if submit:                                
-                                if submit:
+                        #                 for i in range(0,size):
+                        #                     list1[i] = te
+                        #                 df['user_id'] = list1
+                        #                 create_EFPA()
+                        #                 df.to_sql('EFPA_table',con=conn,if_exists='append')
+                        #                 st.success("Data successfuly saved !")
+                        #             else:
+                        #                 st.warning("Please first delite your records from database !!")
+                        #     # Export datas
+                        #     form_export_csv = st.form(key = "export_form")
+                        #     submit = form_export_csv.form_submit_button(label = "Export datas")
+                        #     if submit:                                
+                        #         if submit:
 
-                                    return_user_idd = return_user_id(username)
-                                    (return_user_idd)
-                                    i = (return_user_idd[0])
-                                    res = int(''.join(map(str, i)))
-                                    te = int(res)
-                                    flag = return_id_EFPA_table(te)
-                                    if flag != []:
-                                        if int(te) > 0:
-                                            df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
-                                            df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-                                            st.markdown(get_table_download_link_csv(df_new), unsafe_allow_html=True)
-                                            st.success("Export Datas")
-                                    else:
-                                        st.warning("file not found")
-                                        st.info("Please procces data again !!")
+                        #             return_user_idd = return_user_id(username)
+                        #             (return_user_idd)
+                        #             i = (return_user_idd[0])
+                        #             res = int(''.join(map(str, i)))
+                        #             te = int(res)
+                        #             flag = return_id_EFPA_table(te)
+                        #             if flag != []:
+                        #                 if int(te) > 0:
+                        #                     df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
+                        #                     df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                        #                     st.markdown(get_table_download_link_csv(df_new), unsafe_allow_html=True)
+                        #                     st.success("Export Datas")
+                        #             else:
+                        #                 st.warning("file not found")
+                        #                 st.info("Please procces data again !!")
 
 
 
-                            # Delite datas 
-                            my_form_delite = st.form(key = "form12")
-                            submit = my_form_delite.form_submit_button(label = "Delite datas")
-                            if submit:
+                        #     # Delite datas 
+                        #     my_form_delite = st.form(key = "form12")
+                        #     submit = my_form_delite.form_submit_button(label = "Delite datas")
+                        #     if submit:
 
-                                return_user_idd = return_user_id(username)
-                                i = (return_user_idd[0])
-                                res = int(''.join(map(str, i)))
-                                te = int(res)
-                                flag = (return_id_EFPA_table(te))                               
-                                if flag != []:
-                                    if int(te) > 0:
+                        #         return_user_idd = return_user_id(username)
+                        #         i = (return_user_idd[0])
+                        #         res = int(''.join(map(str, i)))
+                        #         te = int(res)
+                        #         flag = (return_id_EFPA_table(te))                               
+                        #         if flag != []:
+                        #             if int(te) > 0:
 
-                                        delite_EFPA(te)
-                                        st.success("Delite Datas")
-                                        st.info("Please procces data")
-                                else:
-                                    st.warning("file not found")
-                                    st.info("Please procces data again !!")
+                        #                 delite_EFPA(te)
+                        #                 st.success("Delite Datas")
+                        #                 st.info("Please procces data")
+                        #         else:
+                        #             st.warning("file not found")
+                        #             st.info("Please procces data again !!")
 
-                            if st.checkbox("Viusalise data !!!"):
-                                # Viusalise datas
+                        #     if st.checkbox("Viusalise data !!!"):
+                        #         # Viusalise datas
                                         
-                                return_user_idd = return_user_id(username)
-                                i = (return_user_idd[0])
-                                res = int(''.join(map(str, i)))
-                                te = int(res)
-                                flag = return_id_EFPA_table(te)
-                                if flag != []:
-                                    if int(te) > 0:
-                                        df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
-                                        df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-                                        df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-                                        chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
+                        #         return_user_idd = return_user_id(username)
+                        #         i = (return_user_idd[0])
+                        #         res = int(''.join(map(str, i)))
+                        #         te = int(res)
+                        #         flag = return_id_EFPA_table(te)
+                        #         if flag != []:
+                        #             if int(te) > 0:
+                        #                 df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
+                        #                 df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                        #                 df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+                        #                 chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
 
-                                             x=alt.X('Year', axis=alt.Axis(title='date')),
-                                             y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
-                                             ).properties(
+                        #                      x=alt.X('Year', axis=alt.Axis(title='date')),
+                        #                      y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+                        #                      ).properties(
 
-                                                 width=800, 
-                                                 height=600
-                                             )
+                        #                          width=800, 
+                        #                          height=600
+                        #                      )
 
-                                        chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
+                        #                 chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
                                             
-                                             x=alt.X('Year', axis=alt.Axis(title='date')),
-                                             y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+                        #                      x=alt.X('Year', axis=alt.Axis(title='date')),
+                        #                      y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
 
-                                             ).properties(
+                        #                      ).properties(
 
-                                                 width=800, 
-                                                 height=600
-                                             )
-                                        st.altair_chart(chartline1 + chartline2)                                    
+                        #                          width=800, 
+                        #                          height=600
+                        #                      )
+                        #                 st.altair_chart(chartline1 + chartline2)                                    
 
-                                        lines = alt.Chart(df_new).mark_bar(size=25).encode(
-                                          x=alt.X('Year',axis=alt.Axis(title='date')),
-                                          y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
-                                          ).properties(
-                                              width=600,
-                                              height=300
-                                          )
-                                        def plot_animation(df_new):
-                                            lines = alt.Chart(df_new).mark_bar(size=25).encode(
-                                            x=alt.X('Year', axis=alt.Axis(title='date')),
-                                            y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
-                                            ).properties(
-                                                width=600, 
-                                                height=300
-                                            )
-                                            return lines
-                                        N = df_new.shape[0] # number of elements in the dataframe
-                                        burst = 6       # number of elements (months) to add to the plot
-                                        size = burst    # size of the current dataset
-                                        line_plot = st.altair_chart(lines)
-                                        line_plot
-                                        start_btn = st.button('Start')
-                                        if start_btn:
-                                            for i in range(1,N):
-                                                step_df = df_new.iloc[0:size]       
-                                                lines = plot_animation(step_df)
-                                                line_plot = line_plot.altair_chart(lines)
-                                                size = i + burst
-                                                if size >= N:
-                                                    size = N - 1  
-                                                time.sleep(0.1)
-                                        st.success("Viusalise  Datas")
-                                else:
-                                    st.warning("file not found")
-                                    st.info("Please procces data again !!")
+                        #                 lines = alt.Chart(df_new).mark_bar(size=25).encode(
+                        #                   x=alt.X('Year',axis=alt.Axis(title='date')),
+                        #                   y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+                        #                   ).properties(
+                        #                       width=600,
+                        #                       height=300
+                        #                   )
+                        #                 def plot_animation(df_new):
+                        #                     lines = alt.Chart(df_new).mark_bar(size=25).encode(
+                        #                     x=alt.X('Year', axis=alt.Axis(title='date')),
+                        #                     y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+                        #                     ).properties(
+                        #                         width=600, 
+                        #                         height=300
+                        #                     )
+                        #                     return lines
+                        #                 N = df_new.shape[0] # number of elements in the dataframe
+                        #                 burst = 6       # number of elements (months) to add to the plot
+                        #                 size = burst    # size of the current dataset
+                        #                 line_plot = st.altair_chart(lines)
+                        #                 line_plot
+                        #                 start_btn = st.button('Start')
+                        #                 if start_btn:
+                        #                     for i in range(1,N):
+                        #                         step_df = df_new.iloc[0:size]       
+                        #                         lines = plot_animation(step_df)
+                        #                         line_plot = line_plot.altair_chart(lines)
+                        #                         size = i + burst
+                        #                         if size >= N:
+                        #                             size = N - 1  
+                        #                         time.sleep(0.1)
+                        #                 st.success("Viusalise  Datas")
+                        #         else:
+                        #             st.warning("file not found")
+                        #             st.info("Please procces data again !!")
 
                     elif task == "BATCH Data by average league EXPEND for player ARRIVALS":
 
                         
                         col1,col2 = st.beta_columns(2)
-                        with col1:                        
-                            if st.checkbox("Test"):
-                                #   df_save = pd.DataFrame()
-                                st.info(" For restart data you must delete data and start over !!!")
+                        with col1:
+
+                            #   df_save = pd.DataFrame()
+                            st.info(" For restart data you must delete data and start over !!!")
                             # Processd data
                             # to_append = [5, 6]
                             # a_series = pd.Series(to_append, index = df.columns)
-                            # df = df.append(a_series, ignore_index=True)
-                                if st.checkbox("Process data "):
-                                    create_EFPA_BATCH_temp()
+                             # f = df.append(a_series, ignore_index=True)
+                            if st.checkbox("Process data "):
+                                create_EFPA_BATCH_temp()
+                                #create_EFPA__LEAGUE_table()
+                                df = pd.read_sql('SELECT * FROM League_datas', conn)
+                                df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
+                                to_append,rememmberr,flag_option = EFPA_MAIN(df_new)
+                                columns = ["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]    
+                            
+                            #st.dataframe(df_new)
+                            #a_leuge_DF = EFPA_MAIN(df_new)
+                            my_form = st.form(key = "form123")
+                            submit = my_form.form_submit_button(label = "Submit")
+                            if submit:
+                                
+                                columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
+                                st.dataframe(to_append)                                
+                                to_append.to_sql('EFPA_BATCH_temp',con=conn,if_exists='append')
 
-                                    df = pd.read_sql('SELECT * FROM League_datas', conn)
-                                    df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
-                                    to_append,rememmberr = EFPA_MAIN(df_new)
-                                    columns = ["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]    
-                                    #st.dataframe(df_new)
-                                    #a_leuge_DF = EFPA_MAIN(df_new)
-                                    my_form = st.form(key = "form123")
-                                    submit = my_form.form_submit_button(label = "Submit")
-                                    if submit:
-                                        
-                                        columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
-                                        st.dataframe(to_append)
-                                        #a_series = pd.Series(to_append)
-                                        #to_append = df_save.append(to_append)
-                                        to_append.to_sql('EFPA_BATCH_temp',con=conn,if_exists='append')
-
-                                        #st.dataframe(df_save)
-                                        st.success("Datas processes  :  ")
-                                        #a_series = pd.Series(df_test,index = df.columns)
-                                        # df = df.append(df_test, ignore_index=True)
-                                        # st.dataframe(df)
+                                ################
+                                return_user_idd = return_user_id(username)
+                                i = (return_user_idd[0])
+                                res = int(''.join(map(str, i)))
+                                te = int(res)
+                                ###############
+                                rem_columns = ["Name_of_Legue","user_id"]
+                                if flag_option == 'LEAUGE':
+                                    st.write("user_id",te,"LEAUGE",rememmberr)
+                                    para = str(te)
+                                    df = pd.DataFrame(columns=["Name_of_Legue","user_id"])
+                                    #df.columns = ["Name_of_Legue","user_id"]
+                                    df = df.append({'Name_of_Legue': rememmberr,'user_id': para}, ignore_index=True)
+                                    #df = df.append({'user_id': para}, ignore_index=True)
+                                    st.write("Data frame test ")
+                                    st.dataframe(df)
+                                #if rememmberr
+                                st.success("Datas processes  :  ")
+                                
                                         
 
                                 # my_form_save = st.form(key = "form1")

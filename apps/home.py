@@ -42,9 +42,13 @@ save_csv_Expend_BATCH = 'datas/BATCH_sportska_kubska_statsitika_OBRDENO.csv'
 #-----------------------------------------
 f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
 #------------------------------------
+# from apps.login_pages import app1,app2
+#import login_pages.app1
+
 def app():
     st.write("home")
-    create_EFPA()
+    
+    #create_EFPA()
 
     # f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
     # df = DataFrameFuncExpend(f_datas)

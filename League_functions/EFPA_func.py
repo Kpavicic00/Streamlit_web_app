@@ -167,10 +167,12 @@ def EFPA_MAIN(DFrame):
 
     # with colums:
     flag = 0
+    flag_option = '0'
     flagTemp = '0'
     task = st.selectbox("Task task meni",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
 
     if task == "LEAUGE statistic":
+        flag_option = 'LEAUGE'
         flag = 1
         cont_LEAUGE = 0
         
@@ -193,7 +195,7 @@ def EFPA_MAIN(DFrame):
             cnt +=1
 
     elif task == "Year_of_Season statistic":
-
+        flag_option = 'Year_of_Season'
         flag = 2
         cont_LEAUGE = 0
         
@@ -216,7 +218,7 @@ def EFPA_MAIN(DFrame):
             cnt +=1
         
     elif task == "Nationality statistic":
-
+        flag_option = 'Nationality'
         flag = 3
         cont_LEAUGE = 0
         
@@ -349,7 +351,7 @@ def EFPA_MAIN(DFrame):
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
     df_new.columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
-    return df_new,remm     
+    return df_new,remm,flag_option    
     
 
 def inputMeni_sort(DFN):

@@ -1,5 +1,7 @@
 # SQLite database 
 import sqlite3
+
+from pandas.core.frame import DataFrame
 conn = sqlite3.connect('data.db', check_same_thread=False)
 c = conn.cursor()
 
@@ -23,10 +25,26 @@ def delite_EFPA_BATCH(id):
 def create_EFPA_BATCH():
     c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_table(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
 
-def create_EFPA_BATCH_temp():
+# TEMP TABLES
+#       -> temp for database scores
+def create_EFPA_BATCH_temp(): 
     c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_table(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
 
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_EFPA_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS EFPA_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
 
+def insert_EFPA_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO EFPA_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+
+def return_id_EFPA__LEAGUE_table(id):
+    c.execute('SELECT DISTINCT flag_option FROM EFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+#-----------------------------------------------------
+
+#-----------------------------------------------------
 #----------------------------------
 # Processed 
 #----------------------------------
@@ -185,4 +203,21 @@ def check_userdatatable():
     data = c.fetchall()
     return data
 
+#   id_user_temp INTEGER PRIMARY KEY,
+#   FOREIGN KEY(id_user_temp) REFERENCES usertable(id))
+# temp user
+def temp_user():
+     c.execute('CREATE TABLE IF NOT EXISTS temp_user(username TEXT)')
 
+def temp_add_user_data(username):
+    c.execute('INSERT INTO temp_user(username) VALUES(?) ',(username,))
+    conn.commit()
+
+def return_username():
+    c.execute('SELECT  username FROM temp_user')
+    data = c.fetchall()
+    return data
+
+def delite_temp_user(username):
+    c.execute('DELETE  FROM temp_user WHERE username=?',(username,))
+    conn.commit()
