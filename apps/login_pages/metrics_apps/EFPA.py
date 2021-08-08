@@ -91,14 +91,18 @@ def app():
                 st.info("Please procces data again !")
         if st.checkbox("Viusalise data !!!"):
             # Viusalise datas
-            st.write("Viusalise datas",res)
-            return_user_idd = return_user_id(res)
-            st.write("")
-            i = (return_user_idd[0])
-            res = int(''.join(map(str, i)))
-            te = int(res)
+            st.write("Viusalise datas")
+            # return_user_idd = return_user_id(res)
+            # i = (return_user_idd[0])
+            # res = int(''.join(map(str, i)))
+            # te = int(res)
+
             flag = return_id_EFPA_table(te)
-            if flag != []:
+            if flag == []:
+                i = (flag[0])
+                te= int(''.join(map(str, i)))
+                #te = int(res)
+
                 if int(te) > 0:
                     df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
                     df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]

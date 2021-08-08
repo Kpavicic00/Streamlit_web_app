@@ -13,22 +13,31 @@ c = conn.cursor()
 
 # EFPA_BATCH
 
-def return_id_EFPA_BATCH_table(id):
+def return_id_EFPA_BATCH(id):
     c.execute('SELECT  user_id FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(id))
     data = c.fetchall()
     return data
 
+def return_id_EFPA_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM EFPA_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
 def delite_EFPA_BATCH(id):
-    c.execute('DELETE FROM EFPA_BATCH_table WHERE user_id="{}"'.format(id))
+    c.execute('DELETE  FROM EFPA_BATCH_table WHERE user_id=?',(id,))
     conn.commit()
 
 def create_EFPA_BATCH():
     c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_table(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
 
 # TEMP TABLES
-#       -> temp for database scores
+
 def create_EFPA_BATCH_temp(): 
-    c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_table(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
+    c.execute('CREATE TABLE IF NOT EXISTS EFPA_BATCH_temp(EFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Expend_by_player REAL,Expend_INFLACION REAL,user_id TEXT,FOREIGN KEY(EFPA_BATCH_id) REFERENCES usertable(id))')
+
+def delite_EFPA_BATCH_temp(id):
+    c.execute('DELETE  FROM EFPA_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
 
 # LEAGUE,Year_of_Season temp,NAtionality table
 def create_EFPA_LEAGUE_flag_option():
@@ -37,11 +46,15 @@ def create_EFPA_LEAGUE_flag_option():
 def insert_EFPA_LEAGUE_flag_option(flag_option,user_id):
     c.execute('INSERT INTO EFPA_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
     conn.commit()
-
-def return_id_EFPA__LEAGUE_table(id):
+#   return_id_EFPA__LEAGUE_table
+def return_id_EFPA__LEAGUE_flag_option(id):
     c.execute('SELECT DISTINCT flag_option FROM EFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
     data = c.fetchall()
     return data
+
+def delite_EFPA_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM EFPA_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
 #-----------------------------------------------------
 
 #-----------------------------------------------------
