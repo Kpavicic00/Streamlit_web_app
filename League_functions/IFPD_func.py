@@ -165,6 +165,7 @@ def IFPD_MAIN(DFrame):
     task = st.selectbox("Task task meni",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
 
     if task == "LEAUGE statistic":
+        flag_option ="LEAUGE"
         flag = 1
         cont_LEAUGE = 0
         
@@ -187,7 +188,7 @@ def IFPD_MAIN(DFrame):
             cnt +=1
 
     elif task == "Year_of_Season statistic":
-
+        flag_option = "Year_of_Season"
         flag = 2
         cont_LEAUGE = 0
         
@@ -210,7 +211,7 @@ def IFPD_MAIN(DFrame):
             cnt +=1
         
     elif task == "Nationality statistic":
-
+        flag_option = "Nationality"
         flag = 3
         cont_LEAUGE = 0
         
@@ -343,7 +344,7 @@ def IFPD_MAIN(DFrame):
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
     df_new.columns = ["Name_of_Legue", "Year","Nationality", "Income_by_player", "Income_INFLACION"]
-    return df_new,remm
+    return df_new,remm,flag_option
 
 def input_Menisort(DFN):
     st.subheader("Meni options :: ")

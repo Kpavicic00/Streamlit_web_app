@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from functions import *
-from League_functions.EFPA_func import*
+from League_functions.BFPD_func import*
 from database import *
 import altair as alt
 from html_temp import *
@@ -11,7 +11,7 @@ import os
 import time
 
 def app():
-    st.title('2. function EFPA_BATCH  process function')
+    st.title('2. function BFPD_BATCH  process function')
     st.write('Welcome to metrics')
     username = return_username()
     i = (username[0])
@@ -21,31 +21,31 @@ def app():
     i = (return_user_idd[0])
     temp_save = int(''.join(map(str, i)))
     delite_temp_user(res)
-    create_EFPA_BATCH()
+    create_BFPD_BATCH()
     col1,col2 = st.beta_columns(2)
     with col1:
 
         st.info(" For restart data you must delete data and start over !!!")
         if st.checkbox("Process data "):
-            create_EFPA_BATCH_temp()
-            #create_EFPA__LEAGUE_table()
+            create_BFPD_BATCH_temp()
+            #create_BFPD__LEAGUE_table()
             df = pd.read_sql('SELECT * FROM League_datas', conn)
             df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
-            to_append,rememmberr,flag_option = EFPA_MAIN(df_new)
+            to_append,rememmberr,flag_option = BFPD_MAIN(df_new)
             columns = ["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]    
             my_form = st.form(key = "form123")
             submit = my_form.form_submit_button(label = "Submit")
             if submit:
                                 
-                columns = ["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]
+                columns = ["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]
                 st.dataframe(to_append)                                
                 return_user_idd = return_user_id(res)
                 i = (return_user_idd[0])
                 id = str(''.join(map(str, i)))
-                create_EFPA_LEAGUE_flag_option()
-                flag2 = return_id_EFPA__LEAGUE_flag_option(id)
+                create_BFPD_LEAGUE_flag_option()
+                flag2 = return_id_BFPD__LEAGUE_flag_option(id)
                 if flag2 == []:
-                    insert_EFPA_LEAGUE_flag_option(flag_option,id)
+                    insert_BFPD_LEAGUE_flag_option(flag_option,id)
                 elif flag2 != []:
                     st.write(flag2,"flag2")
                     i = (flag2[0])
@@ -54,7 +54,7 @@ def app():
                     st.write("flag_option :::: ",flag_option,"result :::: ",result)
                     rem_columns = ["Name_of_Legue","user_id"]
                     if flag_option == result:
-                        insert_EFPA_LEAGUE_flag_option(flag_option,id)
+                        insert_BFPD_LEAGUE_flag_option(flag_option,id)
                         df = to_append
                         size = NumberOfRows(df)
                         size = len(df)
@@ -62,7 +62,7 @@ def app():
                         for i in range(0,size):
                             list1[i] = id
                         df['user_id'] = list1
-                        to_append.to_sql('EFPA_BATCH_temp',con=conn,if_exists='append')
+                        to_append.to_sql('BFPD_BATCH_temp',con=conn,if_exists='append')
                         st.success("Datas processes  successfully !!")
 
                     else:
@@ -76,17 +76,17 @@ def app():
         submit = my_form_save.form_submit_button(label = "Save data")
         if submit:
            
-            flag_id = return_id_EFPA_BATCH(temp_save)
+            flag_id = return_id_BFPD_BATCH(temp_save)
             if flag_id == []:
-                flag2 = return_id_EFPA_BATCH_temp(temp_save)
+                flag2 = return_id_BFPD_BATCH_temp(temp_save)
                 if flag2 != []:
                     if int(temp_save) > 0:
-                        df = pd.read_sql('SELECT * FROM EFPA_BATCH_temp', conn)
-                        df_save = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION","user_id"]]
+                        df = pd.read_sql('SELECT * FROM BFPD_BATCH_temp', conn)
+                        df_save = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION","user_id"]]
                         st.write("save")
                         st.dataframe(df_save)
-                        df_save.to_sql('EFPA_BATCH_table',con=conn,if_exists='append')
-                        delite_EFPA_BATCH_temp(temp_save)
+                        df_save.to_sql('BFPD_BATCH_table',con=conn,if_exists='append')
+                        delite_BFPD_BATCH_temp(temp_save)
                         st.success("Data successfuly saved !")
                 else:
                     st.warning("Please first proces jour data")
@@ -100,11 +100,11 @@ def app():
         submit = form_export_csv.form_submit_button(label = "Export datas")
         if submit:                                
             if submit:
-                flag = return_id_EFPA_BATCH(temp_save)
+                flag = return_id_BFPD_BATCH(temp_save)
                 if flag != []:
                     if int(temp_save) > 0:
-                        df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
-                        df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                        df = pd.read_sql_query('SELECT * FROM BFPD_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                        df_new = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                         st.markdown(get_table_download_link_csv(df_new), unsafe_allow_html=True)
                         st.success("Export Datas")
                 else:
@@ -115,12 +115,12 @@ def app():
         my_form_delite = st.form(key = "form_Delite")
         submit = my_form_delite.form_submit_button(label = "Delite datas")
         if submit:
-            flag = return_id_EFPA_BATCH(temp_save)                             
+            flag = return_id_BFPD_BATCH(temp_save)                             
             if flag != []:
                 if int(temp_save) > 0 :
-                    delite_EFPA_BATCH(temp_save)
-                    delite_EFPA_LEAGUE_flag_option(temp_save)
-                    #delite_EFPA_BATCH_temp(temp_save)
+                    delite_BFPD_BATCH(temp_save)
+                    delite_BFPD_LEAGUE_flag_option(temp_save)
+                    #delite_BFPD_BATCH_temp(temp_save)
                     st.success("Delite Datas")
                     st.info("Please procces data")
             else:
@@ -136,11 +136,11 @@ def app():
                 # i = (return_user_idd[0])
                 # res = int(''.join(map(str, i)))
                 # te = int(res)
-                flag = return_id_EFPA_BATCH(temp_save)
+                flag = return_id_BFPD_BATCH(temp_save)
                 if flag != []:
     # 
                     if int(temp_save) > 0:
-                        flag_option = return_id_EFPA__LEAGUE_flag_option(temp_save)
+                        flag_option = return_id_BFPD__LEAGUE_flag_option(temp_save)
                         st.write("i(flag_option[0])",flag_option[0])
                         temp_filter = ''.join(flag_option[0])
                         st.write("temp_filter",temp_filter,"type(temp_filter)",type(temp_filter))
@@ -150,8 +150,8 @@ def app():
     # 
                                 st.write("temp_option",temp_option)
     # 
-                                df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
-                                df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                                df = pd.read_sql_query('SELECT * FROM BFPD_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                df_new = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                                 df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
     # 
     # 
@@ -161,7 +161,7 @@ def app():
     # 
                                 chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
                                      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                     y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+                                     y=alt.Y('Balance_by_player',axis=alt.Axis(title='Balance by player')),
                                      ).properties(
                                          width=800, 
                                          height=600
@@ -169,7 +169,7 @@ def app():
                                 chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
             # 
                                      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                     y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+                                     y=alt.Y('Balance_INFLACION',axis=alt.Axis(title='Balance_INFLACION')),
                                      ).properties(
                                          width=800, 
                                          height=600
@@ -178,7 +178,7 @@ def app():
                                 st.altair_chart(chartline1 + chartline2)                                
                                 lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                   x=alt.X('Year',axis=alt.Axis(title='date')),
-                                  y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+                                  y=alt.Y('Balance_by_player',axis=alt.Axis(title='value'))
                                   ).properties(
                                       width=600,
                                       height=300
@@ -186,7 +186,7 @@ def app():
                                 def plot_animation(df_new):
                                     lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                     x=alt.X('Year', axis=alt.Axis(title='date')),
-                                    y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+                                    y=alt.Y('Balance_by_player',axis=alt.Axis(title='value')),
                                     ).properties(
                                         width=600, 
                                         height=300
@@ -213,8 +213,8 @@ def app():
                                 temp_option = "Nationality"
                                 st.write("temp_option",temp_option)
     # 
-                                df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
-                                df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                                df = pd.read_sql_query('SELECT * FROM BFPD_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                df_new = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                                 df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
     # 
     # 
@@ -224,7 +224,7 @@ def app():
     # 
                                 chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
                                      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                     y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+                                     y=alt.Y('Balance_by_player',axis=alt.Axis(title='Balance by player')),
                                      ).properties(
                                          width=800, 
                                          height=600
@@ -232,7 +232,7 @@ def app():
                                 chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
             # 
                                      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                     y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+                                     y=alt.Y('Balance_INFLACION',axis=alt.Axis(title='Balance_INFLACION')),
                                      ).properties(
                                          width=800, 
                                          height=600
@@ -241,7 +241,7 @@ def app():
                                 st.altair_chart(chartline1 + chartline2)                                
                                 lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                   x=alt.X('Year',axis=alt.Axis(title='date')),
-                                  y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+                                  y=alt.Y('Balance_by_player',axis=alt.Axis(title='value'))
                                   ).properties(
                                       width=600,
                                       height=300
@@ -249,7 +249,7 @@ def app():
                                 def plot_animation(df_new):
                                     lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                     x=alt.X('Year', axis=alt.Axis(title='date')),
-                                    y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+                                    y=alt.Y('Balance_by_player',axis=alt.Axis(title='value')),
                                     ).properties(
                                         width=600, 
                                         height=300
@@ -276,8 +276,8 @@ def app():
                                 temp_option = "Nationality"
                                 st.write("temp_option",temp_option)
     # 
-                                df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
-                                df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                                df = pd.read_sql_query('SELECT * FROM BFPD_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                df_new = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                                 df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
     # 
     # 
@@ -287,7 +287,7 @@ def app():
     # 
                                 chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
                                      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                     y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+                                     y=alt.Y('Balance_by_player',axis=alt.Axis(title='Balance by player')),
                                      ).properties(
                                          width=800, 
                                          height=600
@@ -295,7 +295,7 @@ def app():
                                 chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
             # 
                                      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                     y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+                                     y=alt.Y('Balance_INFLACION',axis=alt.Axis(title='Balance_INFLACION')),
                                      ).properties(
                                          width=800, 
                                          height=600
@@ -304,7 +304,7 @@ def app():
                                 st.altair_chart(chartline1 + chartline2)                                
                                 lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                   x=alt.X('Year',axis=alt.Axis(title='date')),
-                                  y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+                                  y=alt.Y('Balance_by_player',axis=alt.Axis(title='value'))
                                   ).properties(
                                       width=600,
                                       height=300
@@ -312,7 +312,7 @@ def app():
                                 def plot_animation(df_new):
                                     lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                     x=alt.X('Year', axis=alt.Axis(title='date')),
-                                    y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+                                    y=alt.Y('Balance_by_player',axis=alt.Axis(title='value')),
                                     ).properties(
                                         width=600, 
                                         height=300
@@ -338,12 +338,12 @@ def app():
     # 
                                 # st.write("temp_option",temp_option)
     # 
-                                # df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
-                                # df_new = df[["Name_of_Legue","Year",temp_option,"Expend_by_player","Expend_INFLACION"]]
+                                # df = pd.read_sql_query('SELECT * FROM BFPD_table WHERE user_id = "{}"'.format(te),conn)
+                                # df_new = df[["Name_of_Legue","Year",temp_option,"Balance_by_player","Balance_INFLACION"]]
                                 # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
                                 # chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
                                 #      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                #      y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+                                #      y=alt.Y('Balance_by_player',axis=alt.Axis(title='Balance by player')),
                                 #      ).properties(
                                 #          width=800, 
                                 #          height=600
@@ -351,7 +351,7 @@ def app():
                                 # chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
             # 
                                 #      x=alt.X('Year', axis=alt.Axis(title='date')),
-                                #      y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+                                #      y=alt.Y('Balance_INFLACION',axis=alt.Axis(title='Balance_INFLACION')),
                                 #      ).properties(
                                 #          width=800, 
                                 #          height=600
@@ -360,7 +360,7 @@ def app():
                                 # st.altair_chart(chartline1 + chartline2)                                
                                 # lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                 #   x=alt.X('Year',axis=alt.Axis(title='date')),
-                                #   y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+                                #   y=alt.Y('Balance_by_player',axis=alt.Axis(title='value'))
                                 #   ).properties(
                                 #       width=600,
                                 #       height=300
@@ -368,7 +368,7 @@ def app():
                                 # def plot_animation(df_new):
                                 #     lines = alt.Chart(df_new).mark_bar(size=25).encode(
                                 #     x=alt.X('Year', axis=alt.Axis(title='date')),
-                                #     y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+                                #     y=alt.Y('Balance_by_player',axis=alt.Axis(title='value')),
                                 #     ).properties(
                                 #         width=600, 
                                 #         height=300

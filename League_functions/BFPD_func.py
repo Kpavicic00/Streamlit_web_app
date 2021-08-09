@@ -134,7 +134,7 @@ def BFPD_MAIN(DFrame):
     nDFRAME["Year"].astype(np.int)# ind 1
     nDFRAME["Nationality"].astype(np.str)# ind 2
     nDFRAME["Balance_by_player"].astype(np.float)# ind 3
-    nDFRAME["BalanceINFLACION"].astype(np.float)# ind 4
+    nDFRAME["Balance_INFLACION"].astype(np.float)# ind 4
     ###############################################################################
 
     #save values from the dateframe to a arrays
@@ -144,7 +144,7 @@ def BFPD_MAIN(DFrame):
         Year_of_Season[i] = nDFRAME["Year"][i] # indx 1
         Nationality[i] = nDFRAME["Nationality"][i] # indx 2
         Balance_by_player[i] = nDFRAME["Balance_by_player"][i] # indx 3
-        Balance_Inflation_by_player[i] = nDFRAME["BalanceINFLACION"][i] # indx 4
+        Balance_Inflation_by_player[i] = nDFRAME["Balance_INFLACION"][i] # indx 4
         ###############################################################################
 
     # conversion to numpy
@@ -164,7 +164,7 @@ def BFPD_MAIN(DFrame):
     # set to DataFrame
     df_a = pd.DataFrame(a_data)
     # name of labels for head or names of collums
-    df_a.columns = ['Name_of_Legue', 'Year','Nationality', 'Balance_by_player', 'BalanceINFLACION ']
+    df_a.columns = ['Name_of_Legue', 'Year','Nationality', 'Balance_by_player', 'Balance_INFLACION ']
     ###############################################################################
 
     # convert data from numpay ndarray to list and remove duplicates elemtes of list for LEAUGE
@@ -196,6 +196,7 @@ def BFPD_MAIN(DFrame):
     task = st.selectbox("Task task meni",["LEAUGE statistic","Year_of_Season statistic","Nationality statistic"],key='key_options')
 
     if task == "LEAUGE statistic":
+        flag_option = "LEAUGE"
         flag = 1
         cont_LEAUGE = 0
         
@@ -218,7 +219,7 @@ def BFPD_MAIN(DFrame):
             cnt +=1
 
     elif task == "Year_of_Season statistic":
-
+        flag_option = "Year_of_Season"
         flag = 2
         cont_LEAUGE = 0
         
@@ -241,7 +242,7 @@ def BFPD_MAIN(DFrame):
             cnt +=1
         
     elif task == "Nationality statistic":
-
+        flag_option = "Nationality"
         flag = 3
         cont_LEAUGE = 0
         
@@ -373,8 +374,8 @@ def BFPD_MAIN(DFrame):
     # set to DataFrame
     df_new = pd.DataFrame(new_data)
     # name of labels for head or names of collums
-    df_new.columns = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "BalanceINFLACION"]
-    return df_new,remm
+    df_new.columns = ["Name_of_Legue", "Year","Nationality", "Balance_by_player", "Balance_INFLACION"]
+    return df_new,remm,flag_option
 
 
 

@@ -382,6 +382,7 @@ def DFLS_MAIN(DFrame):
     task = st.selectbox("Task task meni",["LEAUGE statistic","NUMBER of Sesons statistic"],key='key_options')
 
     if task == "LEAUGE statistic":
+        flag_option = "Name_of_Legue"
         flag = 1
         cont_LEAUGE = 0
         
@@ -404,7 +405,7 @@ def DFLS_MAIN(DFrame):
             cnt +=1
 
     elif task == "NUMBER of Sesons statistic":
-
+        flag_option = "number_of_Season"
         flag = 2
         cont_NUMBERofSesons = 0
         
@@ -544,4 +545,4 @@ def DFLS_MAIN(DFrame):
     df_new.columns = ["Name_of_Legue","Expend","Income","Balance","number_of_Season",
                            "sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues",
                           "avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]
-    return df_new,remm
+    return df_new,remm,flag_option

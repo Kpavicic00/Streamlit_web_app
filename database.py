@@ -11,6 +11,141 @@ c = conn.cursor()
 # BATCHED 
 #----------------------------------
 
+#   DFLS_BATCH
+def return_id_DFLS_BATCH(id):
+    c.execute('SELECT  user_id FROM DFLS_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def return_id_DFLS_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM DFLS_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DFLS_BATCH(id):
+    c.execute('DELETE  FROM DFLS_BATCH_table WHERE user_id=?',(id,))
+    conn.commit()
+#   "Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season","user_id"
+def create_DFLS_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS DFLS_BATCH_table(DFLS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DFLS_BATCH_id) REFERENCES usertable(id))')
+
+# TEMP TABLES
+
+def create_DFLS_BATCH_temp(): 
+    c.execute('CREATE TABLE IF NOT EXISTS DFLS_BATCH_temp(DFLS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DFLS_BATCH_id) REFERENCES usertable(id))')
+
+def delite_DFLS_BATCH_temp(id):
+    c.execute('DELETE  FROM DFLS_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
+
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_DFLS_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS DFLS_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+
+def insert_DFLS_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO DFLS_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+#   return_id_DFLS__LEAGUE_table
+def return_id_DFLS__LEAGUE_flag_option(id):
+    c.execute('SELECT DISTINCT flag_option FROM DFLS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DFLS_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM DFLS_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
+#-----------------------------------------------------
+
+#   BFPD_BATCH
+def return_id_BFPD_BATCH(id):
+    c.execute('SELECT  user_id FROM BFPD_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def return_id_BFPD_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM BFPD_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_BFPD_BATCH(id):
+    c.execute('DELETE  FROM BFPD_BATCH_table WHERE user_id=?',(id,))
+    conn.commit()
+
+def create_BFPD_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS BFPD_BATCH_table(BFPD_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Balance_by_player REAL,Balance_INFLACION REAL,user_id TEXT,FOREIGN KEY(BFPD_BATCH_id) REFERENCES usertable(id))')
+
+# TEMP TABLES
+
+def create_BFPD_BATCH_temp(): 
+    c.execute('CREATE TABLE IF NOT EXISTS BFPD_BATCH_temp(BFPD_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Balance_by_player REAL,Balance_INFLACION REAL,user_id TEXT,FOREIGN KEY(BFPD_BATCH_id) REFERENCES usertable(id))')
+
+def delite_BFPD_BATCH_temp(id):
+    c.execute('DELETE  FROM BFPD_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
+
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_BFPD_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS BFPD_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+
+def insert_BFPD_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO BFPD_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+#   return_id_BFPD__LEAGUE_table
+def return_id_BFPD__LEAGUE_flag_option(id):
+    c.execute('SELECT DISTINCT flag_option FROM BFPD_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_BFPD_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM BFPD_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
+#-----------------------------------------------------
+
+# IFPA_BATCH
+
+def return_id_IFPA_BATCH(id):
+    c.execute('SELECT  user_id FROM IFPA_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def return_id_IFPA_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM IFPA_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_IFPA_BATCH(id):
+    c.execute('DELETE  FROM IFPA_BATCH_table WHERE user_id=?',(id,))
+    conn.commit()
+
+def create_IFPA_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS IFPA_BATCH_table(IFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Income_by_player REAL,Income_INFLACION REAL,user_id TEXT,FOREIGN KEY(IFPA_BATCH_id) REFERENCES usertable(id))')
+
+# TEMP TABLES
+
+def create_IFPA_BATCH_temp(): 
+    c.execute('CREATE TABLE IF NOT EXISTS IFPA_BATCH_temp(IFPA_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Year TEXT,Nationality TEXT,Income_by_player REAL,Income_INFLACION REAL,user_id TEXT,FOREIGN KEY(IFPA_BATCH_id) REFERENCES usertable(id))')
+
+def delite_IFPA_BATCH_temp(id):
+    c.execute('DELETE  FROM IFPA_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
+
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_IFPA_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS IFPA_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+
+def insert_IFPA_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO IFPA_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+#   return_id_IFPA__LEAGUE_table
+def return_id_IFPA__LEAGUE_flag_option(id):
+    c.execute('SELECT DISTINCT flag_option FROM IFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_IFPA_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM IFPA_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
+#-----------------------------------------------------
 # EFPA_BATCH
 
 def return_id_EFPA_BATCH(id):
@@ -117,6 +252,7 @@ def delite_DFLS(id):
     c.execute('DELETE FROM DFLS_table WHERE user_id="{}"'.format(id))
     conn.commit()
 
+#   "Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"
 def create_DFLS():
     c.execute('CREATE TABLE IF NOT EXISTS DFLS_table(DFLS_id INTEGER PRIMARY KEY,"index" INTEGER,Name_of_Legue TEXT,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DFLS_id) REFERENCES usertable(id))')
 

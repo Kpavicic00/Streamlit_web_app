@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from functions import *
-from League_functions.EFPA_func import EFPA_base
+from League_functions.IFPD_func import IFPD_base
 from database import *
 import altair as alt
 from html_temp import *
@@ -10,7 +10,7 @@ import os
 import time
 
 def app():
-    st.title('1. function EFPA  process function')
+    st.title('1. function IFPA  process function')
     st.write('Welcome to metrics')
     username = return_username()
 
@@ -27,7 +27,7 @@ def app():
             df = pd.read_sql('SELECT * FROM League_datas', conn)
             df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
             st.dataframe(df_new)
-            a_leuge_DF = EFPA_base(df_new)
+            a_leuge_DF = IFPD_base(df_new)
             my_form = st.form(key = "form123")
             submit = my_form.form_submit_button(label = "Submit")
             if submit:
@@ -40,7 +40,7 @@ def app():
                 i = (return_user_idd[0])
                 res = int(''.join(map(str, i)))
                 te = int(res)
-                flag = return_id_EFPA_table(te)
+                flag = return_id_IFPD_table(te)
                 if flag == []:
                     df = a_leuge_DF
                     size = NumberOfRows(df)
@@ -49,8 +49,8 @@ def app():
                     for i in range(0,size):
                         list1[i] = te
                     df['user_id'] = list1
-                    create_EFPA()
-                    df.to_sql('EFPA_table',con=conn,if_exists='append')
+                    create_IFPD()
+                    df.to_sql('IFPD_table',con=conn,if_exists='append')
                     st.success("Data successfuly saved !")
 
                 else:
@@ -64,11 +64,11 @@ def app():
                 i = (return_user_idd[0])
                 res = int(''.join(map(str, i)))
                 te = int(res)
-                flag = return_id_EFPA_table(te)
+                flag = return_id_IFPD_table(te)
                 if flag != []:
                     if int(te) > 0:
-                        df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
-                        df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                        df = pd.read_sql_query('SELECT * FROM IFPD_table WHERE user_id = "{}"'.format(te),conn)
+                        df_new = df[["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]]
                         st.markdown(get_table_download_link_csv(df_new), unsafe_allow_html=True)
                         st.success("Export Datas")
                 else:
@@ -82,16 +82,16 @@ def app():
             i = (return_user_idd[0])
             res = int(''.join(map(str, i)))
             te = int(res)
-            flag = (return_id_EFPA_table(te))                               
+            flag = (return_id_IFPD_table(te))                               
             if flag != []:
                 if int(te) > 0 :
-                    delite_EFPA(te)
+                    delite_IFPD(te)
                     st.success("Delite Datas")
                     st.info("Please procces data")
             else:
                 st.warning("file not found")
                 st.info("Please procces data again !")
-        try:        
+        try:
             if st.checkbox("Viusalise data !!!"):
                 # Viusalise datas
                 #st.write("Viusalise datas",res)
@@ -100,15 +100,15 @@ def app():
                 i = (return_user_idd[0])
                 res = int(''.join(map(str, i)))
                 te = int(res)
-                flag = return_id_EFPA_table(te)
+                flag = return_id_IFPD_table(te)
                 if flag != []:
                     if int(te) > 0:
-                        df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(te),conn)
-                        df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+                        df = pd.read_sql_query('SELECT * FROM IFPD_table WHERE user_id = "{}"'.format(te),conn)
+                        df_new = df[["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]]
                         df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
                         chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
                              x=alt.X('Year', axis=alt.Axis(title='date')),
-                             y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
+                             y=alt.Y('Income_by_player',axis=alt.Axis(title='Income_by_player')),
                              ).properties(
                                  width=800, 
                                  height=600
@@ -116,7 +116,7 @@ def app():
                         chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
                             # 
                              x=alt.X('Year', axis=alt.Axis(title='date')),
-                             y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
+                             y=alt.Y('Income_INFLACION',axis=alt.Axis(title='Income_INFLACION')),
                              ).properties(
                                  width=800, 
                                  height=600
@@ -125,7 +125,7 @@ def app():
                         st.altair_chart(chartline1 + chartline2)                                
                         lines = alt.Chart(df_new).mark_bar(size=25).encode(
                           x=alt.X('Year',axis=alt.Axis(title='date')),
-                          y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
+                          y=alt.Y('Income_by_player',axis=alt.Axis(title='value'))
                           ).properties(
                               width=600,
                               height=300
@@ -133,7 +133,7 @@ def app():
                         def plot_animation(df_new):
                             lines = alt.Chart(df_new).mark_bar(size=25).encode(
                             x=alt.X('Year', axis=alt.Axis(title='date')),
-                            y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
+                            y=alt.Y('Income_by_player',axis=alt.Axis(title='value')),
                             ).properties(
                                 width=600, 
                                 height=300
@@ -158,5 +158,6 @@ def app():
                 else:
                     st.warning("file not found")
                     st.info("Please procces data again !!")
+
         except Exception as e:
           st.write("Error, please resart Visaulsation checkboc !! ") 
