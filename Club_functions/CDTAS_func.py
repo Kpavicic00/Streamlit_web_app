@@ -406,6 +406,7 @@ def DCTAS_MAIN(DFrame):
     task = st.selectbox("Chose a option of proces ",["State !","Competition !"],key='key_options')
 
     if task == "State !":
+        flag_option = "State"
         flag = 1
         cont_state = 0
         
@@ -428,6 +429,7 @@ def DCTAS_MAIN(DFrame):
             cnt +=1
 
     elif task == "Competition !":
+        flag_option = "Competition"
         flag = 2
         cont_Compe = 0
         
@@ -562,4 +564,4 @@ def DCTAS_MAIN(DFrame):
     df_new.columns = ["Order_of_Expend","Club","State","Competition","Expenditures",
                              "Income","Arrivals","Departures","Balance",
                              "inflation_Expenditure","inflation_Income","inflation_Balance"]
-    return df_new,remm
+    return df_new,remm,flag_option

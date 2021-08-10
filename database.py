@@ -11,6 +11,143 @@ c = conn.cursor()
 # BATCHED 
 #----------------------------------
 
+#   DCTAS
+def return_id_DCTAS_BATCH(id):
+    c.execute('SELECT  user_id FROM DCTAS_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def return_id_DCTAS_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM DCTAS_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DCTAS_BATCH(id):
+    c.execute('DELETE  FROM DCTAS_BATCH_table WHERE user_id=?',(id,))
+    conn.commit()
+#   "Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"
+def create_DCTAS_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS DCTAS_BATCH_table(DCTAS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Income INTEGER,Arrivals INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,inflation_Expenditure REAL,inflation_Income REAL,inflation_Balance REAL,user_id TEXT,FOREIGN KEY(DCTAS_BATCH_id) REFERENCES usertable(id))')
+
+# TEMP TABLES
+
+def create_DCTAS_BATCH_temp(): 
+    c.execute('CREATE TABLE IF NOT EXISTS DCTAS_BATCH_temp(DCTAS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Income INTEGER,Arrivals INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,inflation_Expenditure REAL,inflation_Income REAL,inflation_Balance REAL,user_id TEXT,FOREIGN KEY(DCTAS_BATCH_id) REFERENCES usertable(id))')
+
+def delite_DCTAS_BATCH_temp(id):
+    c.execute('DELETE  FROM DCTAS_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
+
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_DCTAS_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS DCTAS_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+
+def insert_DCTAS_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO DCTAS_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+#   return_id_DCTAS__LEAGUE_table
+def return_id_DCTAS__LEAGUE_flag_option(id):
+    c.execute('SELECT DISTINCT flag_option FROM DCTAS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DCTAS_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM DCTAS_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
+#-----------------------------------------------------
+
+#   CDWS
+def return_id_CDWS_BATCH(id):
+    c.execute('SELECT  user_id FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def return_id_CDWS_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM CDWS_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_CDWS_BATCH(id):
+    c.execute('DELETE  FROM CDWS_BATCH_table WHERE user_id=?',(id,))
+    conn.commit()
+#   "Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"
+def create_CDWS_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS CDWS_BATCH_table(CDWS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Arrivals INTEGER,Income INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,Inflacion_Income REAL,Inflacion_Expenditures REAL,Inflacion_Balance REAL,user_id TEXT,FOREIGN KEY(CDWS_BATCH_id) REFERENCES usertable(id))')
+
+# TEMP TABLES
+
+def create_CDWS_BATCH_temp(): 
+    c.execute('CREATE TABLE IF NOT EXISTS CDWS_BATCH_temp(CDWS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Arrivals INTEGER,Income INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,Inflacion_Income REAL,Inflacion_Expenditures REAL,Inflacion_Balance REAL,user_id TEXT,FOREIGN KEY(CDWS_BATCH_id) REFERENCES usertable(id))')
+
+def delite_CDWS_BATCH_temp(id):
+    c.execute('DELETE  FROM CDWS_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
+
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_CDWS_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS CDWS_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+
+def insert_CDWS_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO CDWS_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+#   return_id_CDWS__LEAGUE_table
+def return_id_CDWS__LEAGUE_flag_option(id):
+    c.execute('SELECT DISTINCT flag_option FROM CDWS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_CDWS_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM CDWS_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
+#-----------------------------------------------------
+
+
+#   DCWS
+def return_id_DCWS_BATCH(id):
+    c.execute('SELECT  user_id FROM DCWS_BATCH_table WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def return_id_DCWS_BATCH_temp(id):
+    c.execute('SELECT  user_id FROM DCWS_BATCH_temp WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DCWS_BATCH(id):
+    c.execute('DELETE  FROM DCWS_BATCH_table WHERE user_id=?',(id,))
+    conn.commit()
+#   "Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"
+def create_DCWS_BATCH():
+    c.execute('CREATE TABLE IF NOT EXISTS DCWS_BATCH_table(DCWS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Year_of_Season INTEGER,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DCWS_BATCH_id) REFERENCES usertable(id))')
+
+# TEMP TABLES
+
+def create_DCWS_BATCH_temp(): 
+    c.execute('CREATE TABLE IF NOT EXISTS DCWS_BATCH_temp(DCWS_BATCH_id INTEGER PRIMARY KEY,"index" INTEGER,Year_of_Season INTEGER,Expend INTEGER,Income INTEGER,Balance INTEGER,number_of_Season INTEGER,sum_of_Arrivlas INTEGER,sum_of_Depatrues INTEGER,avg_Expend_of_Arrivlas REAL,avg_Income_of_Depatrues REAL,avg_Balance_of_Depatrues REAL,avg_Expend_Season REAL,avg_Income_Season REAL,avg_Balance_Season REAL,user_id TEXT,FOREIGN KEY(DCWS_BATCH_id) REFERENCES usertable(id))')
+
+def delite_DCWS_BATCH_temp(id):
+    c.execute('DELETE  FROM DCWS_BATCH_temp WHERE user_id=?',(id,))
+    conn.commit()
+
+# LEAGUE,Year_of_Season temp,NAtionality table
+def create_DCWS_LEAGUE_flag_option():
+    c.execute('CREATE TABLE IF NOT EXISTS DCWS_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+
+def insert_DCWS_LEAGUE_flag_option(flag_option,user_id):
+    c.execute('INSERT INTO DCWS_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+    conn.commit()
+#   return_id_DCWS__LEAGUE_table
+def return_id_DCWS__LEAGUE_flag_option(id):
+    c.execute('SELECT DISTINCT flag_option FROM DCWS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+    data = c.fetchall()
+    return data
+
+def delite_DCWS_LEAGUE_flag_option(id):
+    c.execute('DELETE  FROM DCWS_LEAGUE_flag_option WHERE user_id=?',(id,))
+    conn.commit()
+#-----------------------------------------------------
+
+
 #   DFLS_BATCH
 def return_id_DFLS_BATCH(id):
     c.execute('SELECT  user_id FROM DFLS_BATCH_table WHERE user_id = "{}"'.format(id))
@@ -222,8 +359,9 @@ def delite_CDWS(id):
     c.execute('DELETE FROM CDWS_table WHERE user_id="{}"'.format(id))
     conn.commit()
 
+#   "Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"
 def create_CDWS():
-    c.execute('CREATE TABLE IF NOT EXISTS CDWS_table(CDWS_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Income INTEGER,Arrivals INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,Inflacion_Income REAL,Inflacion_Expenditures REAL,inflacion_Balance REAL,user_id TEXT,FOREIGN KEY(CDWS_id) REFERENCES usertable(id))')
+    c.execute('CREATE TABLE IF NOT EXISTS CDWS_table(CDWS_id INTEGER PRIMARY KEY,"index" INTEGER,Order_of_Expend INTEGER,Club TEXT,State TEXT,Competition TEXT,Expenditures INTEGER,Arrivals INTEGER,Income INTEGER,Departures INTEGER,Balance INTEGER,Season INTEGER,Inflacion_Income REAL,Inflacion_Expenditures REAL,Inflacion_Balance REAL,user_id TEXT,FOREIGN KEY(DCTAS_id) REFERENCES usertable(id))')
 
 ##################################################################################
 

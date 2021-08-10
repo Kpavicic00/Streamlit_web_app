@@ -388,6 +388,7 @@ def DCWS_MAIN(DFrame):
     task = st.selectbox("Chose a option of proces data by YEAR",["YEAR !"],key='key_options')
 
     if task == "YEAR !":
+        flag_option = "Year_of_Season"
         flag = 1
         cont_YEAR = 0
         
@@ -501,4 +502,4 @@ def DCWS_MAIN(DFrame):
                            "sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues",
                            "avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]
 
-    return df_new,remm
+    return df_new,remm,flag_option

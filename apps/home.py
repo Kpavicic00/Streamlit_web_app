@@ -26,6 +26,8 @@ import altair as alt
 import duckdb
 import streamlit.components.v1 as components
 import sqlite3
+import os
+import bar_chart_race as bcr
 # save_df = DataFrameFuncClubs('datas/sportska_kubska_statsitika_OBRDENO.csv')
 # conn = sqlite3.connect('data.db', check_same_thread=False)
 # c = conn.cursor()
@@ -47,95 +49,31 @@ f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
 
 def app():
     st.write("home")
+
+    df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(1),conn)
+    df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+
+    st.dataframe(df_new)
+
+    subsetdf = df_new["Name_of_Legue"]
+    subsetdf.set_index("Year",inplace=True)
+    cum_sum_df = subsetdf.cumsum(axis=0)
+    dada_Ada=cum_sum_df.cumsum(axis = 0)
+
+    # bcr.bar_chart_race(df=dada_Ada, filename='covid19_horiz.mp4', figsize = (3.5,3),title='COVID-19 Cases by Country')
+    #dada_Ada=cum_sum_df.cumsum(axis = 0)
+    bcr.bar_chart_race(df=dada_Ada,figsize = (3.5,3),title='COVID-19 Cases by Country')
+    #ata_deaths.set_index("date", inplace = True)
+    # a = cum_sum_df.tail(10)
+    # pritn(a)
+
+
+    # x = alt.Chart(df_new).mark_bar().encode(
+
+    #     x='Year',
+    #     y="year:O"
+    #     ).properties(height=700)
     
-    #create_EFPA()
-
-    # f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
-    # df = DataFrameFuncExpend(f_datas)
-    # df['Year']= pd.to_datetime(df['Year'],format='%Y')
-    # #st.dataframe(df)
-    # conn = sqlite3.connect('data.db', check_same_thread=False)
-    # #create_EFPA()
-    # #df.to_sql(name='Users', con=conn)
-    # #   EFPA_table
-    # df.to_sql('EFPA_table',con=conn,if_exists='append')
-    # conn.close()
-    #c = conn.cursor()
-    # df.to_sql(name='Users', con=conn)
-    # conn.close()
-
-    # conn.execute('SELECT plot_id FROM plots WHERE plot_type="Control"')
-    # cur = conn.cursor()
-
-    # The result of a "cursor.execute" can be iterated over by row
-    # df_read = pd.read_sql('SELECT * FROM Users', conn)
-    # #c.fetchall()
-    # st.dataframe(df_read)
-    # Be sure to close the connection
-    #c.close()
-    # if st.checkbox("Viusalize data "):
-    #     # Build an empty graph
-    #     lines = alt.Chart(df_read).mark_bar(size=25).encode(
-    #       x=alt.X('Year',axis=alt.Axis(title='date')),
-    #       y=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
-    #       ).properties(
-    #           width=600,
-    #           height=300
-    #       )
-    #     def plot_animation(df_read):
-    #         lines = alt.Chart(df_read).mark_bar(size=25).encode(
-    #         x=alt.X('Year', axis=alt.Axis(title='date')),
-    #         y=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
-    #         ).properties(
-    #             width=600, 
-    #             height=300
-    #         )
-    #         return lines
-
-    #     N = df_read.shape[0] # number of elements in the dataframe
-    #     burst = 6       # number of elements (months) to add to the plot
-    #     size = burst    # size of the current dataset
-
-    #     line_plot = st.altair_chart(lines)
-    #     start_btn = st.button('Start')
-
-    #     if start_btn:
-    #         for i in range(1,N):
-    #             step_df = df_read.iloc[0:size]       
-    #             lines = plot_animation(step_df)
-    #             line_plot = line_plot.altair_chart(lines)
-    #             size = i + burst
-    #             if size >= N:
-    #                 size = N - 1  
-    #             time.sleep(0.2)
-
-
-    # chartline1 = alt.Chart(df).mark_bar(size=22,color='blue').encode(
-
-    #     # x=df['Year'],
-    #     # y=df['Nationality'],
-    #     x=alt.X('Year', axis=alt.Axis(title='date')),
-    #     y=alt.Y('Expend_by_player',axis=alt.Axis(title='Expend by player')),
-    #     # color='Expend_by_player',
-    #     # size='Expend_by_player'
-    #     ).properties(
-
-    #         width=800, 
-    #         height=600
-    #     )
-
-    # chartline2 = alt.Chart(df).mark_bar(size=12,color='red').encode(
-
-    #     # x=df['Year'],
-    #     # y=df['Nationality'],
-    #     x=alt.X('Year', axis=alt.Axis(title='date')),
-    #     y=alt.Y('Expend_INFLACION',axis=alt.Axis(title='Expend_INFLACION')),
-    #     # color='Expend_INFLACION',
-    #     # size='Expend_INFLACION'
-    #     ).properties(
-
-    #         width=800, 
-    #         height=600
-    #     )
-    # st.altair_chart(chartline1 + chartline2)
+    
 

@@ -332,6 +332,7 @@ def CDWS_MENI(DFrame):
     task = st.selectbox("Chose a option of proces data by YEAR",["Club statistic !","State statistic !","Competition statistic !","Season statistic !"],key='key_options')
 
     if task == "Club statistic !":
+        flag_option = "Club"
         flag = 1
         cont_CLUB = 0
         
@@ -355,6 +356,7 @@ def CDWS_MENI(DFrame):
 
         
     elif task == "State statistic !":
+        flag_option = "State"
         flag = 2
         cont_State = 0
         
@@ -378,6 +380,7 @@ def CDWS_MENI(DFrame):
             cnt +=1
 
     elif task == "Competition statistic !":
+        flag_option = "Competition"
         flag = 3
         cont_COMPETITION = 0
         
@@ -400,6 +403,7 @@ def CDWS_MENI(DFrame):
             cnt +=1
 
     elif task == "Season statistic !":
+        flag_option = "Season"
         flag = 4
         cont_Seson = 0
         
@@ -603,4 +607,4 @@ def CDWS_MENI(DFrame):
     df_new.columns = ["Order_of_Expend","Club","State","Competition","Expenditures",
                     "Arrivals","Income","Departures","Balance","Season",
                     "Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
-    return df_new,remm
+    return df_new,remm,flag_option

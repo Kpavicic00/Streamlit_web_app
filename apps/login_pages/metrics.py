@@ -1,17 +1,13 @@
 import streamlit as st
-from apps.login_pages.metrics_apps import EFPA,EFPA_BATCH,IFPD,IFPD_BATCH,BFPD,BFPD_BATCH,DFLS,DFLS_BATCH
+from apps.login_pages import clubs,leauges
 def app():
+    options = "Chose option"
     st.title('Metrics for  LEAGUES')
-    st.write('Welcome to app1')
+    st.write('Welcome to LEauges options')
     PAGES = {
-        "Processed Data by average league EXPEND for player ARRIVALS": EFPA,
-        "BATCH Data by average league EXPEND for player ARRIVALS": EFPA_BATCH,
-        "Processed Data by average league INCOME for player DEPARTURES":IFPD,
-        "BATCH Data by average league INCOME for player DEPARTURES":IFPD_BATCH,
-        "Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
-        "BATCH Data by average league BALANCE for player DEPARTURES":BFPD_BATCH,
-        "Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
-        "BATCH Data by average LEAGUE by AVG SESONS statistic":DFLS_BATCH    
+        "Processed Data by LEAUGES": leauges,
+        "Processed Data by CLUBS": clubs
+
         }
     st.title('Meni')
     selection = st.selectbox("Go to", list(PAGES.keys()))

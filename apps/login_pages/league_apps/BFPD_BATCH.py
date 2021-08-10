@@ -17,7 +17,6 @@ def app():
     i = (username[0])
     res = str(''.join(map(str, i)))
     return_user_idd = return_user_id(res)
-    st.write("")
     i = (return_user_idd[0])
     temp_save = int(''.join(map(str, i)))
     delite_temp_user(res)
@@ -47,12 +46,8 @@ def app():
                 if flag2 == []:
                     insert_BFPD_LEAGUE_flag_option(flag_option,id)
                 elif flag2 != []:
-                    st.write(flag2,"flag2")
                     i = (flag2[0])
                     result = str(''.join(map(str, i)))
-          
-                    st.write("flag_option :::: ",flag_option,"result :::: ",result)
-                    rem_columns = ["Name_of_Legue","user_id"]
                     if flag_option == result:
                         insert_BFPD_LEAGUE_flag_option(flag_option,id)
                         df = to_append
@@ -83,7 +78,6 @@ def app():
                     if int(temp_save) > 0:
                         df = pd.read_sql('SELECT * FROM BFPD_BATCH_temp', conn)
                         df_save = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION","user_id"]]
-                        st.write("save")
                         st.dataframe(df_save)
                         df_save.to_sql('BFPD_BATCH_table',con=conn,if_exists='append')
                         delite_BFPD_BATCH_temp(temp_save)
