@@ -81,6 +81,7 @@ def app():
                         st.dataframe(df_save)
                         df_save.to_sql('EFPA_BATCH_table',con=conn,if_exists='append')
                         delite_EFPA_BATCH_temp(temp_save)
+                        delite_IFPA_LEAGUE_flag_option(temp_save)
                         st.success("Data successfuly saved !")
                 else:
                     st.warning("Please first proces jour data")

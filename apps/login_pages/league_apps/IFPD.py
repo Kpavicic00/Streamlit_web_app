@@ -18,7 +18,7 @@ def app():
     res = str(''.join(map(str, i)))
 
     delite_temp_user(res)
-    col1,col2 = st.beta_columns(2)
+    col1,col2 = st.columns(2)
     with col1:
                             
         st.info(" For restart data you must delete data and start over !!!")
@@ -103,57 +103,157 @@ def app():
                 flag = return_id_IFPD_table(te)
                 if flag != []:
                     if int(te) > 0:
+                        ##      1. Graph 
                         df = pd.read_sql_query('SELECT * FROM IFPD_table WHERE user_id = "{}"'.format(te),conn)
+                        df.columns.name = None
+                        #st.dataframe(df)
                         df_new = df[["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]]
                         df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-                        chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
+
+                        st.markdown(html_IFPD_vizaulazacija1,unsafe_allow_html=True)
+
+                        chartline1 = alt.Chart(df_new).mark_line(size=5,color='#297F87').encode(
                              x=alt.X('Year', axis=alt.Axis(title='date')),
-                             y=alt.Y('Income_by_player',axis=alt.Axis(title='Income_by_player')),
+                             y=alt.Y('sum(Income_by_player)',axis=alt.Axis( title='Inflation rate'), stack=None),
                              ).properties(
-                                 width=800, 
-                                 height=600
-                             )
-                        chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
-                            # 
+                                 width=700, 
+                                 height=500
+                             ).interactive()
+                        
+                        chartline2 = alt.Chart(df_new).mark_line(size=5,color='#DF2E2E').encode(
                              x=alt.X('Year', axis=alt.Axis(title='date')),
-                             y=alt.Y('Income_INFLACION',axis=alt.Axis(title='Income_INFLACION')),
+                             y=alt.Y('sum(Income_INFLACION)', axis=alt.Axis( title='Inflation rate'),stack=None)
                              ).properties(
-                                 width=800, 
-                                 height=600
-                             )
-                        # 
-                        st.altair_chart(chartline1 + chartline2)                                
-                        lines = alt.Chart(df_new).mark_bar(size=25).encode(
-                          x=alt.X('Year',axis=alt.Axis(title='date')),
-                          y=alt.Y('Income_by_player',axis=alt.Axis(title='value'))
-                          ).properties(
-                              width=600,
-                              height=300
-                          )
-                        def plot_animation(df_new):
-                            lines = alt.Chart(df_new).mark_bar(size=25).encode(
-                            x=alt.X('Year', axis=alt.Axis(title='date')),
-                            y=alt.Y('Income_by_player',axis=alt.Axis(title='value')),
-                            ).properties(
-                                width=600, 
-                                height=300
+                                 width=700, 
+                                 height=500
+                             ).interactive()
+                        st.altair_chart(chartline1 + chartline2)
+                        ##########################################################################################################
+
+
+                        ##      2. Graph 
+                        st.markdown(html_IFPD_vizaulazacija2,unsafe_allow_html=True)
+                        st.subheader("Income by year ")
+                        
+                        df2 = pd.read_sql_query('SELECT * FROM IFPD_table WHERE user_id = "{}"'.format(te),conn)
+                        df_new2 = df2[["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]]
+                        df_new2["date2"] = pd.to_datetime(df["Year"]).dt.strftime("%Y-%m-%d")
+                        data_start = df_new2["Year"].min()
+                        data_end = df_new2["Year"].max()
+                        def timestamp(t):
+                          return pd.to_datetime(t).timestamp() * 1000
+                        slider2 = alt.binding_range(name='cutoff:', min=timestamp(data_start), max=timestamp(data_end))
+                        selector2 = alt.selection_single(name="SelectorName",fields=['cutoff'],bind=slider2,init={"cutoff": timestamp("2011-01-01")})
+                        abssa = alt.Chart(df_new2).mark_bar(size=17).encode(
+                            x='Year',
+                            y=alt.Y('Income_by_player',title =None),
+                            color=alt.condition(
+                                'toDate(datum.Year) < SelectorName.cutoff[0]',
+                              alt.value('red'), alt.value('blue')
                             )
-                            return lines
-                        N = df_new.shape[0] # number of elements in the dataframe
-                        burst = 6       # number of elements (months) to add to the plot
-                        size = burst    # size of the current dataset
-                        line_plot = st.altair_chart(lines)
-                        line_plot
-                        start_btn = st.button('Start')
-                        if start_btn:
-                            for i in range(1,N):
-                                step_df = df_new.iloc[0:size]       
-                                lines = plot_animation(step_df)
-                                line_plot = line_plot.altair_chart(lines)
-                                size = i + burst
-                                if size >= N:
-                                    size = N - 1  
-                                time.sleep(0.1)
+                        ).properties(
+                            width=700,
+                        ).add_selection(
+                            selector2
+                        )
+                        st.altair_chart(abssa)
+                        st.subheader("Income by year + INFLACION")
+                        df2 = pd.read_sql_query('SELECT * FROM IFPD_table WHERE user_id = "{}"'.format(te),conn)
+                        df_new2 = df2[["Name_of_Legue","Year","Nationality","Income_by_player","Income_INFLACION"]]
+                        df_new2["date2"] = pd.to_datetime(df2["Year"]).dt.strftime("%Y-%m-%d")
+                        data_start = df_new2["Year"].min()
+                        data_end = df_new2["Year"].max()
+                        #st.write("data_start",data_start,"data_end",data_end)
+                        def timestamp(t):
+                          return pd.to_datetime(t).timestamp() * 1000
+                        slider2 = alt.binding_range(name='cutoff:', min=timestamp(data_start), max=timestamp(data_end))
+                        selector2 = alt.selection_single(name="SelectorName",fields=['cutoff'],bind=slider2,init={"cutoff": timestamp("2011-01-01")})
+                        abssa = alt.Chart(df_new2).mark_bar(size=17).encode(
+                            x='Year',
+                            y=alt.Y('Income_INFLACION',title =None),
+                            color=alt.condition(
+                                'toDate(datum.Year) < SelectorName.cutoff[0]',
+                              alt.value('red'), alt.value('blue')
+                            )
+                        ).properties(
+                            width=700,
+                        ).add_selection(
+                            selector2
+                        )
+                        st.write(abssa)
+                        ##########################################################################################################
+
+                        ##      3. Graph 
+                        st.markdown(html_IFPD_vizaulazacija3,unsafe_allow_html=True)
+                        while True:
+                            lines = alt.Chart(df_new).mark_bar(size=25).encode(
+                              x=alt.X('Year',axis=alt.Axis(title='date')),
+                              y=alt.Y('Income_by_player',axis=alt.Axis(title='value'))
+                              ).properties(
+                                  width=600,
+                                  height=300
+                              )
+                            def plot_animation(df_new):
+                                lines = alt.Chart(df_new).mark_bar(size=25).encode(
+                                x=alt.X('Year', axis=alt.Axis(title='date')),
+                                y=alt.Y('Income_by_player',axis=alt.Axis(title='value')),
+                                ).properties(
+                                    width=600, 
+                                    height=300
+                                )
+                                return lines
+                            N = df_new.shape[0] # number of elements in the dataframe
+                            burst = 6       # number of elements (months) to add to the plot
+                            size = burst    # size of the current dataset
+                            line_plot = st.altair_chart(lines)
+                            line_plot
+                            start_btn = st.button('Start')
+                            if start_btn:
+                                for i in range(1,N):
+                                    step_df = df_new.iloc[0:size]       
+                                    lines = plot_animation(step_df)
+                                    line_plot = line_plot.altair_chart(lines)
+                                    size = i + burst
+                                    if size >= N:
+                                        size = N - 1  
+                                    time.sleep(0.1)
+                            break
+                        ##########################################################################################################
+                        ##      4. Graph 
+                        st.markdown(html_IFPD_vizaulazacija4,unsafe_allow_html=True)  
+                        while True:
+                            lines = alt.Chart(df_new).mark_bar(size=25).encode(
+                              x=alt.X('Year',axis=alt.Axis(title='date')),
+                              y=alt.Y('Income_INFLACION',axis=alt.Axis(title='value'))
+                              ).properties(
+                                  width=600,
+                                  height=300
+                              )
+                            def plot_animation(df_new):
+                                lines = alt.Chart(df_new).mark_bar(size=25).encode(
+                                x=alt.X('Year', axis=alt.Axis(title='date')),
+                                y=alt.Y('Income_INFLACION',axis=alt.Axis(title='value')),
+                                ).properties(
+                                    width=600, 
+                                    height=300
+                                )
+                                return lines
+                            N = df_new.shape[0] # number of elements in the dataframe
+                            burst = 6       # number of elements (months) to add to the plot
+                            size = burst    # size of the current dataset
+                            line_plot = st.altair_chart(lines)
+                            line_plot
+                            start_btn = st.button('Start')
+                            if start_btn:
+                                for i in range(1,N):
+                                    step_df = df_new.iloc[0:size]       
+                                    lines = plot_animation(step_df)
+                                    line_plot = line_plot.altair_chart(lines)
+                                    size = i + burst
+                                    if size >= N:
+                                        size = N - 1  
+                                    time.sleep(0.1)
+                            break                     
                         st.success("Viusalise  Datas")
                 else:
                     st.warning("file not found")
