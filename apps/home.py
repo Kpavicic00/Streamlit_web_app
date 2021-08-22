@@ -74,518 +74,404 @@ def app():
     #st.subheader("This application is a free open source platform and provides a different amount of tools for process and visualise different datasets with football finance datas like transfers and income fees for clubs and leauges ")
     
     ############################################################
-    ## 1. EFPA.py -> Viusalisation TEST !!! Dashboard development 
+    ## 1. EFPA_BATCH.py -> Viusalisation TEST !!! Dashboard development 
     ##  --------------------------------------------------------
 
-    ##      1. Graph 
-    df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(1),conn)
-    df.columns.name = None
-    #st.dataframe(df)
-    df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-    df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-    #df_new.rename_axis('x')
-    #df_new.rename_axis('x').rename_axis('attributes', axis='columns')
-    df_new.index.name = 'x'
     
-    st.dataframe(df_new)
-    st.write(df_new.index.names)
-
-    #st.subheader("Visualization of player consumption with and without inflation rate")
-    # <p>This application is a free open source platform and provides a different amount of tools for process and visualise different datasets with football finance datas like transfers and income fees for clubs and leauges</p>
-    color_a='#3E00FF'
-    a = 'Expend by player'
-
-    st.markdown(html_vizaulazacija1,unsafe_allow_html=True)
-    
-    chartline1 = alt.Chart(df_new).mark_line(size=5,color='#297F87').encode(
-         x=alt.X('Year', axis=alt.Axis(title='date')),
-         y=alt.Y('sum(Expend_by_player)',axis=alt.Axis( title='Inflation rate'), stack=None),
-         ).properties(
-             width=800, 
-             height=500
-         ).interactive()
-    chartline2 = alt.Chart(df_new).mark_line(size=5,color='#DF2E2E').encode(
-         x=alt.X('Year', axis=alt.Axis(title='date')),
-         y=alt.Y('sum(Expend_INFLACION)', axis=alt.Axis( title='Inflation rate'),stack=None)
-         ).properties(
-             width=800, 
-             height=500
-         ).interactive()
-    st.altair_chart(chartline1 + chartline2)
-    ##########################################################################################################
-
-    
-    ##      2. Graph 
-    st.markdown(html_vizaulazacija2,unsafe_allow_html=True)
-    st.subheader("Expend by year    :::::::::::::::::::::::::::::::::::::::::::::     Expend by year + INFLACION")
-
-    col1,col2 = st.columns(2)
-    with col1:
-        df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(1),conn)
-        df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-
-        df_new["date2"] = pd.to_datetime(df["Year"]).dt.strftime("%Y-%m-%d")
-        data_start = df_new["Year"].min()
-        data_end = df_new["Year"].max()
-        def timestamp(t):
-          return pd.to_datetime(t).timestamp() * 1000
-
-
-        slider2 = alt.binding_range(name='cutoff:', min=timestamp(data_start), max=timestamp(data_end))
-        selector2 = alt.selection_single(name="SelectorName",fields=['cutoff'],bind=slider2,init={"cutoff": timestamp("2011-01-01")})
-
-        abssa = alt.Chart(df_new).mark_bar(size=17).encode(
-            x='Year',
-            y=alt.Y('Expend_by_player',title =None),
-            color=alt.condition(
-                'toDate(datum.Year) < SelectorName.cutoff[0]',
-              alt.value('red'), alt.value('blue')
-            )
-        ).properties(
-            width=380,
-        ).add_selection(
-            selector2
-        )
-        st.write(abssa)
-    with col2:
-        df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(1),conn)
-        df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-
-        df_new["date2"] = pd.to_datetime(df["Year"]).dt.strftime("%Y-%m-%d")
-        data_start = df_new["Year"].min()
-        data_end = df_new["Year"].max()
-        #st.write("data_start",data_start,"data_end",data_end)
-
-        def timestamp(t):
-          return pd.to_datetime(t).timestamp() * 1000
-
-
-        slider2 = alt.binding_range(name='cutoff:', min=timestamp(data_start), max=timestamp(data_end))
-        selector2 = alt.selection_single(name="SelectorName",fields=['cutoff'],bind=slider2,init={"cutoff": timestamp("2011-01-01")})
-
-        abssa = alt.Chart(df_new).mark_bar(size=17).encode(
-            x='Year',
-            y=alt.Y('Expend_INFLACION',title =None),
-            color=alt.condition(
-                'toDate(datum.Year) < SelectorName.cutoff[0]',
-              alt.value('red'), alt.value('blue')
-            )
-        ).properties(
-            width=380,
-        ).add_selection(
-            selector2
-        )
-        st.write(abssa)
-    ##########################################################################################################
-
-
-    
-    ##  --------------------------------------------------------
-    
-    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(1),conn)
     # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-    #df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-    #df["Year"] = pd.to_datetime(df["Year"]).dt.strftime("%Y-%m-%d")
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+    
 
-    datelist = pd.date_range(datetime.today(), periods=100).tolist()
-
-    rand = np.random.RandomState(42)
-
-    df = pd.DataFrame({
-        'xval': datelist,
-        'yval': rand.randn(100).cumsum(),
-    })
-    st.dataframe(df)
-
-    def timestamp(t):
-      return pd.to_datetime(t).timestamp() * 1000
-
-    slider = alt.binding_range(name='cutoff:', min=timestamp(min(datelist)), max=timestamp(max(datelist)))
-    selector = alt.selection_single(name="SelectorName", fields=['cutoff'],
-                                bind=slider,init={"cutoff": timestamp("2020-05-05")})
-
-    a = alt.Chart(df).mark_point().encode(
-        x='xval',
-        y='yval',
-        color=alt.condition(
-            'toDate(datum.xval) < SelectorName.cutoff[0]',
-            alt.value('red'), alt.value('blue')
-        )
-    ).add_selection(
-        selector
-    )
-    st.write(a)
+    #       Expend by player 
 
     #   ---------------------------------------------------------------
+    ##      1. Graph 
     df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
     df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-    #df_new["Year"] = pd.to_datetime(df_new["Year"]).dt.strftime("%Y-%m-%d")
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
 
-    st.dataframe(df_new)
-    #df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-    #df_new["Year"] = pd.to_datetime(df_new["Year"]).dt.strftime("%Y-%m-%d")
+    st.header("Graph 1.")
 
-    # df_new["date2"] = pd.to_datetime(df["Year"]).dt.strftime("%Y-%m-%d")
-    # data_start = df_new["Year"].min()
-    # data_end = df_new["Year"].max()
-    # st.write("data_start",data_start,"data_end",data_end)
+    error_bars = alt.Chart(df_new).mark_errorbar(extent='ci').encode(
+      x=alt.X('Expend_by_player', scale=alt.Scale(zero=False)),
+      y=alt.Y('Year'),
+      color =  'Year'
+    ).properties(
+        width=600,
+        height=500
+    ).interactive()
 
-    # def timestamp(t):
-    #   return pd.to_datetime(t).timestamp() * 1000
+    points = alt.Chart(df_new).mark_point(filled=True, color='black',size=90).encode(
+      x=alt.X('Expend_by_player', aggregate='mean'),
+      y=alt.Y('Year'),
+      color =  'Year'
+    ).properties(
+        width=600,
+        height=500
+    ).interactive()
 
+    error_bars + points
+    st.write(error_bars + points)
+
+
+    st.header("Graph 2.")
+    test = alt.Chart(df_new).mark_circle(size=60).encode(
+        #x='Expend_by_player',
+        y=alt.Y('Expend_by_player', axis=alt.Axis(title=None)),
+        x=alt.X('Nationality', axis=alt.Axis(labels=False,title=None)),
+        color='Year'
+    ).properties(
+        width=600,
+        height=500
+    ).interactive()
+    st.write(test)
+
+    st.header("Graph 3.")
+    brush = alt.selection(type='interval')
+    points = alt.Chart(df_new).mark_point().encode(
+        x=alt.X('Name_of_Legue', axis=alt.Axis(labels=False,title=None)),
+        y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+        color=alt.condition(brush, 'Year', alt.value('lightgray'))
+    ).add_selection(
+        brush
+    ).properties(
+        width=500,
+        height=400)
     
-    # slider2 = alt.binding_range(name='cutoff:', min=timestamp(data_start), max=timestamp(data_end))
-    # selector2 = alt.selection_single(name="SelectorName",fields=['cutoff'],bind=slider2,init={"cutoff": timestamp("2011-01-01")})
+    bars = alt.Chart(df_new).mark_bar().encode(
+        y=alt.Y('Year', axis=alt.Axis( title='Year')),
+        color='Expend_by_player',
+        x=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    ).transform_filter(
+        brush
+    ).properties(
+        width=500,
+        height=100)
+    
+    st.write(points & bars)
 
-    # abssa = alt.Chart(df_new).mark_bar(size=17).encode(
-    #     x='Year',
-    #     y='sum(Expend_by_player)',
-    #     color=alt.condition(
-    #         'toDate(datum.Year) < SelectorName.cutoff[0]',
-    #       alt.value('red'), alt.value('blue')
+        # # Create a pie chart
+    # plt.pie(
+    #     # using data total)arrests
+    #     df_new['Year'],
+    #     # with the labels being officer names
+    #     labels=df_new['Expend_by_player'],
+    #     # with no shadows
+    #     shadow=False,
+    #     # with colors
+    #     # colors=colors,
+    #     # with one slide exploded out
+    #     # explode=(0, 0, 0, 0, 0.15),
+    #     # with the start angle at 90%
+    #     startangle=90,
+    #     # with the percent listed as a fraction
+    #     autopct='%1.1f%%',
     #     )
-    # ).add_selection(
-    #     selector2
-    # )
-    # st.write(abssa)
 
+    # # View the plot drop above
+    # plt.axis('equal')
 
-    #   ---------------------------------------------------------------
-
-
-
-    # new_week= pd.to_datetime(df_new['Year'],format='%Y')
-    # yearss = ('2000','2018')
-
-
-    # lines = alt.Chart(df_new).mark_bar().encode(
-    #      y=alt.X('Year',axis=alt.Axis(title='date')),
-    #      x=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
-    #      color = 'Year'
-    # ).properties(
-    #     width=600,
-    #     height=300
-    # )
-    # def plot_animation(df_new):
-    #     i = 2000
-    #     lines = alt.Chart(df_new ).mark_bar().encode(
-    #         y=alt.X('Year', axis=alt.Axis(title='date')),
-    #         x=alt.Y('Expend_by_player',axis=alt.Axis(title='value')),
-    #         color = 'Year'
-    #     ).properties(
-
-    #         width=600,
-    #         height=300
-    #     ) 
-    #     return lines
-    # N = df_new.shape[0] # number of elements in the dataframe
-    # burst = 10      # number of elements (months) to add to the plot
-    # size = burst     # size of the current dataset
-    # line_plot = st.altair_chart(lines)
-    # start_btn = st.button('Start')
-    # if start_btn:
-    #    for i in range(1,N):
-    #       step_df = df_new.iloc[0:size]
-    #       lines = plot_animation(step_df)
-    #       line_plot = line_plot.altair_chart(lines)
-    #       size = i + burst
-    #       if size >= N: 
-    #          size = N - 1
-    #       time.sleep(0.1)
-
-    # week = (2000,2018)
-
-    # bars = alt.Chart(df_new).mark_bar().encode(
-    #     x=alt.X('Expend_by_player'),
-    #     y=alt.Y('Name_of_Legue')
-    #     ).properties(
-    #              width=650, 
-    #              height=400
-    #     )
-    # bar_plot = st.altair_chart(bars)
-    # def plot_bar_animated_altair(df_new,week):
-    #     bars = alt.Chart(df_new).encode(
-    #         x=X('Expend_by_player'), 
-    #         y=Y('Name_of_Legue'),
-
-    #         color=alt.Color('Name_of_Legue')).properties(
-    #             width=650, 
-    #             height=400
-    #             )
-        
-
-    # if st.button('Cue Chart'):
-    #     for week in df_new:
-    #         # weekly_df -> this dataframe (sample shown above) contains
-    #         # data for a particular week which is passed to
-    #         # the 'plot_bar_animated_altair' function.
-    #         # week -> Current week title, eg:-  2016-06-10
-
-    #         bars = plot_bar_animated_altair(df_new,week)
-    #         time.sleep(0.01) 
-
-    #         bar_plot.altair_chart(bars)
-    
-    
-    # This global variable 'bar_plot' will be used later on
-    
-
-
-
-        # a = interact(demo, i = widgets.Play(
-        #     value=0,
-        #     min=0,
-        #     max=10,
-        #     step=1,
-        #     description=st.button("Press play"),
-        #     disabled=False))
-
-
-
-        # fig = plt.figure(figsize=(7,5))
-        # axes = fig.add_subplot(1,1,1)
-        # axes.set_ylim(0, 310)
-        # plt.style.use("seaborn")
-
-        # x, y1, y2, y3, y4 = [], [], [], [], []
-
-
-        # lst1=[i if i<175 else 175 for i in range(300)]
-        # lst2=[i if i<255 else 255 for i in range(300)]
-        # lst3=[i if i<30 else 30 for i in range(300)]
-    # lst4=[i if i<65 else 65 for i in range(300)
-
-    # #palette = list(reversed(sns.color_palette("afmhot", 4).as_hex()))
-
-    # def animate(i):
-    #     y1=lst1[i]
-    #     y2=lst2[i]
-    #     y3=lst3[i]
-    #     y4=lst4[i]
-
-    #     plt.bar(range(4), sorted([y1,y2, y3, y4]))
-    #     tick_lst=["one", "two", "three", "fourfive"]
-    #     plt.xticks(np.arange(4), tick_lst)
-
-    # plt.title("Some Title, Year: {} ".format(5000), color=("blue"))
-    # ani = FuncAnimation(fig, animate, interval=10)
+    # # View the plot
+    # plt.tight_layout()
     # st.pyplot()
 
+    # plt.pie(df_new['Year'],labels=df_new['Year'],autopct='%1.1f%%')
+    # plt.title('My Tasks')
+    # plt.axis('equal')
+    # st.pyplot()
 
-
-    # st.title("Dashboard")
-    # df_new.set_index(['Year'])
-    # load_da = bcr.load_dataset(df_new)
-    # a = load_da.head(5)
-    # st.dataframe(a2)
-
-
-    # # a =  alt.Chart(df_new).mark_area(
-    # #     line={'color':'darkgreen'},
-    # #     color=alt.Gradient(
-    # #         gradient='linear',
-    # #         stops=[alt.GradientStop(color='white', offset=0),
-    # #                alt.GradientStop(color='darkgreen', offset=1)],
-    # #         x1=1,
-    # #         x2=1,
-    # #         y1=1,
-    # #         y2=0
-    # #     )
-    # # ).encode(
-    # #     alt.X('Year'),
-    # #     alt.Y('sum(Expend_by_player)')
-    # # ).properties(
-    # #          width=800, 
-    # #          height=600
-    # #      )
-    # # st.altair_chart(a)
-
-    # # b =  alt.Chart(df_new).mark_line().encode(
-    # #     alt.X('Year'),
-    # #     alt.Y('sum(Expend_INFLACION)')
-    # # ).properties(
-    # #          width=800, 
-    # #          height=600
-    # #      )
-    # # st.altair_chart(a+b)
-
-    # # new graph animation 
-    # # -------------------------------------------------------
-    # # chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
-
-    # #     x=alt.X('Year', axis=alt.Axis(title='date')),
-    # #     y=alt.Y('sum(Expend_by_player)',axis=alt.Axis(title='Expend by player')),
-    # #     ).properties(
-    # #          width=800, 
-    # #          height=600
-    # #     )
-
-    # st.write("new graph animation ")
-    # lines =  alt.Chart(df_new).mark_area(
-    #     line={'color':'darkgreen'},
-    #     color=alt.Gradient(
-    #         gradient='linear',
-    #         stops=[alt.GradientStop(color='white', offset=0),
-    #                alt.GradientStop(color='darkgreen', offset=1)],
-    #         x1=1,
-    #         x2=1,
-    #         y1=1,
-    #         y2=0
-    #     )
-    # ).encode(
-    #     alt.X('Year'),
-    #     alt.Y('sum(Expend_by_player)')
+    # brush = alt.selection(type='interval')
+    # points = alt.Chart(df_new).mark_point().encode(
+    #     x=alt.X('Nationality', axis=alt.Axis(title='Nationality')),
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    #     color=alt.condition(brush, 'Year', alt.value('lightgray'))
+    # ).add_selection(
+    #     brush
     # ).properties(
-    #          width=700, 
-    #          height=500
-    #      )
-
+    #     width=500,
+    #     height=400
+    # )
     
-                                  
-    # def plot_animation(df_new):
-    #     lines =  alt.Chart(df_new).mark_area(
+    # bars = alt.Chart(df_new).mark_bar().encode(
+    #     y=alt.Y('Nationality', axis=alt.Axis( title='Nationality')),
 
-    #         line={'color':'darkgreen'},
-    #         color=alt.Gradient(
-    #             gradient='linear',
-    #             stops=[alt.GradientStop(color='white', offset=0),
-    #                    alt.GradientStop(color='darkgreen', offset=1)],
-    #             x1=1,
-    #             x2=1,
-    #             y1=1,
-    #             y2=0
-    #         )
-    #     ).encode(
-    #         alt.X('Year'),
-    #         alt.Y('sum(Expend_by_player)')
-    #     ).properties(
-    #              width=700, 
-    #              height=500
-    #         )
-    #     return lines
-    # N = df_new.shape[0] # number of elements in the dataframe
-    # burst = 2       # number of elements (months) to add to the plot
-    # size = burst    # size of the current dataset
-    # line_plot = st.altair_chart(lines)
-    # line_plot
-    # start_btn = st.button('Start',key='123')
-    # if start_btn:
-    #     for i in range(1,N):
-    #         step_df = df_new.iloc[0:size]       
-    #         lines = plot_animation(step_df)
-    #         line_plot = line_plot.altair_chart(lines)
-    #         size = i + burst
-    #         if size >= N:
-    #             size = N - 1  
-    #         time.sleep(0.1)
-    # # -------------------------------------------------------
-
-    # # a = alt.Chart(df_new).mark_line(size=12,color='blue').encode(
-
-    # #     #y='sum(Expend_by_player)',
-    # #     y=alt.Y("sum(Expend_by_player)"),
-    # #     x='Year',
-    # #     color='sum(Expend_by_player)'
-    # #     # row='Nationality'
-    # # ).properties(
-    # #          width=800, 
-    # #          height=600
-    # #      )
-    # # b = alt.Chart(df_new).mark_line(size=12,color='red').encode(
-
-    # #     #y='sum(Expend_by_player)',
-    # #     y=alt.Y("sum(Expend_INFLACION)"),
-    # #     x='Year',
-    # #     color='sum(Expend_INFLACION)'
-    # #     # row='Nationality'
-    # # ).properties(
-    # #          width=800, 
-    # #          height=600
-    # #      )
-    # # st.altair_chart(a+b)
+    #     color='Year',
+    #     x=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    # ).transform_filter(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=100
+    # )
+    
+    # st.write(points & bars)
+    #   ---------------------------------------------------------------
+    ##      1. Graph 
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+    # brush = alt.selection(type='interval')
+    # points = alt.Chart(df_new).mark_point().encode(
+    #     x=alt.X('Name_of_Legue', axis=alt.Axis(labels=False)),
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    #     color=alt.condition(brush, 'Year', alt.value('lightgray'))
+    # ).add_selection(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=400)
+    
+    # bars = alt.Chart(df_new).mark_bar().encode(
+    #     y=alt.Y('Year', axis=alt.Axis( title='Year')),
+    #     color='Expend_by_player',
+    #     x=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    # ).transform_filter(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=100)
+    
+    # st.write(points & bars)
 
 
 
+    # ##      2. Graph 
+    # # Create a selection that chooses the nearest point & selects based on x-value
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+    # nearest = alt.selection(type='single', nearest=True, on='mouseover',
+    #                         fields=['Expend_by_player'], empty='none')
 
-    # # plt.rcdefaults()
-    # # fig, ax = plt.subplots()
+    # # The basic line
+    # line = alt.Chart(df_new).mark_line(interpolate='basis').encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    #     color='Name_of_Legue'
+    # ).properties(
+    #     width=700,
+    #     height=600
+    # )
 
-    # # # Example data
-    # # people = ('Spain', 'France', 'Germany', 'England', 'Italy')
-    # # y_pos = df_new["Expend_by_player"]
-    # # performance = df_new['Year']
-    # # #3 + 10 * np.random.rand(len(people))
-    # # #error = np.random.rand(len(people))
+    # # Transparent selectors across the chart. This is what tells us
+    # # the x-value of the cursor
+    # selectors = alt.Chart(df_new).mark_point().encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    #     opacity=alt.value(0),
+    # ).add_selection(
+    #     nearest
+    # ).properties(
+    #     width=700,
+    #     height=600
+    # )
 
-    # # ax.barh(y_pos, performance, align='center')
-    # # ax.set_yticks(y_pos)
-    # # ax.set_yticklabels(people)
-    # # ax.invert_yaxis()  # labels read top-to-bottom
-    # # ax.set_xlabel('Performance')
-    # # ax.set_title('How fast do you want to go today?')
-    # # st.pyplot()
+    # # Draw points on the line, and highlight based on selection
+    # points = line.mark_point().encode(
+    #     opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+    # )
+
+    # # Draw text labels near the points, and highlight based on selection
+    # text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    #     text=alt.condition(nearest, 'Expend_by_player', alt.value(' '))
+    # )
+
+    # # Draw a rule at the location of the selection
+    # rules = alt.Chart(df_new).mark_rule(color='gray').encode(
+    #     x='Year',
+    # ).transform_filter(
+    #     nearest
+    # ).properties(
+    #     width=700,
+    #     height=600
+    # )
+
+    # # Put the five layers into a chart and bind the data
+    # a = alt.layer(
+    #     line, selectors, points, rules, text
+    # ).properties(
+    #     width=700, height=300
+    # )
+    # st.write(a)
+
+    # #   ---------------------------------------------------------------
+    
+    # ##      3. Graph 
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+
+    # highlight = alt.selection(type='single', on='mouseover',
+    #                       fields=['Name_of_Legue'], nearest=True)
+
+    # base = alt.Chart(df_new).encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    #     color='Name_of_Legue'
+    # )
+
+    # points = base.mark_circle().encode(
+    #     opacity=alt.value(0)
+    # ).add_selection(
+    #     highlight
+    # ).properties(
+    #     width=700, height=400
+    # )
+
+    # lines = base.mark_line().encode(
+    #     size=alt.condition(~highlight, alt.value(1), alt.value(3))
+    # )
+
+    # points + lines
+    # st.write(points + lines)
+
+    #   ---------------------------------------------------------------
+
+
+
+    # st.header("Expend by player + INFATION ")
+    # #       Expend by player + INFATION 
+
+    # #   ---------------------------------------------------------------
+    # ##      1. Graph 
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+
+    # brush = alt.selection(type='interval')
+    # points = alt.Chart(df_new).mark_point().encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_INFLACION', axis=alt.Axis( title='Expend by player + INFLACION')),
+    #     color=alt.condition(brush, 'Name_of_Legue', alt.value('lightgray'))
+    # ).add_selection(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=400
+    # )
+    
+    # bars = alt.Chart(df_new).mark_bar().encode(
+    #     y=alt.Y('Name_of_Legue', axis=alt.Axis( title='Name of Legue')),
+
+    #     color='Name_of_Legue',
+    #     x=alt.Y('Expend_INFLACION', axis=alt.Axis( title='Expend by player + INFLACION')),
+    # ).transform_filter(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=100
+    # )
+    
+    # st.write(points & bars)
+    # st.success("Viusalise  Datas")
+    # #   ---------------------------------------------------------------
 
 
 
 
+    # ##      2. Graph 
+    # # Create a selection that chooses the nearest point & selects based on x-value
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+    # nearest = alt.selection(type='single', nearest=True, on='mouseover',
+    #                         fields=['Expend_INFLACION'], empty='none')
 
-    # # plt.plot('Year', 'Expend_by_player', data=df_new)
-    # #st.pyplot()
-    df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
-    df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-    df_new["Year"] = pd.to_datetime(df_new["Year"]).dt.strftime("%Y-%m-%d")
+    # # The basic line
+    # line = alt.Chart(df_new).mark_line(interpolate='basis').encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_INFLACION', axis=alt.Axis( title='Expend by player + INFLACION')),
+    #     color='Name_of_Legue'
+    # ).properties(
+    #     width=700,
+    #     height=600
+    # )
 
-    # chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
-    #      x=alt.X('Year', axis=alt.Axis(title='date')),
-    #      y=alt.Y('sum(Expend_by_player)',axis=alt.Axis(title='Expend by player')),
-    #      ).properties(
-    #          width=800, 
-    #          height=600
-    #      )
-    # chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
-    #     # 
-    #      x=alt.X('Year', axis=alt.Axis(title='date')),
-    #      y=alt.Y('sum(Expend_INFLACION)',axis=alt.Axis(title='Expend_INFLACION')),
-    #      ).properties(
-    #          width=800, 
-    #          height=600
-    #      )
-    # # 
-    # st.altair_chart(chartline1 + chartline2)                                
-    lines = alt.Chart(df_new).mark_bar(size=25).encode(
-      y=alt.X('Name_of_Legue',axis=alt.Axis(title='date')),
-      x=alt.Y('Expend_by_player',axis=alt.Axis(title='value'))
-      ).properties(
-          width=600,
-          height=300
-      )
-    def plot_animation(df_new):
-        lines = alt.Chart(df_new).mark_bar(size=25).encode(
-        y=alt.X('Name_of_Legue', axis=alt.Axis(title='date')),
-        x=alt.Y('sum(Expend_by_player)',axis=alt.Axis(title='value')),
-        #color = "Year",
-        #column = "Nationality" ,
-        ).properties(
-            width=600, 
-            height=300
-        )
-        return lines
-    N = df_new.shape[0] # number of elements in the dataframe
-    burst = 1       # number of elements (months) to add to the plot
-    size = burst    # size of the current dataset
-    line_plot = st.altair_chart(lines)
-    line_plot
-    start_btn = st.button('Start')
-    if start_btn:
-        for i in range(1,N):
-            step_df = df_new.iloc[0:size]       
-            lines = plot_animation(step_df)
-            line_plot = line_plot.altair_chart(lines)
-            size = i + burst
-            if size >= N:
-                size = N - 1  
-            time.sleep(0.8)
+    # # Transparent selectors across the chart. This is what tells us
+    # # the x-value of the cursor
+    # selectors = alt.Chart(df_new).mark_point().encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_INFLACION', axis=alt.Axis( title='Expend by player + INFLACION')),
+    #     opacity=alt.value(0),
+    # ).add_selection(
+    #     nearest
+    # ).properties(
+    #     width=700,
+    #     height=600
+    # )
 
+    # # Draw points on the line, and highlight based on selection
+    # points = line.mark_point().encode(
+    #     opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+    # )
+
+    # # Draw text labels near the points, and highlight based on selection
+    # text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    #     text=alt.condition(nearest, 'Expend_INFLACION', alt.value(' '))
+    # )
+
+    # # Draw a rule at the location of the selection
+    # rules = alt.Chart(df_new).mark_rule(color='gray').encode(
+    #     x='Year',
+    # ).transform_filter(
+    #     nearest
+    # ).properties(
+    #     width=700,
+    #     height=600
+    # )
+
+    # # Put the five layers into a chart and bind the data
+    # a = alt.layer(
+    #     line, selectors, points, rules, text
+    # ).properties(
+    #     width=700, height=300
+    # )
+    # st.write(a)
+
+    # #   ---------------------------------------------------------------
+    
+    # ##      3. Graph 
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+
+    # highlight = alt.selection(type='single', on='mouseover',
+    #                       fields=['Name_of_Legue'], nearest=True)
+
+    # base = alt.Chart(df_new).encode(
+    #     x=alt.X('Year', axis=alt.Axis(title='Date')),
+    #     y=alt.Y('Expend_INFLACION', axis=alt.Axis( title='Expend by player + INFLACION')),
+    #     color='Name_of_Legue'
+    # )
+
+    # points = base.mark_circle().encode(
+    #     opacity=alt.value(0)
+    # ).add_selection(
+    #     highlight
+    # ).properties(
+    #     width=700, height=400
+    # )
+
+    # lines = base.mark_line().encode(
+    #     size=alt.condition(~highlight, alt.value(1), alt.value(3))
+    # )
+
+    # points + lines
+    # st.write(points + lines)
+
+    #   ---------------------------------------------------------------
 
 
 

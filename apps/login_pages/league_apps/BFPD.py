@@ -107,7 +107,7 @@ def app():
                         df = pd.read_sql_query('SELECT * FROM BFPD_table WHERE user_id = "{}"'.format(te),conn)
                         df.columns.name = None
                         #st.dataframe(df)
-                        df_new = df[['Name_of_Legue', 'Year','Nationality', 'Balance_by_player', 'Balance_INFLACION ']]
+                        df_new = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                         df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
 
                         st.markdown(html_BFPD_vizaulazacija1,unsafe_allow_html=True)
@@ -136,7 +136,7 @@ def app():
                         st.subheader("Income by year ")
                         
                         df2 = pd.read_sql_query('SELECT * FROM BFPD_table WHERE user_id = "{}"'.format(te),conn)
-                        df_new2 = df2[['Name_of_Legue', 'Year','Nationality', 'Balance_by_player', 'Balance_INFLACION ']]
+                        df_new2 = df2[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                         df_new2["date2"] = pd.to_datetime(df["Year"]).dt.strftime("%Y-%m-%d")
                         data_start = df_new2["Year"].min()
                         data_end = df_new2["Year"].max()
@@ -159,7 +159,7 @@ def app():
                         st.altair_chart(abssa)
                         st.subheader("Income by year + INFLACION")
                         df2 = pd.read_sql_query('SELECT * FROM BFPD_table WHERE user_id = "{}"'.format(te),conn)
-                        df_new2 = df2[['Name_of_Legue', 'Year','Nationality', 'Balance_by_player', 'Balance_INFLACION ']]
+                        df_new2 = df2[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                         df_new2["date2"] = pd.to_datetime(df2["Year"]).dt.strftime("%Y-%m-%d")
                         data_start = df_new2["Year"].min()
                         data_end = df_new2["Year"].max()
@@ -243,7 +243,7 @@ def app():
                             size = burst    # size of the current dataset
                             line_plot = st.altair_chart(lines)
                             line_plot
-                            start_btn = st.button('Start')
+                            start_btn = st.button('Start',key='3wsadsa')
                             if start_btn:
                                 for i in range(1,N):
                                     step_df = df_new.iloc[0:size]       
@@ -261,4 +261,5 @@ def app():
                     st.info("Please procces data again !!")
 
         except Exception as e:
+          st.write(e)
           st.write("Error, please resart Visaulsation checkboc !! ") 

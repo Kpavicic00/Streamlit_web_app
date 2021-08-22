@@ -222,11 +222,17 @@ def delite_BFPD_BATCH_temp(id):
 
 # LEAGUE,Year_of_Season temp,NAtionality table
 def create_BFPD_LEAGUE_flag_option():
-    c.execute('CREATE TABLE IF NOT EXISTS BFPD_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS BFPD_LEAGUE_flag_option(flag_option TEXT,flag_record TEXT,user_id TEXT)')
 
-def insert_BFPD_LEAGUE_flag_option(flag_option,user_id):
-    c.execute('INSERT INTO BFPD_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+def insert_BFPD_LEAGUE_flag_option(flag_option,flag_record,user_id):
+    c.execute('INSERT INTO BFPD_LEAGUE_flag_option(flag_option,flag_record,user_id) VALUES(?,?,?) ',(flag_option,flag_record,user_id))
     conn.commit()
+
+def view_all_BFPD__LEAGUE_flag_record(id):
+	c.execute('SELECT DISTINCT flag_record FROM BFPD_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+	data = c.fetchall()
+	return data
+
 #   return_id_BFPD__LEAGUE_table
 def return_id_BFPD__LEAGUE_flag_option(id):
     c.execute('SELECT DISTINCT flag_option FROM BFPD_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
@@ -268,11 +274,17 @@ def delite_IFPA_BATCH_temp(id):
 
 # LEAGUE,Year_of_Season temp,NAtionality table
 def create_IFPA_LEAGUE_flag_option():
-    c.execute('CREATE TABLE IF NOT EXISTS IFPA_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS IFPA_LEAGUE_flag_option(flag_option TEXT,flag_record TEXT,user_id TEXT)')
 
-def insert_IFPA_LEAGUE_flag_option(flag_option,user_id):
-    c.execute('INSERT INTO IFPA_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+def insert_IFPA_LEAGUE_flag_option(flag_option,flag_record,user_id):
+    c.execute('INSERT INTO IFPA_LEAGUE_flag_option(flag_option,flag_record,user_id) VALUES(?,?,?) ',(flag_option,flag_record,user_id))
     conn.commit()
+
+def view_all_IFPA__LEAGUE_flag_record(id):
+	c.execute('SELECT DISTINCT flag_record FROM IFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+	data = c.fetchall()
+	return data
+
 #   return_id_IFPA__LEAGUE_table
 def return_id_IFPA__LEAGUE_flag_option(id):
     c.execute('SELECT DISTINCT flag_option FROM IFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
@@ -313,16 +325,20 @@ def delite_EFPA_BATCH_temp(id):
 
 # LEAGUE,Year_of_Season temp,NAtionality table
 def create_EFPA_LEAGUE_flag_option():
-    c.execute('CREATE TABLE IF NOT EXISTS EFPA_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS EFPA_LEAGUE_flag_option(flag_option TEXT,flag_record TEXT,user_id TEXT)')
 
-def insert_EFPA_LEAGUE_flag_option(flag_option,user_id):
-    c.execute('INSERT INTO EFPA_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+def insert_EFPA_LEAGUE_flag_option(flag_option,flag_record,user_id):
+    c.execute('INSERT INTO EFPA_LEAGUE_flag_option(flag_option,flag_record,user_id) VALUES(?,?,?) ',(flag_option,flag_record,user_id))
     conn.commit()
 #   return_id_EFPA__LEAGUE_table
 def return_id_EFPA__LEAGUE_flag_option(id):
     c.execute('SELECT DISTINCT flag_option FROM EFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
     data = c.fetchall()
     return data
+def view_all_EFPA__LEAGUE_flag_record(id):
+	c.execute('SELECT DISTINCT flag_record FROM EFPA_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+	data = c.fetchall()
+	return data
 
 def delite_EFPA_LEAGUE_flag_option(id):
     c.execute('DELETE  FROM EFPA_LEAGUE_flag_option WHERE user_id=?',(id,))

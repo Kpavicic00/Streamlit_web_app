@@ -4,13 +4,13 @@ def app():
     st.title('Metrics for  LEAGUES')
     st.write('Welcome to app1')
     PAGES = {
-        "Processed Data by average league EXPEND for player ARRIVALS": EFPA,
-        "BATCH Data by average league EXPEND for player ARRIVALS": EFPA_BATCH,
-        "Processed Data by average league INCOME for player DEPARTURES":IFPD,
-        "BATCH Data by average league INCOME for player DEPARTURES":IFPD_BATCH,
-        "Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
-        "BATCH Data by average league BALANCE for player DEPARTURES":BFPD_BATCH,
-        "Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
+        "DO -> Processed Data by average league EXPEND for player ARRIVALS": EFPA,
+        "DO -> BATCH Data by average league EXPEND for player ARRIVALS": EFPA_BATCH,
+        "DO -> Processed Data by average league INCOME for player DEPARTURES":IFPD,
+        "DO -> BATCH Data by average league INCOME for player DEPARTURES":IFPD_BATCH,
+        "DO -> Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
+        "DO -> BATCH Data by average league BALANCE for player DEPARTURES":BFPD_BATCH,
+        "IN Progress -> Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
         "BATCH Data by average LEAGUE by AVG SESONS statistic":DFLS_BATCH,
         "Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
         "BATCH Data by average -> LEAGUE by YEAR statistic":DCWS_BATCH    

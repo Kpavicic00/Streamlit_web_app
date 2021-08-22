@@ -243,7 +243,7 @@ def app():
                             size = burst    # size of the current dataset
                             line_plot = st.altair_chart(lines)
                             line_plot
-                            start_btn = st.button('Start')
+                            start_btn = st.button('Start',key='234sa')
                             if start_btn:
                                 for i in range(1,N):
                                     step_df = df_new.iloc[0:size]       

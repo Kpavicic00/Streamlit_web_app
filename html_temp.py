@@ -328,3 +328,54 @@ html_BFPD_vizaulazacija4 = """
 </body>
     """
 #-------------------------------
+
+html_EFPA_BATCH_Expend_leagues = """
+<style>
+.myDiv {
+   width:700px; text-align: center;background-color:#C9EAB8;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;font-family: "Times New Roman", Times, serif;
+
+}
+#cont{color:black;}
+#expen{color:#297F87;}
+#inflation{color:#DF2E2E}
+</style>
+</head>
+<body>
+
+
+<div class="myDiv">
+  <h3 id="cont">Visualization of profit by the player by league</h3>
+  <ul>
+        <li> Expend by the player</li>
+  </ul>
+  <p>Data for transfers of football clubs and players are taken from :<a href="https://www.transfermarkt.com/">transfermarkt.com</a></p>
+</div>
+
+</body>
+"""
+
+html_EFPA_BATCH_Expend_INFLATION_leagues = """
+<style>
+.myDiv {
+   width:700px; text-align: center;background-color:#C9EAB8;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;font-family: "Times New Roman", Times, serif;
+
+}
+#cont{color:black;}
+#expen{color:#297F87;}
+#inflation{color:#DF2E2E}
+</style>
+</head>
+<body>
+
+
+<div class="myDiv">
+  <h3 id="cont">Visualization of profit by the player by league with inflation the rate</h3>
+  <ul>
+        <li> Expend by the player + Inflation rate through time</li>
+  </ul>
+  <p>Data for transfers of football clubs and players are taken from :<a href="https://www.transfermarkt.com/">transfermarkt.com</a></p>
+</div>
+
+</body>
+"""
+

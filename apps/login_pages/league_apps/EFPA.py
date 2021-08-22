@@ -219,7 +219,7 @@ def app():
                             break
                         ##########################################################################################################
                         ##      4. Graph 
-                        st.markdown(html_vizaulazacija4,unsafe_allow_html=True)
+                        st.markdown(html_vizaulazacija3,unsafe_allow_html=True)
                         while True:
                             lines = alt.Chart(df_new).mark_bar(size=25).encode(
                               x=alt.X('Year',axis=alt.Axis(title='date')),
@@ -242,7 +242,7 @@ def app():
                             size = burst    # size of the current dataset
                             line_plot = st.altair_chart(lines)
                             line_plot
-                            start_btn = st.button('Start')
+                            start_btn = st.button('Start',key='2021')
                             if start_btn:
                                 for i in range(1,N):
                                     step_df = df_new.iloc[0:size]       
@@ -258,4 +258,4 @@ def app():
                     st.warning("file not found")
                     st.info("Please procces data again !!")
         except Exception as e:
-          st.write("Error, please resart Visaulsation checkboc !! ") 
+            st.write("Error, please resart Visaulsation checkboc !! ") 
