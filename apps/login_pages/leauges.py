@@ -10,9 +10,9 @@ def app():
         "DO -> BATCH Data by average league INCOME for player DEPARTURES":IFPD_BATCH,
         "DO -> Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
         "DO -> BATCH Data by average league BALANCE for player DEPARTURES":BFPD_BATCH,
-        "IN Progress -> Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
+        "DO -> Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
         "BATCH Data by average LEAGUE by AVG SESONS statistic":DFLS_BATCH,
-        "Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
+        "IN Progress -> Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
         "BATCH Data by average -> LEAGUE by YEAR statistic":DCWS_BATCH    
         }
     st.title('Meni')

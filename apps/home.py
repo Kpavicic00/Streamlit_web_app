@@ -63,7 +63,7 @@ import altair as alt
 from vega_datasets import data
 from datetime import datetime
 from html_temp import *
-
+from plotnine import ggplot, aes, geom_line
 
 
 def app():
@@ -87,70 +87,121 @@ def app():
 
     #   ---------------------------------------------------------------
     ##      1. Graph 
-    df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
-    df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
-    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
 
-    st.header("Graph 1.")
+    df = pd.read_sql_query('SELECT * FROM DFLS_table WHERE user_id = "{}"'.format(1),conn)
+    df_new = df[["Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
 
-    error_bars = alt.Chart(df_new).mark_errorbar(extent='ci').encode(
-      x=alt.X('Expend_by_player', scale=alt.Scale(zero=False)),
-      y=alt.Y('Year'),
-      color =  'Year'
-    ).properties(
-        width=600,
-        height=500
-    ).interactive()
+    st.dataframe(df_new)
+    a = alt.Chart(df_new).mark_circle().encode(
+    x='Name_of_Legue',
+    y='Expend',
+    size='number_of_Season'
+    )
+    st.write(a)
+    b = alt.Chart(df_new).mark_circle().encode(
+    alt.X('Name_of_Legue'),
+    alt.Y('Expend',),
+    size='number_of_Season'
+    )
+    st.write(b)
+    ############################################
 
-    points = alt.Chart(df_new).mark_point(filled=True, color='black',size=90).encode(
-      x=alt.X('Expend_by_player', aggregate='mean'),
-      y=alt.Y('Year'),
-      color =  'Year'
-    ).properties(
-        width=600,
-        height=500
-    ).interactive()
-
-    error_bars + points
-    st.write(error_bars + points)
-
-
-    st.header("Graph 2.")
-    test = alt.Chart(df_new).mark_circle(size=60).encode(
-        #x='Expend_by_player',
-        y=alt.Y('Expend_by_player', axis=alt.Axis(title=None)),
-        x=alt.X('Nationality', axis=alt.Axis(labels=False,title=None)),
-        color='Year'
-    ).properties(
-        width=600,
-        height=500
-    ).interactive()
-    st.write(test)
-
-    st.header("Graph 3.")
-    brush = alt.selection(type='interval')
-    points = alt.Chart(df_new).mark_point().encode(
-        x=alt.X('Name_of_Legue', axis=alt.Axis(labels=False,title=None)),
-        y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
-        color=alt.condition(brush, 'Year', alt.value('lightgray'))
+    df = df_new.nlargest(10, 'Expend')
+    selection = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
+    
+    c = alt.Chart(df).mark_circle().encode(
+    alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=True)),
+    alt.Y('Expend', scale=alt.Scale(zero=True, padding=5)),
+    alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
+    opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+    size='number_of_Season'
     ).add_selection(
-        brush
+        selection
     ).properties(
-        width=500,
-        height=400)
+        width = 700,
+        height = 600
+    ).interactive()
+    st.write(c)
+
+
+
     
-    bars = alt.Chart(df_new).mark_bar().encode(
-        y=alt.Y('Year', axis=alt.Axis( title='Year')),
-        color='Expend_by_player',
-        x=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
-    ).transform_filter(
-        brush
-    ).properties(
-        width=500,
-        height=100)
+
+
+
+
+
+
+
+
+
+
+
+
+    # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+    # # df = pd.read_sql_query('SELECT * FROM EFPA_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+    # # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
+
+    # st.header("Graph 1.")
+
+    # error_bars = alt.Chart(df_new).mark_errorbar(extent='ci').encode(
+    #   x=alt.X('Expend_by_player', scale=alt.Scale(zero=False)),
+    #   y=alt.Y('Year'),
+    #   color =  'Year'
+    # ).properties(
+    #     width=600,
+    #     height=500
+    # ).interactive()
+
+    # points = alt.Chart(df_new).mark_point(filled=True, color='black',size=90).encode(
+    #   x=alt.X('Expend_by_player', aggregate='mean'),
+    #   y=alt.Y('Year'),
+    #   color =  'Year'
+    # ).properties(
+    #     width=600,
+    #     height=500
+    # ).interactive()
+
+    # error_bars + points
+    # st.write(error_bars + points)
+
+
+    # st.header("Graph 2.")
+    # test = alt.Chart(df_new).mark_circle(size=60).encode(
+    #     #x='Expend_by_player',
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis(title=None)),
+    #     x=alt.X('Nationality', axis=alt.Axis(labels=False,title=None)),
+    #     color='Year'
+    # ).properties(
+    #     width=600,
+    #     height=500
+    # ).interactive()
+    # st.write(test)
+
+    # st.header("Graph 3.")
+    # brush = alt.selection(type='interval')
+    # points = alt.Chart(df_new).mark_point().encode(
+    #     x=alt.X('Name_of_Legue', axis=alt.Axis(labels=False,title=None)),
+    #     y=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    #     color=alt.condition(brush, 'Year', alt.value('lightgray'))
+    # ).add_selection(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=400)
     
-    st.write(points & bars)
+    # bars = alt.Chart(df_new).mark_bar().encode(
+    #     y=alt.Y('Year', axis=alt.Axis( title='Year')),
+    #     color='Expend_by_player',
+    #     x=alt.Y('Expend_by_player', axis=alt.Axis( title='Expend by player')),
+    # ).transform_filter(
+    #     brush
+    # ).properties(
+    #     width=500,
+    #     height=100)
+    
+    # st.write(points & bars)
 
         # # Create a pie chart
     # plt.pie(

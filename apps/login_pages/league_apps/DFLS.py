@@ -18,7 +18,7 @@ def app():
     res = str(''.join(map(str, i)))
 
     delite_temp_user(res)
-    col1,col2 = st.beta_columns(2)
+    col1,col2 = st.columns(2)
     with col1:
                             
         st.info(" For restart data you must delete data and start over !!!")
@@ -91,73 +91,88 @@ def app():
             else:
                 st.warning("file not found")
                 st.info("Please procces data again !")
-        # try:
-        #     if st.checkbox("Viusalise data !!!"):
-        #         # Viusalise datas
-        #         #st.write("Viusalise datas",res)
-        #         return_user_idd = return_user_id(res)
-        #         st.write("")
-        #         i = (return_user_idd[0])
-        #         res = int(''.join(map(str, i)))
-        #         te = int(res)
-        #         flag = return_id_DFLS_table(te)
-        #         if flag != []:
-        #             if int(te) > 0:
-        #                 df = pd.read_sql_query('SELECT * FROM DFLS_table WHERE user_id = "{}"'.format(te),conn)
-        #                 df_new = df[["Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
-        #                 df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-        #                 chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
-        #                      x=alt.X('Year', axis=alt.Axis(title='date')),
-        #                      y=alt.Y('Income_by_player',axis=alt.Axis(title='Income_by_player')),
-        #                      ).properties(
-        #                          width=800, 
-        #                          height=600
-        #                      )
-        #                 chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
-        #                     # 
-        #                      x=alt.X('Year', axis=alt.Axis(title='date')),
-        #                      y=alt.Y('Income_INFLACION',axis=alt.Axis(title='Income_INFLACION')),
-        #                      ).properties(
-        #                          width=800, 
-        #                          height=600
-        #                      )
-        #                 # 
-        #                 st.altair_chart(chartline1 + chartline2)                                
-        #                 lines = alt.Chart(df_new).mark_bar(size=25).encode(
-        #                   x=alt.X('Year',axis=alt.Axis(title='date')),
-        #                   y=alt.Y('Income_by_player',axis=alt.Axis(title='value'))
-        #                   ).properties(
-        #                       width=600,
-        #                       height=300
-        #                   )
-        #                 def plot_animation(df_new):
-        #                     lines = alt.Chart(df_new).mark_bar(size=25).encode(
-        #                     x=alt.X('Year', axis=alt.Axis(title='date')),
-        #                     y=alt.Y('Income_by_player',axis=alt.Axis(title='value')),
-        #                     ).properties(
-        #                         width=600, 
-        #                         height=300
-        #                     )
-        #                     return lines
-        #                 N = df_new.shape[0] # number of elements in the dataframe
-        #                 burst = 6       # number of elements (months) to add to the plot
-        #                 size = burst    # size of the current dataset
-        #                 line_plot = st.altair_chart(lines)
-        #                 line_plot
-        #                 start_btn = st.button('Start')
-        #                 if start_btn:
-        #                     for i in range(1,N):
-        #                         step_df = df_new.iloc[0:size]       
-        #                         lines = plot_animation(step_df)
-        #                         line_plot = line_plot.altair_chart(lines)
-        #                         size = i + burst
-        #                         if size >= N:
-        #                             size = N - 1  
-        #                         time.sleep(0.1)
-        #                 st.success("Viusalise  Datas")
-        #         else:
-        #             st.warning("file not found")
-        #             st.info("Please procces data again !!")
+        try:
+            if st.checkbox("Viusalise data !!!"):
+                # Viusalise datas
+                #st.write("Viusalise datas",res)
+                return_user_idd = return_user_id(res)
+                st.write("")
+                i = (return_user_idd[0])
+                res = int(''.join(map(str, i)))
+                te = int(res)
+                flag = return_id_DFLS_table(te)
+                if flag != []:
+                    if int(te) > 0:
+                        st.info("Interactive visaulsation !!")
+                        df = pd.read_sql_query('SELECT * FROM DFLS_table WHERE user_id = "{}"'.format(te),conn)
+                        df_new = df[["Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
+                        df = df_new.nlargest(10, 'Expend')
 
-        # except Exception as e:
-        #   st.write("Error, please resart Visaulsation checkboc !! ") 
+                        # Graph 1.
+                        st.success("Expend by leagues with the inflation coefficient throw number of players come to the leauge")
+                        st.info("Top 10 leauges by the Expend")
+                        selection1 = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
+
+                        c = alt.Chart(df).mark_circle().encode(
+                        alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=True)),
+                        alt.Y('Expend', scale=alt.Scale(zero=True, padding=5)),
+                        alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
+                        opacity=alt.condition(selection1, alt.value(1), alt.value(0.2)),
+                        size='number_of_Season'
+                        ).add_selection(
+                            selection1
+                        ).properties(
+                            width = 700,
+                            height = 600
+                        ).interactive()
+                        st.altair_chart(c)
+
+                        # Graph 2.
+                        st.success("Revenues by leagues with inflation rates throw the number of players who leave the league")
+                        st.info("Top 10 leauges by the Revenues")
+                        selection2 = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
+
+                        df2 = df_new.nlargest(10, 'Income')
+                        b = alt.Chart(df2).mark_circle().encode(
+                        alt.X('sum_of_Depatrues', scale=alt.Scale(zero=True)),
+                        alt.Y('Income', scale=alt.Scale(zero=True, padding=5)),
+                        alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
+                        opacity=alt.condition(selection2, alt.value(1), alt.value(0.2)),
+                        size='number_of_Season'
+                        ).add_selection(
+                            selection2
+                        ).properties(
+                            width = 700,
+                            height = 600
+                        ).interactive()
+                        st.write(b)
+
+                        # Graph 3.
+                        st.success("Profit by leagues with inflation rates throw the number of players who come in the league")
+                        st.info("Top 10 leauges by the profit")
+                        selection3 = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
+
+                        df3 = df_new.nlargest(10, 'Balance')
+                        a = alt.Chart(df3).mark_circle().encode(
+                        alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=True)),
+                        alt.Y('Balance', scale=alt.Scale(zero=True, padding=5)),
+                        alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
+                        opacity=alt.condition(selection3, alt.value(1), alt.value(0.2)),
+                        size='number_of_Season'
+                        ).add_selection(
+                            selection3
+                        ).properties(
+                            width = 700,
+                            height = 600
+                        ).interactive()
+                        st.write(a)
+                        
+                else:
+
+                    st.warning("file not found")
+                    st.info("Please procces data again !!")
+
+        except Exception as e:
+
+            st.write(e)
+            st.write("Error, please resart Visaulsation checkboc !! ") 
