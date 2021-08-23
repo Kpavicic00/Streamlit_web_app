@@ -89,25 +89,62 @@ def app():
     ##      1. Graph 
 
 
-    df = pd.read_sql_query('SELECT * FROM DFLS_BATCH_table WHERE user_id = "{}"'.format(1),conn)
-    df_new = df[["Name_of_Legue","Expend","Income","Balance","number_of_Season",
-                           "sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues",
-                          "avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
-    #df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
+    df = pd.read_sql_query('SELECT * FROM DCWS_table WHERE user_id = "{}"'.format(1),conn)
+    df_new = df[["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
+    df_new['Year_of_Season']= pd.to_datetime(df_new['Year_of_Season'],format='%Y')
     st.dataframe(df_new)
 
-    base = alt.Chart(df_new)
 
-    bar = base.mark_bar().encode(
-        x=alt.X('Expend'),
-        y='Name_of_Legue'
+    base = alt.Chart(df_new).encode(
+        alt.X('Year_of_Season', axis=alt.Axis(title=None))
+    )
+
+    area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+        alt.Y('Expend',
+              axis=alt.Axis(title='profit', titleColor='#57A44C')),
+        #alt.Y2('Income')
+    )
+
+    line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
+        alt.Y('sum_of_Arrivlas',
+              axis=alt.Axis(title='number of arrivals', titleColor='#5276A7'))
+    )
+
+    b = alt.layer(area, line).resolve_scale(
+        y = 'independent'
     ).properties(
-
         width=700,
-        height=250    
-    ).interactive()
+        height=400
+    )   
+    st.write(b)
+    
+    #################################################
+    #################################################
+    #################################################
 
-    st.write(bar)
+    source = data.seattle_weather()
+    st.dataframe(source)
+
+    base = alt.Chart(source).encode(
+        alt.X('month(date):T', axis=alt.Axis(title=None))
+    )
+
+
+    area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+        alt.Y('average(temp_max)',
+              axis=alt.Axis(title='Avg. Temperature (°C)', titleColor='#57A44C')),
+        alt.Y2('average(temp_min)')
+    )
+
+    line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
+        alt.Y('average(precipitation)',
+              axis=alt.Axis(title='Precipitation (inches)', titleColor='#5276A7'))
+    )
+
+    a = alt.layer(area, line).resolve_scale(
+        y = 'independent'
+    )
+    st.write(a)
     
     # selector = alt.selection_single(empty='all', fields=['Name_of_Legue'])
 
@@ -147,20 +184,20 @@ def app():
 
 
 
-    selection1 = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
-    c = alt.Chart(df).mark_circle().encode(
-    alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=True)),
-    alt.Y('Expend', scale=alt.Scale(zero=True, padding=5)),
-    alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
-    opacity=alt.condition(selection1, alt.value(1), alt.value(0.2)),
-    size='number_of_Season'
-    ).add_selection(
-        selection1
-    ).properties(
-        width = 700,
-        height = 600
-    ).interactive()
-    st.altair_chart(c)
+    # selection1 = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
+    # c = alt.Chart(df).mark_circle().encode(
+    # alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=True)),
+    # alt.Y('Expend', scale=alt.Scale(zero=True, padding=5)),
+    # alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
+    # opacity=alt.condition(selection1, alt.value(1), alt.value(0.2)),
+    # size='number_of_Season'
+    # ).add_selection(
+    #     selection1
+    # ).properties(
+    #     width = 700,
+    #     height = 600
+    # ).interactive()
+    # st.altair_chart(c)
 
 
     # df = pd.read_sql_query('SELECT * FROM DCWS_table WHERE user_id = "{}"'.format(1),conn)

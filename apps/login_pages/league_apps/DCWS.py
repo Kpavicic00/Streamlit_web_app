@@ -107,7 +107,7 @@ def app():
                         df = pd.read_sql_query('SELECT * FROM DCWS_table WHERE user_id = "{}"'.format(te),conn)
                         df_new = df[["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
                         df_new['Year_of_Season']= pd.to_datetime(df_new['Year_of_Season'],format='%Y')
-                        
+                        st.subheader("Expend ")
                         st.error("Expend by leagues with the inflation coefficient throw number of players come to the leauges")
                         c = alt.Chart(df_new).mark_circle().encode(
                         alt.X('Year_of_Season', scale=alt.Scale(zero=True)),
@@ -138,6 +138,33 @@ def app():
                         selected = base.transform_filter(brush).mark_area(color='goldenrod')
                         st.write(background + selected)
 
+
+                        st.error("Expend by leagues with the inflation coefficient throw number of players come to the leauges")
+                        base = alt.Chart(df_new).encode(
+                            alt.X('Year_of_Season', axis=alt.Axis(title=None))
+                        )
+
+                        area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+                            alt.Y('Expend',
+                                  axis=alt.Axis(title='profit', titleColor='#57A44C')),
+                            #alt.Y2('Income')
+                        )
+
+                        line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
+                            alt.Y('sum_of_Arrivlas',
+                                  axis=alt.Axis(title='number of players arrivals', titleColor='#5276A7'))
+                        )
+
+                        b = alt.layer(area, line).resolve_scale(
+                            y = 'independent'
+                        ).properties(
+                            width=700,
+                            height=400
+                        )   
+                        st.write(b)
+
+                        st.subheader("Revenues")
+
                         st.success("Revenues by leagues with inflation rates throw the number of players who leave the leagues")
                         b = alt.Chart(df_new).mark_circle().encode(
                         alt.X('Year_of_Season', scale=alt.Scale(zero=True)),
@@ -157,7 +184,7 @@ def app():
                             opacity=0.3
                         ).encode(
                             x='Year_of_Season',
-                            y='Expend',
+                            y='Income',
                         ).properties(
                             width = 600,
                             height = 400
@@ -169,10 +196,35 @@ def app():
                         st.write(background1 + selected1)
 
 
+                        st.success("Revenues by leagues with the inflation coefficient throw number of players come to the leauges")
+                        base = alt.Chart(df_new).encode(
+                            alt.X('Year_of_Season', axis=alt.Axis(title=None))
+                        )
+
+                        area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+                            alt.Y('Income',
+                                  axis=alt.Axis(title='profit', titleColor='#57A44C')),
+                            #alt.Y2('Income')
+                        )
+
+                        line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
+                            alt.Y('sum_of_Arrivlas',
+                                  axis=alt.Axis(title='number of players arrivals', titleColor='#5276A7'))
+                        )
+
+                        c = alt.layer(area, line).resolve_scale(
+                            y = 'independent'
+                        ).properties(
+                            width=700,
+                            height=400
+                        )   
+                        st.write(c)
+
+                        st.subheader("Profit")
                         st.warning("Profit by leagues with inflation rates throw the number of players who come in the leagues")
                         a = alt.Chart(df_new).mark_circle().encode(
                         alt.X('Year_of_Season', scale=alt.Scale(zero=True)),
-                        alt.Y('Income', scale=alt.Scale(zero=True, padding=5)),
+                        alt.Y('Balance', scale=alt.Scale(zero=True, padding=5)),
                         # alt.Color('sum_of_Arrivlas', scale=alt.Scale(scheme='category20b')),
                         # opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
                         size='sum_of_Arrivlas'
@@ -188,16 +240,40 @@ def app():
                             opacity=0.3
                         ).encode(
                             x='Year_of_Season',
-                            y='Expend',
+                            y='Balance',
                         ).properties(
                             width = 600,
                             height = 400
                         )
                     
                         brush2 = alt.selection_interval(encodings=['x'],empty='all')
-                        background2 = base2.add_selection(brush1)
-                        selected2 = base2.transform_filter(brush1).mark_area(color='goldenrod')
-                        st.write(background2+ selected2)                      
+                        background2 = base2.add_selection(brush2)
+                        selected2 = base2.transform_filter(brush2).mark_area(color='goldenrod')
+                        st.write(background2+ selected2) 
+
+                        st.warning("Profit by leagues with the inflation coefficient throw number of players come to the leauges")
+                        base = alt.Chart(df_new).encode(
+                            alt.X('Year_of_Season', axis=alt.Axis(title=None))
+                        )
+
+                        area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+                            alt.Y('Balance',
+                                  axis=alt.Axis(title='profit', titleColor='#57A44C')),
+                            #alt.Y2('Income')
+                        )
+
+                        line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
+                            alt.Y('sum_of_Arrivlas',
+                                  axis=alt.Axis(title='number of players arrivals', titleColor='#5276A7'))
+                        )
+
+                        a = alt.layer(area, line).resolve_scale(
+                            y = 'independent'
+                        ).properties(
+                            width=700,
+                            height=400
+                        )   
+                        st.write(a)                     
 
                         st.success("Viusalise  Datas")
                 else:
