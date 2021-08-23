@@ -177,16 +177,21 @@ def delite_DFLS_BATCH_temp(id):
 
 # LEAGUE,Year_of_Season temp,NAtionality table
 def create_DFLS_LEAGUE_flag_option():
-    c.execute('CREATE TABLE IF NOT EXISTS DFLS_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS DFLS_LEAGUE_flag_option(flag_option TEXT,flag_record TEXT,user_id TEXT)')
 
-def insert_DFLS_LEAGUE_flag_option(flag_option,user_id):
-    c.execute('INSERT INTO DFLS_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+def insert_DFLS_LEAGUE_flag_option(flag_option,flag_record,user_id):
+    c.execute('INSERT INTO DFLS_LEAGUE_flag_option(flag_option,flag_record,user_id) VALUES(?,?,?) ',(flag_option,flag_record,user_id))
     conn.commit()
 #   return_id_DFLS__LEAGUE_table
 def return_id_DFLS__LEAGUE_flag_option(id):
     c.execute('SELECT DISTINCT flag_option FROM DFLS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
     data = c.fetchall()
     return data
+
+def view_all_DFLS__LEAGUE_flag_record(id):
+	c.execute('SELECT DISTINCT flag_record FROM DFLS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+	data = c.fetchall()
+	return data
 
 def delite_DFLS_LEAGUE_flag_option(id):
     c.execute('DELETE  FROM DFLS_LEAGUE_flag_option WHERE user_id=?',(id,))

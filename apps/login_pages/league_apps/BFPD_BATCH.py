@@ -95,7 +95,7 @@ def app():
                 if flag2 != []:
                     if int(temp_save) > 0:
                         df = pd.read_sql('SELECT * FROM BFPD_BATCH_temp', conn)
-                        df_save = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION","user_id"]]
+                        df_save = df[["Name_of_Legue","Year","Nationality","Balance_by_player","Balance_INFLACION"]]
                         st.dataframe(df_save)
                         df_save.to_sql('BFPD_BATCH_table',con=conn,if_exists='append')
                         delite_BFPD_BATCH_temp(temp_save)

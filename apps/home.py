@@ -88,40 +88,122 @@ def app():
     #   ---------------------------------------------------------------
     ##      1. Graph 
 
-    df = pd.read_sql_query('SELECT * FROM DFLS_table WHERE user_id = "{}"'.format(1),conn)
-    df_new = df[["Name_of_Legue","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
 
+    df = pd.read_sql_query('SELECT * FROM DFLS_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    df_new = df[["Name_of_Legue","Expend","Income","Balance","number_of_Season",
+                           "sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues",
+                          "avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
+    #df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
     st.dataframe(df_new)
-    a = alt.Chart(df_new).mark_circle().encode(
-    x='Name_of_Legue',
-    y='Expend',
-    size='number_of_Season'
-    )
-    st.write(a)
-    b = alt.Chart(df_new).mark_circle().encode(
-    alt.X('Name_of_Legue'),
-    alt.Y('Expend',),
-    size='number_of_Season'
-    )
-    st.write(b)
-    ############################################
 
-    df = df_new.nlargest(10, 'Expend')
-    selection = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
+    base = alt.Chart(df_new)
+
+    bar = base.mark_bar().encode(
+        x=alt.X('Expend'),
+        y='Name_of_Legue'
+    ).properties(
+
+        width=700,
+        height=250    
+    ).interactive()
+
+    st.write(bar)
     
+    # selector = alt.selection_single(empty='all', fields=['Name_of_Legue'])
+
+    # #color_scale = alt.Scale(domain=['M', 'F'],range=['#1FC3AA', '#8624F5'])
+
+    # base = alt.Chart(df_new).properties(
+    #     width=250,
+    #     height=250
+    # ).add_selection(selector)
+
+    # points = base.mark_point(filled=True, size=200).encode(
+    #     x=alt.X('Expend',scale=alt.Scale(domain=[0,84])),
+    #     y=alt.Y('sum_of_Arrivlas',scale=alt.Scale(domain=[0,250])),
+    #     color=alt.condition(selector,'Name_of_Legue',alt.value('lightgray')))
+
+    # hists = base.mark_bar(opacity=0.5, thickness=100).encode(
+    #     x=alt.X('avg_Expend_Season',bin=alt.Bin(step=5),scale=alt.Scale(domain=[0,100])),
+    #     y=alt.Y('avg_Expend_of_Arrivlas',stack=None,scale=alt.Scale(domain=[0,350])),
+    #     color=alt.Color('Name_of_Legue')
+    # ).transform_filter(
+    #     selector
+    # )
+
+    # st.write(points | hists) # zakljucak ne radi testirati ensot drugo sto ne zahtjeva histogram !!!
+
+    # test = alt.Chart(df_new).mark_circle().encode(
+    #     alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=False)),
+    #     y='Expend',
+    #     color='Name_of_Legue',
+    #     facet=alt.Facet('Name_of_Legue', columns=1 ),
+    # ).properties(
+    #     width=200,
+    #     height=100,
+    # )
+    # st.write(test)
+
+
+
+
+    selection1 = alt.selection_multi(fields=['Name_of_Legue'], bind='legend')
     c = alt.Chart(df).mark_circle().encode(
     alt.X('sum_of_Arrivlas', scale=alt.Scale(zero=True)),
     alt.Y('Expend', scale=alt.Scale(zero=True, padding=5)),
     alt.Color('Name_of_Legue', scale=alt.Scale(scheme='category20b')),
-    opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+    opacity=alt.condition(selection1, alt.value(1), alt.value(0.2)),
     size='number_of_Season'
     ).add_selection(
-        selection
+        selection1
     ).properties(
         width = 700,
         height = 600
     ).interactive()
-    st.write(c)
+    st.altair_chart(c)
+
+
+    # df = pd.read_sql_query('SELECT * FROM DCWS_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new = df[["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
+    # df_new['Year_of_Season']= pd.to_datetime(df_new['Year_of_Season'],format='%Y')
+    # st.dataframe(df_new)
+    # base = alt.Chart(df_new).mark_area(
+    #     color='goldenrod',
+    #     opacity=0.3
+    # ).encode(
+    #     x='Year_of_Season',
+    #     y='Expend',
+    # ).properties(
+    #     width = 600,
+    #     height = 400
+    # )
+
+    # brush = alt.selection_interval(encodings=['x'],empty='all')
+    # background = base.add_selection(brush)
+    # selected = base.transform_filter(brush).mark_area(color='goldenrod')
+    # st.write(background + selected)
+    # b = alt.Chart(df_new).mark_circle().encode(
+    # alt.X('Year_of_Season'),
+    # alt.Y('Expend',),
+    # size='sum_of_Arrivlas'
+    # )
+    # st.write(b)
+    ############################################
+
+    #df = df_new.nlargest('Expend')
+    #selection = alt.selection_multi(fields=['sum_of_Arrivlas'], bind='legend')
+    
+    # c = alt.Chart(df_new).mark_circle().encode(
+    # alt.X('Year_of_Season', scale=alt.Scale(zero=True)),
+    # alt.Y('Expend', scale=alt.Scale(zero=True, padding=5)),
+    # # alt.Color('sum_of_Arrivlas', scale=alt.Scale(scheme='category20b')),
+    # # opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+    # size='sum_of_Arrivlas'
+    # ).properties(
+    #     width = 600,
+    #     height = 600
+    # ).interactive()
+    # st.write(c)
 
 
 

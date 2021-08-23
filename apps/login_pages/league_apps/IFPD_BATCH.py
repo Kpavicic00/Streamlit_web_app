@@ -94,7 +94,7 @@ def app():
                 if flag2 != []:
                     if int(temp_save) > 0:
                         df = pd.read_sql('SELECT * FROM IFPA_BATCH_temp', conn)
-                        df_save = df[["Name_of_Legue", "Year","Nationality", "Income_by_player", "Income_INFLACION","user_id"]]
+                        df_save = df[["Name_of_Legue", "Year","Nationality", "Income_by_player", "Income_INFLACION"]]
                         st.dataframe(df_save)
                         df_save.to_sql('IFPA_BATCH_table',con=conn,if_exists='append')
                         delite_IFPA_BATCH_temp(temp_save)
