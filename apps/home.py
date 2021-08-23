@@ -88,7 +88,7 @@ def app():
     #   ---------------------------------------------------------------
     ##      1. Graph 
 
-
+    # nastaviti za sutra  !!!
     df = pd.read_sql_query('SELECT * FROM DCWS_table WHERE user_id = "{}"'.format(1),conn)
     df_new = df[["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
     df_new['Year_of_Season']= pd.to_datetime(df_new['Year_of_Season'],format='%Y')
@@ -99,10 +99,11 @@ def app():
         alt.X('Year_of_Season', axis=alt.Axis(title=None))
     )
 
-    area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+    area = base.mark_circle(strokeWidth=100, color='#57A44C').encode(
         alt.Y('Expend',
               axis=alt.Axis(title='profit', titleColor='#57A44C')),
         #alt.Y2('Income')
+        #size=alt.Size('count', scale=alt.Scale(range=[100, 500]))
     )
 
     line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
@@ -115,7 +116,9 @@ def app():
     ).properties(
         width=700,
         height=400
-    )   
+    ).configure_point(
+        size=500
+    ).interactive()   
     st.write(b)
     
     #################################################

@@ -160,7 +160,7 @@ def app():
                         ).properties(
                             width=700,
                             height=400
-                        )   
+                        ).interactive()   
                         st.write(b)
 
                         st.subheader("Revenues")
@@ -217,7 +217,7 @@ def app():
                         ).properties(
                             width=700,
                             height=400
-                        )   
+                        ).interactive()   
                         st.write(c)
 
                         st.subheader("Profit")
@@ -272,7 +272,7 @@ def app():
                         ).properties(
                             width=700,
                             height=400
-                        )   
+                        ).interactive()   
                         st.write(a)                     
 
                         st.success("Viusalise  Datas")
