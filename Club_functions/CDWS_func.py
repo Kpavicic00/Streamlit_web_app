@@ -365,7 +365,6 @@ def CDWS_MENI(DFrame):
         for i in range(0,len(listState)):
             cont_State += 1
         options = ['0'] * cont_State
-        st.write("len(options )")
         for i in range(0,len(listState)):
             options[i] = listState[i]
 

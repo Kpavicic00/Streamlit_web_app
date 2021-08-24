@@ -67,10 +67,80 @@ from plotnine import ggplot, aes, geom_line
 
 
 def app():
+    st.write("home")
+    #df = pd.read_sql('SELECT * FROM CDWS_BATCH_table', conn)
+    df = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(1),conn)
+    df_save = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
+
+    st.dataframe(df_save)
+    brush = alt.selection(type='interval')
+
+    points = alt.Chart(df_save).mark_point().encode(
+        x='Arrivals',
+        y='Expenditures',
+        color=alt.condition(brush, 'Club', alt.value('lightgray'))
+    ).add_selection(
+        brush
+    )
+
+    bars = alt.Chart(df_save).mark_bar().encode(
+        y='Club',
+        color='Club',
+        x='sum(Expenditures)'
+    ).transform_filter(
+        brush
+    )
+
+    st.write(points & bars)
+
+    ###########################################################################
+    ###########################################################################
+    ###########################################################################
+
+    nearest = alt.selection(type='single', nearest=True, on='mouseover',fields=['Expenditures'], empty='none')
+
+    # The basic line
+    line = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+        x='Arrivals',
+        y='Expenditures',
+        color='Club'
+    )
+
+    # Transparent selectors across the chart. This is what tells us
+    # the x-value of the cursor
+    selectors = alt.Chart(df_save).mark_point().encode(
+        x='Arrivals',
+        opacity=alt.value(0),
+    ).add_selection(
+        nearest
+    )
+
+    # Draw points on the line, and highlight based on selection
+    points = line.mark_point().encode(
+        opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+    )
+
+    # Draw text labels near the points, and highlight based on selection
+    text = line.mark_text(align='left', dx=5, dy=-5).encode(
+        text=alt.condition(nearest, 'Expenditures', alt.value(' '))
+    )
+
+    # Draw a rule at the location of the selection
+    rules = alt.Chart(df_save).mark_rule(color='gray').encode(
+        x='Arrivals',
+    ).transform_filter(
+        nearest
+    )
+
+    # Put the five layers into a chart and bind the data
+    a = alt.layer(
+        line, selectors, points, rules, text
+    ).properties(
+        width=600, height=300
+    )
+    st.write(a)
 
 
-    
-    
     #st.subheader("This application is a free open source platform and provides a different amount of tools for process and visualise different datasets with football finance datas like transfers and income fees for clubs and leauges ")
     
     ############################################################
@@ -115,30 +185,30 @@ def app():
 
     # st.write(points & bars)
 
-    df1 = pd.read_sql_query('SELECT * FROM DCTAS_table WHERE user_id = "{}"'.format(1),conn)
-    df_new1 = df1[["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]]
-    #df_new1['Season']= pd.to_datetime(df_new1['Season'],format='%Y')
-    dff = df_new1.nlargest(10,'Expenditures')
-    st.dataframe(dff)
-    brush = alt.selection(type='interval')
+    # df1 = pd.read_sql_query('SELECT * FROM DCTAS_table WHERE user_id = "{}"'.format(1),conn)
+    # df_new1 = df1[["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]]
+    # #df_new1['Season']= pd.to_datetime(df_new1['Season'],format='%Y')
+    # dff = df_new1.nlargest(10,'Expenditures')
+    # st.dataframe(dff)
+    # brush = alt.selection(type='interval')
 
-    points = alt.Chart(dff).mark_point(size=200,filled=True).encode(
-        x='Arrivals',
-        y='Expenditures',
-        color=alt.condition(brush, 'Club', alt.value('lightgray'))
-    ).add_selection(
-        brush
-    )
+    # points = alt.Chart(dff).mark_point(size=200,filled=True).encode(
+    #     x='Season',
+    #     y='Expenditures',
+    #     color=alt.condition(brush, 'Club', alt.value('lightgray'))
+    # ).add_selection(
+    #     brush
+    # )
 
-    bars = alt.Chart(dff).mark_bar().encode(
-        y='Club',
-        color='Club',
-        x='sum(Expenditures)'
-    ).transform_filter(
-        brush
-    )
+    # bars = alt.Chart(dff).mark_bar().encode(
+    #     y='Club',
+    #     color='Club',
+    #     x='sum(Expenditures)'
+    # ).transform_filter(
+    #     brush
+    # )
 
-    st.write(points & bars)
+    # st.write(points & bars)
 
 
 
