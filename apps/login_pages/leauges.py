@@ -13,7 +13,7 @@ def app():
         "DO -> Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
         "DO -> BATCH Data by average LEAGUE by AVG SESONS statistic":DFLS_BATCH,
         "DO -> Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
-        "IN Progress -> BATCH Data by average -> LEAGUE by YEAR statistic":DCWS_BATCH    
+        "DO -> BATCH Data by average -> LEAGUE by YEAR statistic":DCWS_BATCH    
         }
     st.title('Meni')
     selection = st.selectbox("Go to", list(PAGES.keys()))

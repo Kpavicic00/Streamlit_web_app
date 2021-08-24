@@ -144,7 +144,7 @@ def app():
                             alt.X('Year_of_Season', axis=alt.Axis(title=None))
                         )
 
-                        area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+                        area = base.mark_line(strokeWidth=5, color='#57A44C').encode(
                             alt.Y('Expend',
                                   axis=alt.Axis(title='profit', titleColor='#57A44C')),
                             #alt.Y2('Income')
@@ -201,7 +201,7 @@ def app():
                             alt.X('Year_of_Season', axis=alt.Axis(title=None))
                         )
 
-                        area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+                        area = base.mark_line(strokeWidth=5, color='#57A44C').encode(
                             alt.Y('Income',
                                   axis=alt.Axis(title='profit', titleColor='#57A44C')),
                             #alt.Y2('Income')
@@ -256,7 +256,7 @@ def app():
                             alt.X('Year_of_Season', axis=alt.Axis(title=None))
                         )
 
-                        area = base.mark_area(opacity=0.3, color='#57A44C').encode(
+                        area = base.mark_line(strokeWidth=5, color='#57A44C').encode(
                             alt.Y('Balance',
                                   axis=alt.Axis(title='profit', titleColor='#57A44C')),
                             #alt.Y2('Income')

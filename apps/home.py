@@ -99,7 +99,7 @@ def app():
         alt.X('Year_of_Season', axis=alt.Axis(title=None))
     )
 
-    area = base.mark_circle(strokeWidth=100, color='#57A44C').encode(
+    area = base.mark_point(size=200,filled=True, color='#57A44C').encode(
         alt.Y('Expend',
               axis=alt.Axis(title='profit', titleColor='#57A44C')),
         #alt.Y2('Income')

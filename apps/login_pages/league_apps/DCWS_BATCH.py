@@ -148,9 +148,33 @@ def app():
                         if flag_option !=[]:
                             if temp_filter == 'Year_of_Season':
                                 st.write(temp_filter)
-   
+
+                                df = pd.read_sql_query('SELECT * FROM DCWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                df_new = df[["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
+                                df_new['Year_of_Season']= pd.to_datetime(df_new['Year_of_Season'],format='%Y')                           
+                                base = alt.Chart(df_new).encode(
+                                    alt.X('Year_of_Season', axis=alt.Axis(title=None))
+                                )                          
+                                area = base.mark_point(size=200,filled=True, color='#57A44C').encode(
+                                    alt.Y('Expend',
+                                          axis=alt.Axis(title='profit', titleColor='#57A44C')),
+                                    #alt.Y2('Income')
+                                    #size=alt.Size('count', scale=alt.Scale(range=[100, 500]))
+                                )
+                                line = base.mark_line(stroke='#5276A7', interpolate='monotone').encode(
+                                    alt.Y('sum_of_Arrivlas',
+                                          axis=alt.Axis(title='number of arrivals', titleColor='#5276A7'))
+                                )
+                                b = alt.layer(area, line).resolve_scale(
+                                    y = 'independent'
+                                ).properties(
+                                    width=700,
+                                    height=400
+                                ).configure_point(
+                                    size=500
+                                ).interactive()   
+                                st.write(b)
                                 st.success("Viusalise  Datas")
-                # 
                 else:
                     st.warning("file not found")
                     st.info("Please procces data again !!")
