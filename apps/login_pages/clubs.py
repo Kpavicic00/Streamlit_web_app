@@ -6,9 +6,9 @@ def app():
     st.title('Metrics for  LEAGUES')
     st.write('Welcome to app1')
     PAGES = {
-        "IN Progress -> Processed Data by Data CLUBS statistic without   SESONS": CDWS,
-        "BATCH Data by Data CLUBS statistic without   SESONS": CDWS_BATCH,
-        "Processed Data by Data CLUBS statistic through all   SESONS":DCTAS,
+        "DO -> Processed Data by Data CLUBS statistic without   SESONS": CDWS,
+        "IN Progress -> BATCH Data by Data CLUBS statistic without   SESONS": CDWS_BATCH,
+        "DO -> Processed Data by Data CLUBS statistic through all   SESONS":DCTAS,
         "NE RADI JOŠ -> BATCH Data by Data CLUBS statistic through all   SESONS":DCTAS_BATCH 
         }
     st.title('Meni')

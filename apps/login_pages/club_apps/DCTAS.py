@@ -93,73 +93,166 @@ def app():
             else:
                 st.warning("file not found")
                 st.info("Please procces data again !")
-        # try:
-        #     if st.checkbox("Viusalise data !!!"):
-        #         # Viusalise datas
-        #         #st.write("Viusalise datas",res)
-        #         return_user_idd = return_user_id(res)
-        #         st.write("")
-        #         i = (return_user_idd[0])
-        #         res = int(''.join(map(str, i)))
-        #         te = int(res)
-        #         flag = return_id_DCTAS_table(te)
-        #         if flag != []:
-        #             if int(te) > 0:
-        #                 df = pd.read_sql_query('SELECT * FROM DCTAS_table WHERE user_id = "{}"'.format(te),conn)
-        #                 df_new = df[["Year_of_Season","Expend","Income","Balance","number_of_Season","sum_of_Arrivlas","sum_of_Depatrues","avg_Expend_of_Arrivlas","avg_Income_of_Depatrues","avg_Balance_of_Depatrues","avg_Expend_Season","avg_Income_Season","avg_Balance_Season"]]
-        #                 df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-        #                 chartline1 = alt.Chart(df_new).mark_bar(size=22,color='blue').encode(
-        #                      x=alt.X('Year', axis=alt.Axis(title='date')),
-        #                      y=alt.Y('Income_by_player',axis=alt.Axis(title='Income_by_player')),
-        #                      ).properties(
-        #                          width=800, 
-        #                          height=600
-        #                      )
-        #                 chartline2 = alt.Chart(df_new).mark_bar(size=12,color='red').encode(
-        #                     # 
-        #                      x=alt.X('Year', axis=alt.Axis(title='date')),
-        #                      y=alt.Y('Income_INFLACION',axis=alt.Axis(title='Income_INFLACION')),
-        #                      ).properties(
-        #                          width=800, 
-        #                          height=600
-        #                      )
-        #                 # 
-        #                 st.altair_chart(chartline1 + chartline2)                                
-        #                 lines = alt.Chart(df_new).mark_bar(size=25).encode(
-        #                   x=alt.X('Year',axis=alt.Axis(title='date')),
-        #                   y=alt.Y('Income_by_player',axis=alt.Axis(title='value'))
-        #                   ).properties(
-        #                       width=600,
-        #                       height=300
-        #                   )
-        #                 def plot_animation(df_new):
-        #                     lines = alt.Chart(df_new).mark_bar(size=25).encode(
-        #                     x=alt.X('Year', axis=alt.Axis(title='date')),
-        #                     y=alt.Y('Income_by_player',axis=alt.Axis(title='value')),
-        #                     ).properties(
-        #                         width=600, 
-        #                         height=300
-        #                     )
-        #                     return lines
-        #                 N = df_new.shape[0] # number of elements in the dataframe
-        #                 burst = 6       # number of elements (months) to add to the plot
-        #                 size = burst    # size of the current dataset
-        #                 line_plot = st.altair_chart(lines)
-        #                 line_plot
-        #                 start_btn = st.button('Start')
-        #                 if start_btn:
-        #                     for i in range(1,N):
-        #                         step_df = df_new.iloc[0:size]       
-        #                         lines = plot_animation(step_df)
-        #                         line_plot = line_plot.altair_chart(lines)
-        #                         size = i + burst
-        #                         if size >= N:
-        #                             size = N - 1  
-        #                         time.sleep(0.1)
-        #                 st.success("Viusalise  Datas")
-        #         else:
-        #             st.warning("file not found")
-        #             st.info("Please procces data again !!")
+        try:
+            if st.checkbox("Viusalise data !!!"):
+                # Viusalise datas
+                #st.write("Viusalise datas",res)
+                return_user_idd = return_user_id(res)
+                st.write("")
+                i = (return_user_idd[0])
+                res = int(''.join(map(str, i)))
+                te = int(res)
+                flag = return_id_DCTAS_table(te)
+                if flag != []:
+                    if int(te) > 0:
+                        df = pd.read_sql_query('SELECT * FROM DCTAS_table WHERE user_id = "{}"'.format(te),conn)
+                        df_new = df[["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]]
+                        
+                        st.error("Visualization of the top 10 club expenses from 2000 to now")
+                        st.error("Without inflation rate")
+                        dff = df_new.nlargest(10,'Expenditures')
 
-        # except Exception as e:
-        #   st.write("Error, please resart Visaulsation checkboc !! ") 
+                        brush = alt.selection(type='interval')
+
+                        points = alt.Chart(dff).mark_point(size=200,filled=True).encode(
+                            x='Arrivals',
+                            y='Expenditures',
+                            color=alt.condition(brush, 'Club', alt.value('lightgray'))
+                        ).add_selection(
+                            brush
+                        )
+
+                        bars = alt.Chart(dff).mark_bar().encode(
+                            y='Club',
+                            color='Club',
+                            x='Expenditures'
+                        ).transform_filter(
+                            brush
+                        )
+
+                        st.write(points & bars)
+
+
+                        st.error("With inflation rate")
+                        dff2 = df_new.nlargest(10,'inflation_Expenditure')
+                        brush1 = alt.selection(type='interval')
+                        points1 = alt.Chart(dff2).mark_point(size=200,filled=True).encode(
+                            x='Arrivals',
+                            y='inflation_Expenditure',
+                            color=alt.condition(brush1, 'Club', alt.value('lightgray'))
+                        ).add_selection(
+                            brush1
+                        )
+
+                        bars1 = alt.Chart(dff2).mark_bar().encode(
+                            y='Club',
+                            color='Club',
+                            x='inflation_Expenditure'
+                        ).transform_filter(
+                            brush1
+                        )
+                        st.write(points1 & bars1)
+
+                        ################
+                        ################
+
+                        st.success("Visualization of the top 10 club revenue from 2000 to now")
+                        st.success("Without inflation rate")
+                        dffR = df_new.nlargest(10,'Income')
+
+                        brush_r1 = alt.selection(type='interval')
+
+                        points_r1 = alt.Chart(dffR).mark_point(size=200,filled=True).encode(
+                            x='Arrivals',
+                            y='Income',
+                            color=alt.condition(brush_r1, 'Club', alt.value('lightgray'))
+                        ).add_selection(
+                            brush_r1
+                        )
+
+                        bars_r1 = alt.Chart(dffR).mark_bar().encode(
+                            y='Club',
+                            color='Club',
+                            x='Income'
+                        ).transform_filter(
+                            brush_r1
+                        )
+                        st.write(points_r1 & bars_r1)
+
+                        st.success("With inflation rate")
+                        dffR2 = df_new.nlargest(10,'inflation_Income')
+
+                        brush_r2 = alt.selection(type='interval')
+
+                        points_r2 = alt.Chart(dffR2).mark_point(size=200,filled=True).encode(
+                            x='Arrivals',
+                            y='inflation_Income',
+                            color=alt.condition(brush_r2, 'Club', alt.value('lightgray'))
+                        ).add_selection(
+                            brush_r2
+                        )
+
+                        bars_r2 = alt.Chart(dffR2).mark_bar().encode(
+                            y='Club',
+                            color='Club',
+                            x='inflation_Income'
+                        ).transform_filter(
+                            brush_r2
+                        )
+                        st.write(points_r2 & bars_r2)
+
+                        ################
+                        ################
+
+                        st.success("Visualization of the top 10 club profit from 2000 to now")
+                        st.success("Without inflation rate")
+                        dffP = df_new.nlargest(10,'Balance')
+
+                        brush_p1 = alt.selection(type='interval')
+
+                        points_p1 = alt.Chart(dffP).mark_point(size=200,filled=True).encode(
+                            x='Arrivals',
+                            y='Balance',
+                            color=alt.condition(brush_p1, 'Club', alt.value('lightgray'))
+                        ).add_selection(
+                            brush_p1
+                        )
+
+                        bars_p1 = alt.Chart(dffP).mark_bar().encode(
+                            y='Club',
+                            color='Club',
+                            x='Balance'
+                        ).transform_filter(
+                            brush_p1
+                        )
+                        st.write(points_p1 & bars_p1)
+
+                        st.success("With inflation rate")
+                        dffP2 = df_new.nlargest(10,'inflation_Balance')
+
+                        brush_p2 = alt.selection(type='interval')
+
+                        points_p2 = alt.Chart(dffP2).mark_point(size=200,filled=True).encode(
+                            x='Arrivals',
+                            y='inflation_Balance',
+                            color=alt.condition(brush_p2, 'Club', alt.value('lightgray'))
+                        ).add_selection(
+                            brush_p2
+                        )
+
+                        bars_p2 = alt.Chart(dffP2).mark_bar().encode(
+                            y='Club',
+                            color='Club',
+                            x='inflation_Balance'
+                        ).transform_filter(
+                            brush_p2
+                        )
+                        st.write(points_p2 & bars_p2)
+
+                        st.success("Viusalise  Datas")
+                else:
+                    st.warning("file not found")
+                    st.info("Please procces data again !!")
+
+        except Exception as e:
+          st.write("Error, please resart Visaulsation checkboc !! ") 
