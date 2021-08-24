@@ -64,10 +64,38 @@ from vega_datasets import data
 from datetime import datetime
 from html_temp import *
 from plotnine import ggplot, aes, geom_line
+from PIL import Image
 
 
 def app():
+
+    # Function to Read and Manupilate Images
+    def load_image(img):
+        im = Image.open(img)
+        image = np.array(im)
+        return image
+
+    # Uploading the File to the Page
+    uploadFile = st.file_uploader(label="Upload image", type=['jpg', 'png'])
+
+    # Checking the Format of the page
+    if uploadFile is not None:
+        # Perform your Manupilations (In my Case applying Filters)
+        img = load_image(uploadFile)
+        st.image(img)
+        st.write("Image Uploaded Successfully")
+    else:
+        st.write("Make sure you image is in JPG/PNG Format.")
+
     st.write("home")
+    result = view_all_post()
+    st.write(result)
+
+    #username = return_username()
+    i = (result[4])
+    #res = str(''.join(map(str, i)))
+
+    st.image(res)
     #df = pd.read_sql('SELECT * FROM CDWS_BATCH_table', conn)
     df = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(1),conn)
     df_save = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
@@ -141,90 +169,4 @@ def app():
     st.write(a)
 
 
-    #st.subheader("This application is a free open source platform and provides a different amount of tools for process and visualise different datasets with football finance datas like transfers and income fees for clubs and leauges ")
-    
-    ############################################################
-    ## 1. EFPA_BATCH.py -> Viusalisation TEST !!! Dashboard development 
-    ##  --------------------------------------------------------
-
-    
-    # df = pd.read_sql_query('SELECT * FROM EFPA_table WHERE user_id = "{}"'.format(1),conn)
-    # df_new = df[["Name_of_Legue","Year","Nationality","Expend_by_player","Expend_INFLACION"]]
-    # df_new['Year']= pd.to_datetime(df_new['Year'],format='%Y')
-    
-
-    #       Expend by player 
-
-    #   ---------------------------------------------------------------
-    ##      1. Graph 
-
-    # nastaviti za sutra  !!!
-    # df = pd.read_sql_query('SELECT * FROM CDWS_table WHERE user_id = "{}"'.format(1),conn)
-    # df_new = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
-    # df_new['Season']= pd.to_datetime(df_new['Season'],format='%Y')
-    # df = df_new.nlargest(22,'Expenditures')
-    # st.dataframe(df)
-
-    # brush = alt.selection(type='interval')
-
-    # points = alt.Chart(df).mark_point(size=200,filled=True).encode(
-    #     x='Season',
-    #     y='Inflacion_Expenditures',
-    #     color=alt.condition(brush, 'Club', alt.value('lightgray'))
-    # ).add_selection(
-    #     brush
-    # )
-
-    # bars = alt.Chart(df).mark_bar().encode(
-    #     y='Club',
-    #     color='Club',
-    #     x='sum(Inflacion_Expenditures)'
-    # ).transform_filter(
-    #     brush
-    # )
-
-    # st.write(points & bars)
-
-    # df1 = pd.read_sql_query('SELECT * FROM DCTAS_table WHERE user_id = "{}"'.format(1),conn)
-    # df_new1 = df1[["Order_of_Expend","Club","State","Competition","Expenditures","Income","Arrivals","Departures","Balance","inflation_Expenditure","inflation_Income","inflation_Balance"]]
-    # #df_new1['Season']= pd.to_datetime(df_new1['Season'],format='%Y')
-    # dff = df_new1.nlargest(10,'Expenditures')
-    # st.dataframe(dff)
-    # brush = alt.selection(type='interval')
-
-    # points = alt.Chart(dff).mark_point(size=200,filled=True).encode(
-    #     x='Season',
-    #     y='Expenditures',
-    #     color=alt.condition(brush, 'Club', alt.value('lightgray'))
-    # ).add_selection(
-    #     brush
-    # )
-
-    # bars = alt.Chart(dff).mark_bar().encode(
-    #     y='Club',
-    #     color='Club',
-    #     x='sum(Expenditures)'
-    # ).transform_filter(
-    #     brush
-    # )
-
-    # st.write(points & bars)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+   

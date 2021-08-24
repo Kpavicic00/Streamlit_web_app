@@ -5,7 +5,26 @@ from pandas.core.frame import DataFrame
 conn = sqlite3.connect('data.db', check_same_thread=False)
 c = conn.cursor()
 
+# POST 
 
+def create_post_table():
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,author TEXT,title TEXT,article TEXT,img1 BLOB,postdate TEXT,user_id TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+
+def add_data_to_post(author,title,article,img1,postdate,user_id):
+    c.execute('INSERT INTO blog_table(author,title,article,img1,postdate,user_id) VALUES (?,?,?,?,?,?)',(author,title,article,img1,postdate,user_id))
+    conn.commit()
+
+def view_all_post():
+	c.execute('SELECT * FROM blog_table')
+	data = c.fetchall()
+	return data
+
+def view_all_post_my_post(id):
+	c.execute('SELECT * FROM blog_table WHERE user_id = "{}"'.format(id))
+	data = c.fetchall()
+	return data
+
+#------------------------------------------------------------------
 ### DATABASE FUNCTIONS !!
 #----------------------------------
 # BATCHED 
