@@ -40,11 +40,17 @@ def delite_DCTAS_BATCH_temp(id):
 
 # LEAGUE,Year_of_Season temp,NAtionality table
 def create_DCTAS_LEAGUE_flag_option():
-    c.execute('CREATE TABLE IF NOT EXISTS DCTAS_LEAGUE_flag_option(flag_option TEXT,user_id TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS  DCTAS_LEAGUE_flag_option(flag_option TEXT,flag_record TEXT,user_id TEXT)')
 
-def insert_DCTAS_LEAGUE_flag_option(flag_option,user_id):
-    c.execute('INSERT INTO DCTAS_LEAGUE_flag_option(flag_option,user_id) VALUES(?,?) ',(flag_option,user_id))
+def insert_DCTAS_LEAGUE_flag_option(flag_option,flag_record,user_id):
+    c.execute('INSERT INTO DCTAS_LEAGUE_flag_option(flag_option,flag_record,user_id) VALUES(?,?,?) ',(flag_option,flag_record,user_id))
     conn.commit()
+
+def view_all_DCTAS__LEAGUE_flag_record(id):
+	c.execute('SELECT DISTINCT flag_record FROM DCTAS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))
+	data = c.fetchall()
+	return data
+
 #   return_id_DCTAS__LEAGUE_table
 def return_id_DCTAS__LEAGUE_flag_option(id):
     c.execute('SELECT DISTINCT flag_option FROM DCTAS_LEAGUE_flag_option WHERE user_id = "{}"'.format(id))

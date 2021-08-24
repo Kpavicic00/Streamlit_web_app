@@ -4,16 +4,16 @@ def app():
     st.title('Metrics for  LEAGUES')
     st.write('Welcome to app1')
     PAGES = {
-        "DO -> Processed Data by average league EXPEND for player ARRIVALS": EFPA,
-        "DO -> BATCH Data by average league EXPEND for player ARRIVALS": EFPA_BATCH,
-        "DO -> Processed Data by average league INCOME for player DEPARTURES":IFPD,
-        "DO -> BATCH Data by average league INCOME for player DEPARTURES":IFPD_BATCH,
-        "DO -> Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
-        "DO -> BATCH Data by average league BALANCE for player DEPARTURES":BFPD_BATCH,
-        "DO -> Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
-        "DO -> BATCH Data by average LEAGUE by AVG SESONS statistic":DFLS_BATCH,
-        "DO -> Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
-        "DO -> BATCH Data by average -> LEAGUE by YEAR statistic":DCWS_BATCH    
+        "DONE -> Processed Data by average league EXPEND for player ARRIVALS": EFPA,
+        "DONE -> BATCH Data by average league EXPEND for player ARRIVALS": EFPA_BATCH,
+        "DONE -> Processed Data by average league INCOME for player DEPARTURES":IFPD,
+        "DONE -> BATCH Data by average league INCOME for player DEPARTURES":IFPD_BATCH,
+        "DONE -> Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
+        "DONE -> BATCH Data by average league BALANCE for player DEPARTURES":BFPD_BATCH,
+        "DONE -> Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
+        "DONE -> BATCH Data by average LEAGUE by AVG SESONS statistic":DFLS_BATCH,
+        "DONE -> Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
+        "DONE -> BATCH Data by average -> LEAGUE by YEAR statistic":DCWS_BATCH    
         }
     st.title('Meni')
     selection = st.selectbox("Go to", list(PAGES.keys()))
