@@ -146,15 +146,18 @@ def app():
                         temp_filter = ''.join(flag_option[0])
                         if flag_option !=[]:
                             if temp_filter == 'Club':
+                                
                                 df = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
                                 df_save = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
-                            
+
+                                # Graph 1.  Expend
                                 st.error("Visualization the club expenses from 2000 to now")
                                 st.error("Without inflation rate")
                                 brush = alt.selection(type='interval')
                             
-                                points = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                points = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color=alt.condition(brush, 'Club', alt.value('lightgray'))
                                 ).add_selection(
@@ -172,11 +175,13 @@ def app():
                                 st.write(points & bars)
                                 ###########################################################################
 
+                                # Graph 2. Expend
                                 nearest = alt.selection(type='single', nearest=True, on='mouseover',fields=['Expenditures'], empty='none')
 
                                 # The basic line
                                 line = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color='Club'
                                 )
@@ -184,14 +189,15 @@ def app():
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
                                 selectors = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
                                     nearest
                                 )
 
                                 # Draw points on the line, and highlight based on selection
-                                points = line.mark_point().encode(
+                                points = line.mark_point(size=200,filled=True).encode(
                                     opacity=alt.condition(nearest, alt.value(1), alt.value(0))
                                 )
 
@@ -202,29 +208,31 @@ def app():
 
                                 # Draw a rule at the location of the selection
                                 rules = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                 ).transform_filter(
                                     nearest
                                 )
 
                                 # Put the five layers into a chart and bind the data
-                                a = alt.layer(
+                                aa = alt.layer(
                                     line, selectors, points, rules, text
                                 ).properties(
                                     width=600, height=300
                                 )
-                                st.write(a)
+                                st.write(aa)
                                 ##############
                                 ##############
                                 ##############
-                                # Graph 2. 
+                                # Graph 3.  Expend inflaction
 
                                 st.error("Visualization the club expenses from 2000 to now")
                                 st.error("With inflation rate")
                                 brush1 = alt.selection(type='interval')
                             
-                                points1 = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                points1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Inflacion_Expenditures',
                                     color=alt.condition(brush1, 'Club', alt.value('lightgray'))
                                 ).add_selection(
@@ -242,26 +250,29 @@ def app():
                                 st.write(points1 & bars1)
                                 ###########################################################################
 
+                                # Graph 4.  Expend inflaction
                                 nearest1 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Expenditures'], empty='none')
 
                                 # The basic line
                                 line1 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Inflacion_Expenditures',
                                     color='Club'
                                 )
 
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
-                                selectors1 = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                selectors1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
                                     nearest1
                                 )
 
                                 # Draw points on the line, and highlight based on selection
-                                points1 = line.mark_point().encode(
+                                points1 = line.mark_point(size=200,filled=True).encode(
                                     opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
                                 )
 
@@ -272,7 +283,8 @@ def app():
 
                                 # Draw a rule at the location of the selection
                                 rules1 = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                 ).transform_filter(
                                     nearest1
                                 )
@@ -284,14 +296,16 @@ def app():
                                     width=600, height=300
                                 )
                                 st.write(a1)
-################################    Income / Revenue
-#   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
-                                st.error("Visualization the club expenses from 2000 to now")
-                                st.error("Without inflation rate")
+                                ################################    Income / Revenue
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.success("Visualization the club Revenue from 2000 to now")
+                                st.success("Without inflation rate")
                                 brushR = alt.selection(type='interval')
+                                # Graph 5.  Income
                             
-                                pointsR = alt.Chart(df_save).mark_point().encode(
-                                    x='Departures',
+                                pointsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                     y='Income',
                                     color=alt.condition(brushR, 'Club', alt.value('lightgray'))
                                 ).add_selection(
@@ -309,130 +323,289 @@ def app():
                                 st.write(pointsR & barsR)
                                 ###########################################################################
 
-                                nearest = alt.selection(type='single', nearest=True, on='mouseover',fields=['Income'], empty='none')
-
+                                nearestR = alt.selection(type='single', nearest=True, on='mouseover',fields=['Income'], empty='none')
+                                
+                                # Graph 6.  Income
                                 # The basic line
-                                line = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Departures',
+                                lineR = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                     y='Income',
                                     color='Club'
                                 )
 
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
-                                selectors = alt.Chart(df_save).mark_point().encode(
-                                    x='Departures',
+                                selectorsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
-                                    nearest
+                                    nearestR
                                 )
 
                                 # Draw points on the line, and highlight based on selection
-                                points = line.mark_point().encode(
-                                    opacity=alt.condition(nearest, alt.value(1), alt.value(0))
+                                pointsR = lineR.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestR, alt.value(1), alt.value(0))
                                 )
 
                                 # Draw text labels near the points, and highlight based on selection
-                                text = line.mark_text(align='left', dx=5, dy=-5).encode(
-                                    text=alt.condition(nearest, 'Income', alt.value(' '))
+                                textR = lineR.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestR, 'Income', alt.value(' '))
                                 )
 
                                 # Draw a rule at the location of the selection
-                                rules = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Departures',
+                                rulesR = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                 ).transform_filter(
-                                    nearest
+                                    nearestR
                                 )
 
                                 # Put the five layers into a chart and bind the data
-                                a = alt.layer(
-                                    line, selectors, points, rules, text
+                                aR = alt.layer(
+                                    lineR, selectorsR, pointsR, rulesR, textR
                                 ).properties(
                                     width=600, height=300
                                 )
-                                st.write(a)
+                                st.write(aR)
                                 ##############
                                 ##############
                                 ##############
-                                # Graph 2. 
+                                # Graph 7.  Income Inflacions 
 
-                                st.error("Visualization the club expenses from 2000 to now")
-                                st.error("With inflation rate")
-                                brush1 = alt.selection(type='interval')
+                                st.success("Visualization the club Revenue from 2000 to now")
+                                st.success("With inflation rate")
+                                brush11 = alt.selection(type='interval')
                             
-                                points1 = alt.Chart(df_save).mark_point().encode(
-                                    x='Departures',
+                                points11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                     y='Inflacion_Income',
-                                    color=alt.condition(brush1, 'Club', alt.value('lightgray'))
+                                    color=alt.condition(brush11, 'Club', alt.value('lightgray'))
                                 ).add_selection(
-                                    brush1
+                                    brush11
                                 )
                             
-                                bars1 = alt.Chart(df_save).mark_bar().encode(
+                                bars11 = alt.Chart(df_save).mark_bar().encode(
                                     y='Club',
                                     color='Club',
                                     x='sum(Inflacion_Income)'
                                 ).transform_filter(
-                                    brush1
+                                    brush11
                                 )
                             
-                                st.write(points1 & bars1)
+                                st.write(points11 & bars11)
                                 ###########################################################################
 
-                                nearest1 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Income'], empty='none')
+                                nearest11 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Income'], empty='none')
 
+                                # Graph 8.  Income Inflacions 
                                 # The basic line
-                                line1 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Departures',
+                                line11 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                     y='Inflacion_Income',
                                     color='Club'
                                 )
 
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
-                                selectors1 = alt.Chart(df_save).mark_point().encode(
-                                    x='Departures',
+                                selectors11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
                                     nearest1
                                 )
 
                                 # Draw points on the line, and highlight based on selection
-                                points1 = line.mark_point().encode(
+                                points11 = line11.mark_point(size=200,filled=True).encode(
                                     opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
                                 )
 
                                 # Draw text labels near the points, and highlight based on selection
-                                text1 = line.mark_text(align='left', dx=5, dy=-5).encode(
-                                    text=alt.condition(nearest1, 'Inflacion_Expenditures', alt.value(' '))
+                                text11 = line11.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest11, 'Inflacion_Expenditures', alt.value(' '))
                                 )
 
                                 # Draw a rule at the location of the selection
-                                rules1 = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Departures',
+                                rules11 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
                                 ).transform_filter(
-                                    nearest1
+                                    nearest11
                                 )
 
                                 # Put the five layers into a chart and bind the data
-                                a1 = alt.layer(
+                                a11 = alt.layer(
                                     line1, selectors1, points1, rules1, text1
                                 ).properties(
                                     width=600, height=300
                                 )
-                                st.write(a1)
+                                st.write(a11)
+
+                                ################################    Profit
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.info("Visualization the club profit from 2000 to now")
+                                st.info("Without inflation rate")
+                                brushP = alt.selection(type='interval')
+                                # Graph 9.  Profit 
+                                pointsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color=alt.condition(brushP, 'Club', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushP
+                                )
+                            
+                                barsP = alt.Chart(df_save).mark_bar().encode(
+                                    y='Club',
+                                    color='Club',
+                                    x='sum(Balance)'
+                                ).transform_filter(
+                                    brushP
+                                )
+                            
+                                st.write(pointsP & barsP)
+                                ###########################################################################
+
+                                nearestP = alt.selection(type='single', nearest=True, on='mouseover',fields=['Balance'], empty='none')
+
+                                # Graph 10.  Profit 
+                                # The basic line
+                                lineP = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color='Club'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestP
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsP = lineP.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestP, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textP = lineP.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestP, 'Balance', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesP = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestP
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aP = alt.layer(
+                                    lineP, selectorsP, pointsP, rulesP, textP
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aP)
+                                ##############
+                                ##############
+                                ############## 
+
+                                st.info("Visualization the club profit from 2000 to now")
+                                st.info("With inflation rate")
+                                brushPI = alt.selection(type='interval')
+                                # Graph 11.  Profit  Inflacion
+                                pointsPI = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color=alt.condition(brushPI, 'Club', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushPI
+                                )
+                            
+                                barsPI = alt.Chart(df_save).mark_bar().encode(
+                                    y='Club',
+                                    color='Club',
+                                    x='sum(Inflacion_Balance)'
+                                ).transform_filter(
+                                    brushPI
+                                )
+                            
+                                st.write(pointsPI & barsPI)
+                                ###########################################################################
+                                dff = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                dff_save = dff[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
+
+                                nearest0 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Balance'], empty='none')
+
+                                # Graph 12.  Profit  Inflacion
+                                # The basic line
+                                line0 = alt.Chart(dff_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color='Club'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors0 = alt.Chart(dff_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest0
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points0 = line0.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest0, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text0 = line0.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest0, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules0 = alt.Chart(dff_save).mark_rule(color='gray').encode(
+                                    x='Departures',
+                                ).transform_filter(
+                                    nearest0
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a0 = alt.layer(
+                                    line0, selectors0, points0, rules0, text0
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a0)
 
                                 st.success("Viusalise  Datas")
                             elif temp_filter == 'State':
-                                st.write(temp_filter)
                                 df = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
                                 df_save = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
-                            
-                                st.dataframe(df_save)
+
+                                # Graph 1.  Expend
+                                st.error("Visualization the State expenses from 2000 to now")
+                                st.error("Without inflation rate")
                                 brush = alt.selection(type='interval')
                             
-                                points = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                points = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color=alt.condition(brush, 'State', alt.value('lightgray'))
                                 ).add_selection(
@@ -449,61 +622,438 @@ def app():
                             
                                 st.write(points & bars)
                                 ###########################################################################
-                            
+
+                                # Graph 2. Expend
                                 nearest = alt.selection(type='single', nearest=True, on='mouseover',fields=['Expenditures'], empty='none')
-                            
+
                                 # The basic line
                                 line = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color='State'
                                 )
-                            
+
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
                                 selectors = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
                                     nearest
                                 )
-                            
+
                                 # Draw points on the line, and highlight based on selection
-                                points = line.mark_point().encode(
+                                points = line.mark_point(size=200,filled=True).encode(
                                     opacity=alt.condition(nearest, alt.value(1), alt.value(0))
                                 )
-                            
+
                                 # Draw text labels near the points, and highlight based on selection
                                 text = line.mark_text(align='left', dx=5, dy=-5).encode(
                                     text=alt.condition(nearest, 'Expenditures', alt.value(' '))
                                 )
-                            
+
                                 # Draw a rule at the location of the selection
                                 rules = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                 ).transform_filter(
                                     nearest
                                 )
-                            
+
                                 # Put the five layers into a chart and bind the data
-                                a = alt.layer(
+                                aa = alt.layer(
                                     line, selectors, points, rules, text
                                 ).properties(
                                     width=600, height=300
                                 )
-                                st.write(a)
+                                st.write(aa)
+                                ##############
+                                ##############
+                                ##############
+                                # Graph 3.  Expend inflaction
+
+                                st.error("Visualization the State expenses from 2000 to now")
+                                st.error("With inflation rate")
+                                brush1 = alt.selection(type='interval')
+                            
+                                points1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    y='Inflacion_Expenditures',
+                                    color=alt.condition(brush1, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brush1
+                                )
+                            
+                                bars1 = alt.Chart(df_save).mark_bar().encode(
+                                    y='State',
+                                    color='State',
+                                    x='sum(Inflacion_Expenditures)'
+                                ).transform_filter(
+                                    brush1
+                                )
+                            
+                                st.write(points1 & bars1)
+                                ###########################################################################
+
+                                # Graph 4.  Expend inflaction
+                                nearest1 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Expenditures'], empty='none')
+
+                                # The basic line
+                                line1 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    y='Inflacion_Expenditures',
+                                    color='State'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest1
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points1 = line.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text1 = line.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest1, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules1 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                ).transform_filter(
+                                    nearest1
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a1 = alt.layer(
+                                    line1, selectors1, points1, rules1, text1
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a1)
+                                ################################    Income / Revenue
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.success("Visualization the State Revenue from 2000 to now")
+                                st.success("Without inflation rate")
+                                brushR = alt.selection(type='interval')
+                                # Graph 5.  Income
+                            
+                                pointsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Income',
+                                    color=alt.condition(brushR, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushR
+                                )
+                            
+                                barsR = alt.Chart(df_save).mark_bar().encode(
+                                    y='State',
+                                    color='State',
+                                    x='sum(Income)'
+                                ).transform_filter(
+                                    brushR
+                                )
+                            
+                                st.write(pointsR & barsR)
+                                ###########################################################################
+
+                                nearestR = alt.selection(type='single', nearest=True, on='mouseover',fields=['Income'], empty='none')
+                                
+                                # Graph 6.  Income
+                                # The basic line
+                                lineR = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Income',
+                                    color='State'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestR
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsR = lineR.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestR, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textR = lineR.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestR, 'Income', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesR = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestR
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aR = alt.layer(
+                                    lineR, selectorsR, pointsR, rulesR, textR
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aR)
+                                ##############
+                                ##############
+                                ##############
+                                # Graph 7.  Income Inflacions 
+
+                                st.success("Visualization the State Revenue from 2000 to now")
+                                st.success("With inflation rate")
+                                brush11 = alt.selection(type='interval')
+                            
+                                points11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Income',
+                                    color=alt.condition(brush11, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brush11
+                                )
+                            
+                                bars11 = alt.Chart(df_save).mark_bar().encode(
+                                    y='State',
+                                    color='State',
+                                    x='sum(Inflacion_Income)'
+                                ).transform_filter(
+                                    brush11
+                                )
+                            
+                                st.write(points11 & bars11)
+                                ###########################################################################
+
+                                nearest11 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Income'], empty='none')
+
+                                # Graph 8.  Income Inflacions 
+                                # The basic line
+                                line11 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Income',
+                                    color='State'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest1
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points11 = line11.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text11 = line11.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest11, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules11 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearest11
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a11 = alt.layer(
+                                    line1, selectors1, points1, rules1, text1
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a11)
+
+                                ################################    Profit
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.info("Visualization the State profit from 2000 to now")
+                                st.info("Without inflation rate")
+                                brushP = alt.selection(type='interval')
+                                # Graph 9.  Profit 
+                                pointsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color=alt.condition(brushP, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushP
+                                )
+                            
+                                barsP = alt.Chart(df_save).mark_bar().encode(
+                                    y='State',
+                                    color='State',
+                                    x='sum(Balance)'
+                                ).transform_filter(
+                                    brushP
+                                )
+                            
+                                st.write(pointsP & barsP)
+                                ###########################################################################
+
+                                nearestP = alt.selection(type='single', nearest=True, on='mouseover',fields=['Balance'], empty='none')
+
+                                # Graph 10.  Profit 
+                                # The basic line
+                                lineP = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color='State'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestP
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsP = lineP.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestP, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textP = lineP.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestP, 'Balance', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesP = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestP
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aP = alt.layer(
+                                    lineP, selectorsP, pointsP, rulesP, textP
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aP)
+                                ##############
+                                ##############
+                                ############## 
+
+                                st.info("Visualization the State profit from 2000 to now")
+                                st.info("With inflation rate")
+                                brushPI = alt.selection(type='interval')
+                                # Graph 11.  Profit  Inflacion
+                                pointsPI = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color=alt.condition(brushPI, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushPI
+                                )
+                            
+                                barsPI = alt.Chart(df_save).mark_bar().encode(
+                                    y='State',
+                                    color='State',
+                                    x='sum(Inflacion_Balance)'
+                                ).transform_filter(
+                                    brushPI
+                                )
+                            
+                                st.write(pointsPI & barsPI)
+                                ###########################################################################
+                                dff = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                dff_save = dff[["Order_of_Expend","State","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
+
+                                nearest0 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Balance'], empty='none')
+
+                                # Graph 12.  Profit  Inflacion
+                                # The basic line
+                                line0 = alt.Chart(dff_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color='State'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors0 = alt.Chart(dff_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest0
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points0 = line0.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest0, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text0 = line0.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest0, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules0 = alt.Chart(dff_save).mark_rule(color='gray').encode(
+                                    x='Departures',
+                                ).transform_filter(
+                                    nearest0
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a0 = alt.layer(
+                                    line0, selectors0, points0, rules0, text0
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a0)
 
                                 st.success("Viusalise  Datas")
                             elif temp_filter == 'Competition':
-                                st.write(temp_filter)
                                 df = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
                                 df_save = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
-                            
-                                st.dataframe(df_save)
+
+                                # Graph 1.  Expend
+                                st.error("Visualization the Competition expenses from 2000 to now")
+                                st.error("Without inflation rate")
                                 brush = alt.selection(type='interval')
                             
-                                points = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                points = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color=alt.condition(brush, 'Competition', alt.value('lightgray'))
                                 ).add_selection(
@@ -520,61 +1070,438 @@ def app():
                             
                                 st.write(points & bars)
                                 ###########################################################################
-                            
+
+                                # Graph 2. Expend
                                 nearest = alt.selection(type='single', nearest=True, on='mouseover',fields=['Expenditures'], empty='none')
-                            
+
                                 # The basic line
                                 line = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color='Competition'
                                 )
-                            
+
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
                                 selectors = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
                                     nearest
                                 )
-                            
+
                                 # Draw points on the line, and highlight based on selection
-                                points = line.mark_point().encode(
+                                points = line.mark_point(size=200,filled=True).encode(
                                     opacity=alt.condition(nearest, alt.value(1), alt.value(0))
                                 )
-                            
+
                                 # Draw text labels near the points, and highlight based on selection
                                 text = line.mark_text(align='left', dx=5, dy=-5).encode(
                                     text=alt.condition(nearest, 'Expenditures', alt.value(' '))
                                 )
-                            
+
                                 # Draw a rule at the location of the selection
                                 rules = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                 ).transform_filter(
                                     nearest
                                 )
-                            
+
                                 # Put the five layers into a chart and bind the data
-                                a = alt.layer(
+                                aa = alt.layer(
                                     line, selectors, points, rules, text
                                 ).properties(
                                     width=600, height=300
                                 )
-                                st.write(a)
+                                st.write(aa)
+                                ##############
+                                ##############
+                                ##############
+                                # Graph 3.  Expend inflaction
+
+                                st.error("Visualization the Competition expenses from 2000 to now")
+                                st.error("With inflation rate")
+                                brush1 = alt.selection(type='interval')
+                            
+                                points1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    y='Inflacion_Expenditures',
+                                    color=alt.condition(brush1, 'Competition', alt.value('lightgray'))
+                                ).add_selection(
+                                    brush1
+                                )
+                            
+                                bars1 = alt.Chart(df_save).mark_bar().encode(
+                                    y='Competition',
+                                    color='Competition',
+                                    x='sum(Inflacion_Expenditures)'
+                                ).transform_filter(
+                                    brush1
+                                )
+                            
+                                st.write(points1 & bars1)
+                                ###########################################################################
+
+                                # Graph 4.  Expend inflaction
+                                nearest1 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Expenditures'], empty='none')
+
+                                # The basic line
+                                line1 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    y='Inflacion_Expenditures',
+                                    color='Competition'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest1
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points1 = line.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text1 = line.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest1, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules1 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                ).transform_filter(
+                                    nearest1
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a1 = alt.layer(
+                                    line1, selectors1, points1, rules1, text1
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a1)
+                                ################################    Income / Revenue
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.success("Visualization the Competition Revenue from 2000 to now")
+                                st.success("Without inflation rate")
+                                brushR = alt.selection(type='interval')
+                                # Graph 5.  Income
+                            
+                                pointsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Income',
+                                    color=alt.condition(brushR, 'Competition', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushR
+                                )
+                            
+                                barsR = alt.Chart(df_save).mark_bar().encode(
+                                    y='Competition',
+                                    color='Competition',
+                                    x='sum(Income)'
+                                ).transform_filter(
+                                    brushR
+                                )
+                            
+                                st.write(pointsR & barsR)
+                                ###########################################################################
+
+                                nearestR = alt.selection(type='single', nearest=True, on='mouseover',fields=['Income'], empty='none')
+                                
+                                # Graph 6.  Income
+                                # The basic line
+                                lineR = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Income',
+                                    color='Competition'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestR
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsR = lineR.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestR, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textR = lineR.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestR, 'Income', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesR = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestR
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aR = alt.layer(
+                                    lineR, selectorsR, pointsR, rulesR, textR
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aR)
+                                ##############
+                                ##############
+                                ##############
+                                # Graph 7.  Income Inflacions 
+
+                                st.success("Visualization the Competition Revenue from 2000 to now")
+                                st.success("With inflation rate")
+                                brush11 = alt.selection(type='interval')
+                            
+                                points11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Income',
+                                    color=alt.condition(brush11, 'Competition', alt.value('lightgray'))
+                                ).add_selection(
+                                    brush11
+                                )
+                            
+                                bars11 = alt.Chart(df_save).mark_bar().encode(
+                                    y='Competition',
+                                    color='Competition',
+                                    x='sum(Inflacion_Income)'
+                                ).transform_filter(
+                                    brush11
+                                )
+                            
+                                st.write(points11 & bars11)
+                                ###########################################################################
+
+                                nearest11 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Income'], empty='none')
+
+                                # Graph 8.  Income Inflacions 
+                                # The basic line
+                                line11 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Income',
+                                    color='Competition'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest1
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points11 = line11.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text11 = line11.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest11, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules11 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearest11
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a11 = alt.layer(
+                                    line1, selectors1, points1, rules1, text1
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a11)
+
+                                ################################    Profit
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.info("Visualization the Competition profit from 2000 to now")
+                                st.info("Without inflation rate")
+                                brushP = alt.selection(type='interval')
+                                # Graph 9.  Profit 
+                                pointsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color=alt.condition(brushP, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushP
+                                )
+                            
+                                barsP = alt.Chart(df_save).mark_bar().encode(
+                                    y='Competition',
+                                    color='Competition',
+                                    x='sum(Balance)'
+                                ).transform_filter(
+                                    brushP
+                                )
+                            
+                                st.write(pointsP & barsP)
+                                ###########################################################################
+
+                                nearestP = alt.selection(type='single', nearest=True, on='mouseover',fields=['Balance'], empty='none')
+
+                                # Graph 10.  Profit 
+                                # The basic line
+                                lineP = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color='Competition'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestP
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsP = lineP.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestP, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textP = lineP.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestP, 'Balance', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesP = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestP
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aP = alt.layer(
+                                    lineP, selectorsP, pointsP, rulesP, textP
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aP)
+                                ##############
+                                ##############
+                                ############## 
+
+                                st.info("Visualization the Competition profit from 2000 to now")
+                                st.info("With inflation rate")
+                                brushPI = alt.selection(type='interval')
+                                # Graph 11.  Profit  Inflacion
+                                pointsPI = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color=alt.condition(brushPI, 'Competition', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushPI
+                                )
+                            
+                                barsPI = alt.Chart(df_save).mark_bar().encode(
+                                    y='Competition',
+                                    color='Competition',
+                                    x='sum(Inflacion_Balance)'
+                                ).transform_filter(
+                                    brushPI
+                                )
+                            
+                                st.write(pointsPI & barsPI)
+                                ###########################################################################
+                                dff = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                dff_save = dff[["Order_of_Expend","State","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
+
+                                nearest0 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Balance'], empty='none')
+
+                                # Graph 12.  Profit  Inflacion
+                                # The basic line
+                                line0 = alt.Chart(dff_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color='Competition'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors0 = alt.Chart(dff_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest0
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points0 = line0.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest0, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text0 = line0.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest0, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules0 = alt.Chart(dff_save).mark_rule(color='gray').encode(
+                                    x='Departures',
+                                ).transform_filter(
+                                    nearest0
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a0 = alt.layer(
+                                    line0, selectors0, points0, rules0, text0
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a0)
 
                                 st.success("Viusalise  Datas")
                             elif temp_filter == 'Season':
-                                st.write(temp_filter)
                                 df = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
                                 df_save = df[["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
-                            
-                                st.dataframe(df_save)
+
+                                # Graph 1.  Expend
+                                st.error("Visualization the Season expenses from 2000 to now")
+                                st.error("Without inflation rate")
                                 brush = alt.selection(type='interval')
                             
-                                points = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                points = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color=alt.condition(brush, 'Season', alt.value('lightgray'))
                                 ).add_selection(
@@ -591,49 +1518,424 @@ def app():
                             
                                 st.write(points & bars)
                                 ###########################################################################
-                            
+
+                                # Graph 2. Expend
                                 nearest = alt.selection(type='single', nearest=True, on='mouseover',fields=['Expenditures'], empty='none')
-                            
+
                                 # The basic line
                                 line = alt.Chart(df_save).mark_line(interpolate='basis').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     y='Expenditures',
                                     color='Season'
                                 )
-                            
+
                                 # Transparent selectors across the chart. This is what tells us
                                 # the x-value of the cursor
                                 selectors = alt.Chart(df_save).mark_point().encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                     opacity=alt.value(0),
                                 ).add_selection(
                                     nearest
                                 )
-                            
+
                                 # Draw points on the line, and highlight based on selection
-                                points = line.mark_point().encode(
+                                points = line.mark_point(size=200,filled=True).encode(
                                     opacity=alt.condition(nearest, alt.value(1), alt.value(0))
                                 )
-                            
+
                                 # Draw text labels near the points, and highlight based on selection
                                 text = line.mark_text(align='left', dx=5, dy=-5).encode(
                                     text=alt.condition(nearest, 'Expenditures', alt.value(' '))
                                 )
-                            
+
                                 # Draw a rule at the location of the selection
                                 rules = alt.Chart(df_save).mark_rule(color='gray').encode(
-                                    x='Arrivals',
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
                                 ).transform_filter(
                                     nearest
                                 )
-                            
+
                                 # Put the five layers into a chart and bind the data
-                                a = alt.layer(
+                                aa = alt.layer(
                                     line, selectors, points, rules, text
                                 ).properties(
                                     width=600, height=300
                                 )
-                                st.write(a)
+                                st.write(aa)
+                                ##############
+                                ##############
+                                ##############
+                                # Graph 3.  Expend inflaction
+
+                                st.error("Visualization the Season expenses from 2000 to now")
+                                st.error("With inflation rate")
+                                brush1 = alt.selection(type='interval')
+                            
+                                points1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    y='Inflacion_Expenditures',
+                                    color=alt.condition(brush1, 'Season', alt.value('lightgray'))
+                                ).add_selection(
+                                    brush1
+                                )
+                            
+                                bars1 = alt.Chart(df_save).mark_bar().encode(
+                                    y='Season',
+                                    color='Season',
+                                    x='sum(Inflacion_Expenditures)'
+                                ).transform_filter(
+                                    brush1
+                                )
+                            
+                                st.write(points1 & bars1)
+                                ###########################################################################
+
+                                # Graph 4.  Expend inflaction
+                                nearest1 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Expenditures'], empty='none')
+
+                                # The basic line
+                                line1 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    y='Inflacion_Expenditures',
+                                    color='Season'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors1 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest1
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points1 = line.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text1 = line.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest1, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules1 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Arrivals',
+                                    x=alt.X('Arrivals', axis=alt.Axis(title='the number of players who come to the league')),
+                                ).transform_filter(
+                                    nearest1
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a1 = alt.layer(
+                                    line1, selectors1, points1, rules1, text1
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a1)
+                                ################################    Income / Revenue
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.success("Visualization the Season Revenue from 2000 to now")
+                                st.success("Without inflation rate")
+                                brushR = alt.selection(type='interval')
+                                # Graph 5.  Income
+                            
+                                pointsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Income',
+                                    color=alt.condition(brushR, 'Season', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushR
+                                )
+                            
+                                barsR = alt.Chart(df_save).mark_bar().encode(
+                                    y='Season',
+                                    color='Season',
+                                    x='sum(Income)'
+                                ).transform_filter(
+                                    brushR
+                                )
+                            
+                                st.write(pointsR & barsR)
+                                ###########################################################################
+
+                                nearestR = alt.selection(type='single', nearest=True, on='mouseover',fields=['Income'], empty='none')
+                                
+                                # Graph 6.  Income
+                                # The basic line
+                                lineR = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Income',
+                                    color='Season'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsR = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestR
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsR = lineR.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestR, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textR = lineR.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestR, 'Income', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesR = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestR
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aR = alt.layer(
+                                    lineR, selectorsR, pointsR, rulesR, textR
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aR)
+                                ##############
+                                ##############
+                                ##############
+                                # Graph 7.  Income Inflacions 
+
+                                st.success("Visualization the Season Revenue from 2000 to now")
+                                st.success("With inflation rate")
+                                brush11 = alt.selection(type='interval')
+                            
+                                points11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Income',
+                                    color=alt.condition(brush11, 'Season', alt.value('lightgray'))
+                                ).add_selection(
+                                    brush11
+                                )
+                            
+                                bars11 = alt.Chart(df_save).mark_bar().encode(
+                                    y='Season',
+                                    color='Season',
+                                    x='sum(Inflacion_Income)'
+                                ).transform_filter(
+                                    brush11
+                                )
+                            
+                                st.write(points11 & bars11)
+                                ###########################################################################
+
+                                nearest11 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Income'], empty='none')
+
+                                # Graph 8.  Income Inflacions 
+                                # The basic line
+                                line11 = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Income',
+                                    color='Season'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors11 = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest1
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points11 = line11.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest1, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text11 = line11.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest11, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules11 = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearest11
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a11 = alt.layer(
+                                    line1, selectors1, points1, rules1, text1
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a11)
+
+                                ################################    Profit
+                                #   ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]
+                                st.info("Visualization the Season profit from 2000 to now")
+                                st.info("Without inflation rate")
+                                brushP = alt.selection(type='interval')
+                                # Graph 9.  Profit 
+                                pointsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color=alt.condition(brushP, 'State', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushP
+                                )
+                            
+                                barsP = alt.Chart(df_save).mark_bar().encode(
+                                    y='Season',
+                                    color='Season',
+                                    x='sum(Balance)'
+                                ).transform_filter(
+                                    brushP
+                                )
+                            
+                                st.write(pointsP & barsP)
+                                ###########################################################################
+
+                                nearestP = alt.selection(type='single', nearest=True, on='mouseover',fields=['Balance'], empty='none')
+
+                                # Graph 10.  Profit 
+                                # The basic line
+                                lineP = alt.Chart(df_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Balance',
+                                    color='Season'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectorsP = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearestP
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                pointsP = lineP.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearestP, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                textP = lineP.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearestP, 'Balance', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rulesP = alt.Chart(df_save).mark_rule(color='gray').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                ).transform_filter(
+                                    nearestP
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                aP = alt.layer(
+                                    lineP, selectorsP, pointsP, rulesP, textP
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(aP)
+                                ##############
+                                ##############
+                                ############## 
+
+                                st.info("Visualization the Season profit from 2000 to now")
+                                st.info("With inflation rate")
+                                brushPI = alt.selection(type='interval')
+                                # Graph 11.  Profit  Inflacion
+                                pointsPI = alt.Chart(df_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color=alt.condition(brushPI, 'Season', alt.value('lightgray'))
+                                ).add_selection(
+                                    brushPI
+                                )
+                            
+                                barsPI = alt.Chart(df_save).mark_bar().encode(
+                                    y='Season',
+                                    color='Season',
+                                    x='sum(Inflacion_Balance)'
+                                ).transform_filter(
+                                    brushPI
+                                )
+                            
+                                st.write(pointsPI & barsPI)
+                                ###########################################################################
+                                dff = pd.read_sql_query('SELECT * FROM CDWS_BATCH_table WHERE user_id = "{}"'.format(temp_save),conn)
+                                dff_save = dff[["Order_of_Expend","State","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season","Inflacion_Income","Inflacion_Expenditures","Inflacion_Balance"]]
+
+                                nearest0 = alt.selection(type='single', nearest=True, on='mouseover',fields=['Inflacion_Balance'], empty='none')
+
+                                # Graph 12.  Profit  Inflacion
+                                # The basic line
+                                line0 = alt.Chart(dff_save).mark_line(interpolate='basis').encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    y='Inflacion_Balance',
+                                    color='Season'
+                                )
+
+                                # Transparent selectors across the chart. This is what tells us
+                                # the x-value of the cursor
+                                selectors0 = alt.Chart(dff_save).mark_point(size=200,filled=True).encode(
+                                    #x='Departures',
+                                    x=alt.X('Departures', axis=alt.Axis(title='the number of players who left the league')),
+                                    opacity=alt.value(0),
+                                ).add_selection(
+                                    nearest0
+                                )
+
+                                # Draw points on the line, and highlight based on selection
+                                points0 = line0.mark_point(size=200,filled=True).encode(
+                                    opacity=alt.condition(nearest0, alt.value(1), alt.value(0))
+                                )
+
+                                # Draw text labels near the points, and highlight based on selection
+                                text0 = line0.mark_text(align='left', dx=5, dy=-5).encode(
+                                    text=alt.condition(nearest0, 'Inflacion_Expenditures', alt.value(' '))
+                                )
+
+                                # Draw a rule at the location of the selection
+                                rules0 = alt.Chart(dff_save).mark_rule(color='gray').encode(
+                                    x='Departures',
+                                ).transform_filter(
+                                    nearest0
+                                )
+
+                                # Put the five layers into a chart and bind the data
+                                a0 = alt.layer(
+                                    line0, selectors0, points0, rules0, text0
+                                ).properties(
+                                    width=600, height=300
+                                )
+                                st.write(a0)
 
                                 st.success("Viusalise  Datas")
                 else:
