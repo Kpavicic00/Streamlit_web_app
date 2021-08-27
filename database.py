@@ -6,23 +6,106 @@ conn = sqlite3.connect('data.db', check_same_thread=False)
 c = conn.cursor()
 
 # POST 
+def create_counter():
+    c.execute('CREATE TABLE IF NOT EXISTS Conuter(Conuter_id INTEGER PRIMARY KEY,counter INTEGER,user_id TEXT,FOREIGN KEY(Conuter_id) REFERENCES usertable(id))')
 
-def create_post_table():
-    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,author TEXT,title TEXT,article TEXT,img1 BLOB,postdate TEXT,user_id TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
-
-def add_data_to_post(author,title,article,img1,postdate,user_id):
-    c.execute('INSERT INTO blog_table(author,title,article,img1,postdate,user_id) VALUES (?,?,?,?,?,?)',(author,title,article,img1,postdate,user_id))
+def add_counter(counter,user_id):
+    c.execute('INSERT INTO Conuter(counter,user_id) VALUES(?) ',(counter,user_id))
     conn.commit()
 
-def view_all_post():
-	c.execute('SELECT * FROM blog_table')
+def delite_counter(user_id):
+    c.execute('DELETE  FROM Conuter WHERE user_id=?',(user_id,))
+    conn.commit()
+
+
+def return_counter(user_id):
+    c.execute('SELECT counter FROM Conuter WHERE images_id = {}'.format(user_id))
+    data = c.fetchall()
+    return data
+
+# def create_images():
+#     c.execute('CREATE TABLE IF NOT EXISTS Images(images_id INTEGER PRIMARY KEY,img TEXT,user_id TEXT,FOREIGN KEY(images_id) REFERENCES usertable(id))')
+
+# def insert_image(img,user_id):
+#     c.execute("INSERT INTO Images(img,user_id) VALUES(?,?)",(img,user_id))
+#     conn.commit()
+
+# def return_img(id):
+# 	c.execute('SELECT * FROM Images WHERE images_id = {}'.format(id))
+# 	data = c.fetchall()
+# 	return data
+
+def create_post_table_temp_MAIN():
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table_temp_MAIN(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+
+def create_post_table():
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+
+# def add_data_to_post(id_post,author,user_id,title,article,img,postdate):
+#     c.execute('INSERT INTO blog_table(id_post,author,user_id,title,article,img,postdate) VALUES (?,?,?,?,?,?,?)',(id_post,author,user_id,title,article,img,postdate))
+#     conn.commit()
+
+# def return_id_post(id_post,user_id):
+#     c.execute('SELECT DISTINCT title FROM blog_table WHERE id_post = {} AND user_id = {}'.format(id_post,user_id))
+#     data = c.fetchall()
+#     return data
+
+
+# def view_all_post():
+# 	c.execute('SELECT * FROM blog_table')
+# 	data = c.fetchall()
+# 	return data
+
+# def view_all_post_my_post_title(id):
+# 	c.execute('SELECT title FROM blog_table WHERE user_id = "{}"'.format(id))
+# 	data = c.fetchall()
+# 	return data
+
+def delite_post(id):
+    c.execute('DELETE  FROM blog_table WHERE user_id=?',(id,))
+    conn.commit()
+
+def delite_post_MAIN(id):
+    c.execute('DELETE  FROM blog_table_temp_MAIN WHERE user_id=?',(id,))
+    conn.commit()
+
+#   #   #   post_id temp  querrys
+
+def create_post_id_temp():
+    c.execute('CREATE TABLE IF NOT EXISTS post_id_temp(post_id INTEGER PRIMARY KEY,post_id_temp INTEGER,user_id,FOREIGN KEY(post_id) REFERENCES usertable(id))')
+
+def add_post_temp(post_id,user_id):
+    #c.execute('INSERT INTO post_id_temp(post_id) VALUES(?) ',(post_id))
+    c.execute('INSERT INTO post_id_temp(post_id_temp,user_id) VALUES(?,?) ',(post_id,user_id))
+    conn.commit()
+
+def return_post_id_temp(user_id):
+	c.execute('SELECT DISTINCT post_id_temp FROM post_id_temp WHERE user_id = {}'.format(user_id))
 	data = c.fetchall()
 	return data
 
-def view_all_post_my_post(id):
-	c.execute('SELECT * FROM blog_table WHERE user_id = "{}"'.format(id))
+def delite_post_id_temp(user_id):
+    c.execute('DELETE  FROM post_id_temp WHERE post_id=?',(user_id,))
+    conn.commit()
+
+#   #   #   post_id temp  querrys
+
+# def delite_post_temp(author):
+#     c.execute('DELETE  FROM blog_table WHERE author=?',(author,))
+#     conn.commit()
+
+# def return_post_id(user_id):
+# 	c.execute('SELECT DISTINCT post_id FROM blog_table WHERE user_id = {}'.format(user_id))
+# 	data = c.fetchall()
+# 	return data
+
+def return_post_id(user_id):
+	c.execute('SELECT DISTINCT id_post FROM blog_table_temp_MAIN WHERE user_id = {}'.format(user_id))
 	data = c.fetchall()
 	return data
+
+
+
 
 #------------------------------------------------------------------
 ### DATABASE FUNCTIONS !!
