@@ -379,3 +379,19 @@ html_EFPA_BATCH_Expend_INFLATION_leagues = """
 </body>
 """
 
+head_message_temp ="""
+	<div style="background-color:silver;padding:10px;border-radius:5px;margin:10px;">
+	<h2 style="color:white;text-align:center;">{}</h1>
+	<img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" style="vertical-align: middle;float:left;width: 50px;height: 50px;border-radius: 50%;">
+	<h4>Author: {} </h4> 		
+	<h4>Post Date: {} </h4>	
+    <h4>Reading time: {} </h4>	
+	</div>
+    """
+
+
+full_message_temp ="""
+	<div style="background-color:silver;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+		<p style="text-align:justify;color:black;padding:10px">{}</p>
+	</div>
+	"""

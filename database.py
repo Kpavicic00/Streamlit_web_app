@@ -36,10 +36,15 @@ def return_counter(user_id):
 # 	return data
 
 def create_post_table_temp_MAIN():
-    c.execute('CREATE TABLE IF NOT EXISTS blog_table_temp_MAIN(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table_temp_MAIN(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,read_time REAL,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+
+def return_post_id_temp_MAIN():
+	c.execute('SELECT DISTINCT id_post FROM blog_table_temp_MAIN')
+	data = c.fetchall()
+	return data
 
 def create_post_table():
-    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,read_time REAL,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
 
 # def add_data_to_post(id_post,author,user_id,title,article,img,postdate):
 #     c.execute('INSERT INTO blog_table(id_post,author,user_id,title,article,img,postdate) VALUES (?,?,?,?,?,?,?)',(id_post,author,user_id,title,article,img,postdate))

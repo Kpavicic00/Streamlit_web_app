@@ -16,6 +16,15 @@ import sys
 import base64
 coef = 'file.txt'
 
+def add_if_key_not_exist(dict_obj, key, value):
+    if key not in dict_obj:
+        dict_obj.update({key: value})
+
+# Reading Time
+def readingTime(mytext):
+	total_words = len([ token for token in mytext.split(" ")])
+	estimatedTime = total_words/200.0
+	return estimatedTime
 
 def stringToList(string):
     listRes = list(string.split(" "))

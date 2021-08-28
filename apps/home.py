@@ -73,197 +73,25 @@ import PIL.Image as Image
 from pathlib import Path
 from PIL import UnidentifiedImageError
 import cv2
-
+from streamlit import caching
+from html_temp import*
+from functions import*
 
 
 
 def app():
-    head_message_temp ="""
-	<div style="background-color:silver;padding:10px;border-radius:5px;margin:10px;">
-	<h4 style="color:white;text-align:center;">{}</h1>
-	<img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" style="vertical-align: middle;float:left;width: 50px;height: 50px;border-radius: 50%;">
-	<h6>Author:{}</h6> 		
-	<h6>Post Date: {}</h6>		
-	</div>
-    """
-
-
-    full_message_temp ="""
-	<div style="background-color:silver;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
-		<p style="text-align:justify;color:black;padding:10px">{}</p>
-	</div>
-	"""
-
-    st.title('Post')
-    df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN',conn)
-    df_new = df[['id_post','author','user_id','title','article','img','postdate']]
-    st.dataframe(df_new)
-    a = df_new['id_post'].unique() 
-    # st.write(df_new['user_id'][0])
-    # st.write(a)
-    # lista =[]
-    # for i in a:
-    #     lista.append(i)
-
-    # st.write(lista)
-
-    #for i in lista:
-    #st.write("i ::: ",int(i))
-    df = pd.read_sql_query('SELECT id_post FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(1),conn)
-    a = df['id_post'].unique() 
-    st.dataframe(a)
-    lista =[]
-    for i in a:
-        lista.append(i)
-        
-
-    st.write(lista)
-    for i in lista:
-        df_print = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(1,int(i)),conn)
-        st.markdown(head_message_temp.format(df_print['title'][0],df_print['author'][0],df_print['postdate'][0]),unsafe_allow_html=True)
-
-        for i in range(0,len(df_print)):
-            if type(df_print['img'][i]) != str and df_print['img'][i] != None:
-                #st.write("df_print['img'][i]",df_print['img'][i])
-                test = np.frombuffer(df_print['img'][i], dtype=np.uint8)
-                opencv_image = cv2.imdecode(test, 1)
-                st.image(opencv_image, channels="BGR")
-                #st.markdown(title_temp.format(st.image(opencv_image, channels="BGR")),unsafe_allow_html=True)
-            elif type(df_print['article'][i]) == str and df_print['article'][i] != None:
-                st.markdown(full_message_temp.format(df_print['article'][i]),unsafe_allow_html=True)
-        st.write("______________________________-")
-    
-
-
-    # df_new = df_new[df_new.groupby(['id_post', 'author'])['id_post'].transform('nunique') > 3]
-    # st.dataframe(df_new)
-
-    # for i in range(0,len(df_new)):
-    #     i df_new[]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # post_idd = return_post_id(1)
-    # listt = []
-    # for i in post_idd:
-    #     a = int(''.join(map(str, i))) 
-    #     listt.append(a)
-    # st.write("max",max(listt))
-    #df = pd.DataFrame(columns=['id_post','author','user_id','title','article','img','postdate']) 
-    #df = ['1',None,None,None,None,None,'1']
-    #create_post_table_temp_MAIN()
-
-    # df = pd.DataFrame(columns=['id_post','autohor','blog_title','blog_aricle','image','post_date','user_id']) 
-    # df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(1),conn)
-    # df_new = df[['id_post','author','user_id','title','article','img','postdate']]
-    # st.dataframe(df_new)
-    # df_new.to_sql('blog_table_temp_MAIN',con=conn,if_exists='append')
-    # df = pd.DataFrame()
-    # post__id = 1
-    # temp_save = 2
-    # blog_title = 3
-    # #df = [post__id,res,temp_save,blog_title,blog_articles,None,blog_post_date]
-    # df = df.append({'id_post': post__id, 'author': temp_save, 'user_id': blog_title, 'title':22,}, ignore_index=True)
-    # st.dataframe(df)
-    # te = (post_idd[0])
-    # temp_id_post = int(''.join(map(str, te)))
-    # st.write("temp_id_post",temp_id_post)
-    # post_check_exisit = return_post_id(1)
-    # st.write("post_check_exisit",post_check_exisit)
-
-    #df = pd.DataFrame(columns=['id_post','autohor','blog_title','blog_aricle','image','post_date','user_id']) 
-    # df = pd.read_sql_query('SELECT * FROM blog_table_temp WHERE user_id = "{}"'.format(1),conn)
-    # df_new = df[['id_post','author','user_id','title','article','img','postdate']]
-    # st.dataframe(df_new)
-    # df_new.to_sql('blog_table',con=conn,if_exists='append')
-    
-
-    # username = return_username()
-    # i = (username[0])
-    # res = str(''.join(map(str, i)))
-    # return_user_idd = return_user_id(res)
-    # i = (return_user_idd[0])
-    # temp_save = int(''.join(map(str, i)))
-    # create_post_table()
-
-    # # id_post-> 1 , author_name , user_id -> temp_save
-    # if st.checkbox("Add title "):
-    #     blog_title = st.text_input("Enther Post title: ")
-    #     if blog_title  == "":
-
-    #         st.warning("Please first Insert Blog Title !!")
-
-    #     elif blog_title != "":
-
-    #         if st.checkbox("add articles and images"):
-    #             blog_option = st.radio("Chose a option ",["Add article","Add Image","Leave"], key='dsa' )
-    #             if blog_option == "Add article":
-    #                 blog_articles = st.text_area("Post Articles here",height=250,key='dasdsa')
-    #                 blog_post_date = st.date_input("Date")
-    #                 if st.button("Add"):
-    #                     df = pd.DataFrame(columns=['id_post','author','user_id','title','article','img','postdate']) 
-    #                     df.loc[1] = ['1',res,temp_save,blog_title,blog_articles,None,blog_post_date]
-    #                     df.to_sql('blog_table',con=conn,if_exists='append')
-    #                     st.dataframe(df)
-    #                     st.success("Articles added")
-    #             elif blog_option == "Add Image":
-    #                 image_file = st.file_uploader("Upload a image ",type=['png','jpeg','jpg'],key='dsadsa')
-    #                 if image_file is not None:
-    #                     file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
-    #                     bytes = file_bytes.tobytes()
-    #                     blog_post_date = st.date_input("Date")
-    #                     if st.button("Add"):
-    #                         #add_data_to_post('1',res,temp_save,blog_title,None,bytes,'datum:213321')
-    #                         #df = pd.DataFrame()
-    #                         df = pd.DataFrame(columns=['id_post','author','user_id','title','article','img','postdate']) 
-    #                         df.loc[1] = ['1',res,temp_save,blog_title,None,bytes,blog_post_date]
-    #                         df.to_sql('blog_table',con=conn,if_exists='append')
-    #                         st.success("Image added")
-
-
-    # df = pd.read_sql_query('SELECT * FROM blog_table WHERE user_id = "{}"'.format(temp_save),conn)
-    # df_new = df[['id_post','author','user_id','title','article','img','postdate']]
-
-    # st.write("dataframe : df_new")
-    # st.dataframe(df_new)
-    # #st.write(df_new['img'][0])
-    # autor = df_new['author'][0]
-    # datum = df_new['postdate'][0]
-    # title = df_new['title'][0]
-    # df_2 = df_new[['article', 'img']]
-    # st.dataframe(df_2)
-    # num = []
-    # #st.write(num)
-    # for i in range(0,len(df_2)):
-        
-    #     if df_2['article'][i] != None:
-    #         num.append(df_2['article'][i])
-    #         #st.write(i)
-    #     if df_2['article'][i] == None:
-    #         if df_2['img'][i] != None:
-    #             num.append(df_2['img'][i])
-    #             #st.write(i)
-
-
-
+    a  = return_post_id_temp_MAIN()
+    st.write("a",a)
+    # def add_if_key_not_exist(dict_obj, key, value):
+    #     if key not in dict_obj:
+    #         dict_obj.update({key: value})
     # head_message_temp ="""
 	# <div style="background-color:silver;padding:10px;border-radius:5px;margin:10px;">
-	# <h4 style="color:white;text-align:center;">{}</h1>
+	# <h2 style="color:white;text-align:center;">{}</h1>
 	# <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" style="vertical-align: middle;float:left;width: 50px;height: 50px;border-radius: 50%;">
-	# <h6>Author:{}</h6> 		
-	# <h6>Post Date: {}</h6>		
+	# <h4>Author: {} </h4> 		
+	# <h4>Post Date: {} </h4>	
+    # <h4>Reading time: {} </h4>	
 	# </div>
     # """
 
@@ -273,90 +101,163 @@ def app():
 	# 	<p style="text-align:justify;color:black;padding:10px">{}</p>
 	# </div>
 	# """
-    # # df_save = pd.DataFrame({'col':num})
-    # # st.dataframe(df_save)
-    # st.markdown(head_message_temp.format(title,autor,datum),unsafe_allow_html=True)
-    # for i in range(0,len(num)):
-    #     #st.write(type(i))
 
-    #     if type(num[i]) != str:
-    #         #st.write(i)
-    #         test = np.frombuffer(num[i], dtype=np.uint8)
-    #         opencv_image = cv2.imdecode(test, 1)
-    #         st.image(opencv_image, channels="BGR")
+    dfsve = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN',conn)
+    st.write("dataframe ")
+    st.dataframe(dfsve)
+    df_user = pd.read_sql_query('SELECT DISTINCT user_id FROM blog_table_temp_MAIN',conn)
+    temp_user = df_user['user_id'].unique() 
+    df_post = pd.read_sql_query('SELECT DISTINCT id_post FROM blog_table_temp_MAIN',conn)
+    temp_post = df_post['id_post'].unique() 
+    st.success("temp_post")
+    st.dataframe(temp_post)
+
+    post_lista =[]
+    for i in temp_post:
+        post_lista.append(i)
+
+
+    user_lista =[]
+    for i in temp_user:
+        user_lista.append(i)
+    d = {}
+    for i in user_lista:
+        st.write(" i :: ",i)
+        for j in post_lista:
+            st.write(" j :: ",j)
+            df = pd.read_sql_query('SELECT author,read_time FROM blog_table_temp_MAIN WHERE id_post = "{}"'.format(int(j)),conn)
+            st.dataframe(df)
+            Total = df['read_time'].sum()
+            add_if_key_not_exist(d,j,Total)
+            #st.write("Total time read",Total)
+            #st.success("isis read time")
+
+    st.write(d)
+    
+    st.warning("kraj ispisa svih postova !!")
+    st.title('View all posts !!!')
+    df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN',conn)
+    df_new = df[['id_post','author','user_id','title','article','img','postdate']]
+    a = df_new['id_post'].unique() 
+    lista =[]
+    for i in a:
+        lista.append(i)
+    caching.clear_cache()
+    for j in user_lista:
+        df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(int(j)),conn)
+        for i in lista:
+            df_print = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+            df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+            if df_a_d_t.empty != True :
+                temp_reading_time = d.get(i)
+                st.write("temp_reading_time : ",temp_reading_time)
+                
+                st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
+                for i in range(0,len(df_print)):
+                    if type(df_print['img'][i]) != str and df_print['img'][i] != None:
+                        test = np.frombuffer(df_print['img'][i], dtype=np.uint8)
+                        opencv_image = cv2.imdecode(test, 1)
+                        st.image(opencv_image, channels="BGR")
+                    elif type(df_print['article'][i]) == str and df_print['article'][i] != None:
+                        st.markdown(full_message_temp.format(df_print['article'][i]),unsafe_allow_html=True)
+                st.success("end of post")
+    
+
+    caching.clear_cache()
+
+    st.warning("kraj ispisa svih postova !!")
+
+    st.success("ispis potova izborom naslova !!! pocetak  -> title")
+    df_title = pd.read_sql_query('SELECT title FROM blog_table_temp_MAIN',conn)
+    temp_title = df_title['title'].unique() 
+
+    title_lista =[]
+    for i in temp_title:
+        title_lista.append(i)
+    st.write(title_lista)
+
+    st.write("Ispis naslova :: ")
+    for i in title_lista:
+
+        st.write(i)
+
+    remeber = st.selectbox("Select title post", options= list(title_lista))
+    if st.button("Submit"):
+        df_title_temp = pd.read_sql_query('SELECT id_post,user_id FROM blog_table_temp_MAIN WHERE title = "{}"'.format(remeber),conn)
+        st.dataframe(df_title_temp)
+        j = df_title_temp['user_id'][0]
+        i = df_title_temp['id_post'][0]
+
+        df_title = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+        df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+        if df_a_d_t.empty != True :
+            temp_reading_time = d.get(i)
+            st.write("temp_reading_time : ",temp_reading_time)
             
-    #         #st.markdown(title_temp.format(st.image(opencv_image, channels="BGR")),unsafe_allow_html=True)
-    #     elif type(num[i]) == str:
-    #         #st.write(i)
-    #         st.markdown(full_message_temp.format(num[i]),unsafe_allow_html=True)
+            st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
+            for i in range(0,len(df_title)):
+                if type(df_title['img'][i]) != str and df_title['img'][i] != None:
+                    test = np.frombuffer(df_title['img'][i], dtype=np.uint8)
+                    opencv_image = cv2.imdecode(test, 1)
+                    st.image(opencv_image, channels="BGR")
+                elif type(df_title['article'][i]) == str and df_title['article'][i] != None:
+                    st.markdown(full_message_temp.format(df_title['article'][i]),unsafe_allow_html=True)
+            st.success("end of post")
+    st.success("ispis potova izborom naslova !!! KRAJ KRAJ KRAJ !!!!!   ")
 
-            
+
+
+    st.warning("ISPIS POSTOVA OD AUTORA (JEDAN ILI VISE POSTOVA)  POČETAK !!! ")
+    df_autor = pd.read_sql_query('SELECT author FROM blog_table_temp_MAIN',conn)
+    temp_autor = df_autor['author'].unique() 
+
+    title_autor =[]
+    for i in temp_autor:
+        title_autor.append(i)
+    st.write(title_autor)
+
+    st.write("Ispis naslova :: ")
+    for i in title_autor:
+
+        st.write(i)
+
+    autor_temp = st.selectbox("Select title post", options= list(title_autor))
+    if st.button("Submit author"):
+        st.write("autor_temp",autor_temp)
+        df_title_temp = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE author = "{}"'.format(autor_temp),conn)
+        st.dataframe(df_title_temp)
+        temp_user = df_title_temp['user_id'].unique() 
+        user_lista =[]
+        for i in temp_user:
+            user_lista.append(i)
+        df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN',conn)
+        df_new = df[['id_post','author','user_id','title','article','img','postdate']]
+        a = df_new['id_post'].unique() 
+        lista =[]
+        for i in a:
+            lista.append(i)
+        for j in user_lista:
+            df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(int(j)),conn)
+            for i in lista:
+                df_print = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+                df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+                if df_a_d_t.empty != True :
+                    temp_reading_time = d.get(i)
+                    st.write("temp_reading_time : ",temp_reading_time)
+
+                    st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
+                    for i in range(0,len(df_print)):
+                        if type(df_print['img'][i]) != str and df_print['img'][i] != None:
+                            test = np.frombuffer(df_print['img'][i], dtype=np.uint8)
+                            opencv_image = cv2.imdecode(test, 1)
+                            st.image(opencv_image, channels="BGR")
+                        elif type(df_print['article'][i]) == str and df_print['article'][i] != None:
+                            st.markdown(full_message_temp.format(df_print['article'][i]),unsafe_allow_html=True)
+                    st.success("end of post")
 
 
 
-    # a = return_id_post(1,1)
-    # st.write(a)
-    # test = 1
-    # # if st.checkbox("Add title new "):
-    # #     blog_title = st.text_input("Enther Post title: ",key='update')
-    # if st.button("Delite"):
-    #     delite_post(1)
-    # b = return_id_post(1,1)
-    # st.write(b)
-    # remove_nan = series. dropna()
-    # print(remove_nan)
-    # df_2["Value"] = df_2["article"] +" "+ df_2["img"]
-    # st.dataframe(df_2)
-        # add_paragraf(article)  and Image
-        
-        # st.info("Add post or image or just leave")
-        # blog_option = st.radio("Chose a option ",["Add article","Add Image","Leave"], key='dsa' )
-        # if blog_option == "Add article":
-        #         blog_articles = st.text_area("Post Articles here",height=250,key='dasdsa')
-        #         # add article
-        #         if st.button("add data"):
-        #                 st.success("Image added")
-        # elif blog_option == "Add Image":
-        #         image_file = st.file_uploader("Upload a image ",type=['png','jpeg','jpg'],key='dsadsa')
-        #         if image_file is not None:
-        #             file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
-        #             bytes = file_bytes.tobytes()
-        #             if st.button("add data"):
-        #                 st.success("Image added")
-        # elif blog_option == "Leave":
-        #     while True:
-        #         st.write("End")
-        #         break
-
-    
-    # #blog_articles = st.text_area("Post Articles here",height=250)
-    # blog_post_date = st.date_input("Date")
-    # image_file = st.file_uploader("Upload a image ",type=['png','jpeg','jpg'])
-    # if image_file is not None:
-    #     file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
-    #     bytes = file_bytes.tobytes()
-
-        # if st.button("Add Data"):
-
-        #     df.loc[1] = ['1',res,blog_title,blog_articles,bytes,blog_post_date,temp_save]
-            # df['id_post'] = 1
-            # df['autohor'] = res
-            # df['blog_title'] = blog_title
-            # df['blog_aricle'] = blog_articles
-            # df['image'] = bytes
-            # df['post_date'] = blog_post_date
-            # df['user_id'] = temp_save
-            #add_data_to_post(res,blog_title,blog_articles,blog_post_date,temp_save)
-    #         st.subheader("Upload Images")
-            
-
-    # st.dataframe(df)
-    # temp = df.loc[1,'image']
-
-    # test = np.frombuffer(temp, dtype=np.uint8)
-    
-    # opencv_image = cv2.imdecode(test, 1)
-    # st.image(opencv_image, channels="BGR")
+    st.warning("ISPIS POSTOVA OD AUTORA (JEDAN ILI VISE POSTOVA)  KRAJ !!! ")
 
 
 
@@ -365,35 +266,9 @@ def app():
 
 
 
-    # uploaded_file = st.file_uploader("Choose a image file")
-    
-    # create_images()
 
-    # if uploaded_file is not None:
-    #     # Convert the file to an opencv image.
-    #     st.write("type(uploaded_file)",uploaded_file)
-    #     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-    #     bytes = file_bytes.tobytes()
-    #     #temp_string = file_bytes.decode("utf-8") 
-    #     st.write(" type file_bytes",type(bytes))
-        
-    #     insert_image(bytes,2)
 
-    #     test = np.frombuffer(bytes, dtype=np.uint8)
 
-        
-    #     opencv_image = cv2.imdecode(test, 1)
 
-    #     st.image(opencv_image, channels="BGR")
-  
-    
-    # a = return_img(1)
 
-    # for i in a:
-    #     #st.write(i[0]," ::",i[1])
-    #     img = i[1]
-
-    # test = np.frombuffer(img, dtype=np.uint8)
-    
-    # opencv_image = cv2.imdecode(test, 1)
-    # st.image(opencv_image, channels="BGR")
+   

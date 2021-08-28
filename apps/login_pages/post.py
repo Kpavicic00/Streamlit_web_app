@@ -13,10 +13,12 @@ from subprocess import Popen, PIPE
 import numpy as np 
 from streamlit import caching
 from datetime import datetime
+from functions import readingTime
+from html_temp import*
 
 def app():
     
-    
+    conn = sqlite3.connect('data.db', check_same_thread=False)
     username = return_username()
     # create_counter()
     
@@ -25,55 +27,47 @@ def app():
     return_user_idd = return_user_id(res)
     i = (return_user_idd[0])
     temp_save = int(''.join(map(str, i)))
-    #st.write("temp_save",temp_save)
     create_post_table_temp_MAIN()
-    # add_counter(1,temp_save)
-    #delite_post_temp(temp_save)
-    post_check_exisit = return_post_id(temp_save)
-    #st.write("post_check_exisit",post_check_exisit)
-
-    post_idd = return_post_id(temp_save)
-    # if post_idd == []:
-    #     postt_id = 1
-
-    if post_check_exisit != []:
-        #post_idd = return_post_id(temp_save)
-        st.write(post_check_exisit)
-        listt = []
-        for i in post_check_exisit:
-            a = int(''.join(map(str, i))) 
-            listt.append(a)
-        post__id = max(listt)
-        i = int(post__id)
-        st.write("post__id test !!",post__id)
-        conn = sqlite3.connect('data.db', check_same_thread=False)
-        create_post_id_temp()
-        add_post_temp(i,temp_save)
-        c = conn.cursor()
-        caching.clear_cache()
-
-        st.write("prije if granajnja : ",post__id)
-    if post_check_exisit == []:
-        df = pd.DataFrame(columns=['id_post','autohor','blog_title','blog_aricle','image','post_date','user_id']) 
+    #post_check_exisit = return_post_id(temp_save)
+    st.info("Select option")
+    blog_option = st.selectbox("Chose a option ",["Create new post","Search post by Author","Search post by Title","Delite post by Title"], key='post_options' )
+    if blog_option == "Create new post":
         st.title('Create New Post')
         if st.checkbox("Add title "):
+
             blog_title = st.text_input("Enther Post title: ")
             if blog_title  == "":
                 st.warning("Please first Insert Blog Title !!")
             elif blog_title != "":
                 if st.checkbox("add articles and images"):
-                    blog_option = st.selectbox("Chose a option ",["Add article","Add Image","Leave"], key='dsa' )
+                    blog_option = st.selectbox("Chose a option ",["Add article","Add Image"], key='dsa' )
                     if blog_option == "Add article":
                         blog_articles = st.text_area("Post Articles here",height=250,key='dasdsa')
                         if blog_articles is not None:
                             if st.button("Add"):
+                                conn = sqlite3.connect('data.db', check_same_thread=False)
+                                df_post_id = pd.read_sql_query('SELECT id_post FROM blog_table_temp_MAIN',conn)
+                                temp_post_id = df_post_id['id_post'].unique()    
+                                if df_post_id.empty == True:
+                                    post__id = str(1)
+                                else :
+                                    post_lista =[]
+                                    for i in temp_post_id:
+                                        post_lista.append(i)    
+                                    temp2 = max(post_lista)
+                                    te = int(temp2) 
+                                    #st.write("te test : ",te)
+                                    temp = te +1
+                                    #st.write("temp temp : ",temp)
+                                    post__id = str(temp)
                                 df = pd.DataFrame()
-                                df.insert(0,'id_post',['1'])
+                                df.insert(0,'id_post',[post__id])
                                 df.insert(0,'author',[res])
                                 df.insert(0,'user_id',[temp_save])
                                 df.insert(0,'title',[blog_title])
                                 df.insert(0,'article',[blog_articles])
                                 df.insert(0,'img',[None])
+                                df.insert(0,'read_time',[readingTime(blog_articles)])
                                 conn = sqlite3.connect('data.db', check_same_thread=False)
                                 create_post_table()
                                 df.to_sql('blog_table',con=conn,if_exists='append')
@@ -86,14 +80,28 @@ def app():
                             file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
                             bytes = file_bytes.tobytes()
                             if st.button("Add"):
+                                conn = sqlite3.connect('data.db', check_same_thread=False)
+                                df_post_id = pd.read_sql_query('SELECT id_post FROM blog_table_temp_MAIN',conn)
+                                temp_post_id = df_post_id['id_post'].unique()    
+                                if df_post_id.empty == True:
+                                    post__id = str(1)
+                                else :
+                                    post_lista =[]
+                                    for i in temp_post_id:
+                                        post_lista.append(i)    
+                                    temp2 = max(post_lista)
+                                    te = int(temp2) 
+                                    #st.write("te test : ",te)
+                                    temp = te +1
+                                    #st.write("temp temp : ",temp)
+                                    post__id = str(temp)
                                 df = pd.DataFrame()
-                                df.insert(0,'id_post',['1'])
+                                df.insert(0,'id_post',[post__id])
                                 df.insert(0,'author',[res])
                                 df.insert(0,'user_id',[temp_save])
                                 df.insert(0,'title',[blog_title])
                                 df.insert(0,'article',[None])
                                 df.insert(0,'img',[bytes])
-                                conn = sqlite3.connect('data.db', check_same_thread=False)
                                 create_post_table()
                                 df.to_sql('blog_table',con=conn,if_exists='append')
                                 c = conn.cursor()
@@ -109,7 +117,7 @@ def app():
             temp_save = int(''.join(map(str, i)))
             create_post_table()      
             df = pd.read_sql_query('SELECT * FROM blog_table WHERE user_id = "{}"'.format(temp_save),conn)
-            df_new = df[['id_post','author','user_id','title','article','img','postdate']]
+            df_new = df[['id_post','author','user_id','title','article','img','postdate','read_time']]
             blog_post_date = st.date_input("Date",key='dsadsa2')
             size = len(df_new)
             list1 = [0] * size
@@ -118,134 +126,57 @@ def app():
             df_new['postdate'] = list1
             st.dataframe(df_new)
             df_new.to_sql('blog_table_temp_MAIN',con=conn,if_exists='append')
-            delite_post(1)
+            delite_post(temp_save)
             c = conn.cursor()
             caching.clear_cache()
             st.success("Post saved!")
-        # if st.button("delite Post"):
-        #     conn = sqlite3.connect('data.db', check_same_thread=False)
-        #     delite_post(temp_save)
-        #     delite_post_MAIN(temp_save)
-            c = conn.cursor()
+    elif blog_option == "Search post by Author":
+        df_autor = pd.read_sql_query('SELECT author FROM blog_table_temp_MAIN',conn)
+        temp_autor = df_autor['author'].unique() 
 
-    elif post_check_exisit != []:
-        # post_idd = return_post_id(temp_save)
-        # st.write(post_idd)
-        # listt = []
-        # # for i in post_idd:
-        # #     a = int(''.join(map(str, i))) 
-        # #     listt.append(a)
-        # post__id = 2
-        # # post__id = max(listt) +1
-        st.write("post__id",post__id)
-        if st.checkbox("Add title "):
-            blog_title = st.text_input("Enther Post title: ")
-            if blog_title  == "":
-                st.warning("Please first Insert Blog Title !!")
-            elif blog_title != "":
-                # post_idd = return_post_id(1)
-                # listt = []
-                # for i in post_idd:
-                #     a = int(''.join(map(str, i))) 
-                #     listt.append(a)
-                # post__id = max(listt) +1
-                # st.write("post__id",post__id)
-                if st.checkbox("add articles and images"):
-                    blog_option = st.radio("Chose a option ",["Add article","Add Image","Leave"], key='dsa' )
-                    if blog_option == "Add article":
-                        blog_articles = st.text_area("Post Articles here",height=250,key='dasdsa')
-                        if st.button("Add"):
-                            conn = sqlite3.connect('data.db', check_same_thread=False)
-                            a = return_post_id_temp(temp_save)
-                            listt = []
-                            for i in a:
-                                temp = int(''.join(map(str, i))) 
-                                listt.append(temp)
-                            temp2 = max(listt)
-                            te = int(temp2) 
-                            st.write("te test : ",te)
-                            te = te +1
-                            post__id = str(te)
-                            #st.write("post_id second ",post__id)
-                            df = pd.DataFrame()
-                            df.insert(0,'id_post',[post__id])
-                            df.insert(0,'author',[res])
-                            df.insert(0,'user_id',[temp_save])
-                            df.insert(0,'title',[blog_title])
-                            df.insert(0,'article',[blog_articles])
-                            df.insert(0,'img',[None])
-                            create_post_table()
-                            df.to_sql('blog_table',con=conn,if_exists='append')
-                            c = conn.cursor()
-                            st.success("Articles added")
-                            caching.clear_cache()
-                    elif blog_option == "Add Image":
-                        image_file = st.file_uploader("Upload a image ",type=['png','jpeg','jpg'],key='dsadsa3')
-                        if image_file is not None:
-                            file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
-                            bytes = file_bytes.tobytes()
-                            if st.button("Add"):
-                                conn = sqlite3.connect('data.db', check_same_thread=False)
-                                a = return_post_id_temp(temp_save)
-                                listt = []
-                                for i in a:
-                                    temp = int(''.join(map(str, i))) 
-                                    listt.append(temp)
-                                temp2 = max(listt)
-                                te = int(temp2) 
-                                te = te +1
-                                st.write("te test : ",te)
-                                post__id = str(te)
-                                #st.write("post_id second ",post__id)
-                                df = pd.DataFrame()
-                                df.insert(0,'id_post',[post__id])
-                                df.insert(0,'author',[res])
-                                df.insert(0,'user_id',[temp_save])
-                                df.insert(0,'title',[blog_title])
-                                df.insert(0,'article',[None])
-                                df.insert(0,'img',[bytes])
-                                #conn = sqlite3.connect('data.db', check_same_thread=False)
-                                create_post_table()
-                                df.to_sql('blog_table',con=conn,if_exists='append')
-                                c = conn.cursor()
-                                st.success("Image added")
-                                caching.clear_cache()
-        if st.button("Save post"):
-            conn = sqlite3.connect('data.db', check_same_thread=False)
-            username = return_username()
-            i = (username[0])
-            res = str(''.join(map(str, i)))
-            return_user_idd = return_user_id(res)
-            i = (return_user_idd[0])
-            temp_save = int(''.join(map(str, i)))
-            create_post_table()      
-            df = pd.read_sql_query('SELECT * FROM blog_table WHERE user_id = "{}"'.format(temp_save),conn)
+        title_autor =[]
+        for i in temp_autor:
+            title_autor.append(i)
+        st.write(title_autor)
+
+        st.write("Ispis naslova :: ")
+        for i in title_autor:
+
+            st.write(i)
+
+        autor_temp = st.selectbox("Select title post", options= list(title_autor))
+        if st.button("Submit author"):
+            st.write("autor_temp",autor_temp)
+            df_title_temp = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE author = "{}"'.format(autor_temp),conn)
+            st.dataframe(df_title_temp)
+            temp_user = df_title_temp['user_id'].unique() 
+            user_lista =[]
+            for i in temp_user:
+                user_lista.append(i)
+            df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN',conn)
             df_new = df[['id_post','author','user_id','title','article','img','postdate']]
-            blog_post_date = st.date_input("Date",key='dsadsa4')
-            size = len(df_new)
-            list1 = [0] * size
-            for i in range(0,size):
-                list1[i] = str(blog_post_date)
-            df_new['postdate'] = list1
-            st.dataframe(df_new)
-            df_new.to_sql('blog_table_temp_MAIN',con=conn,if_exists='append')
-            delite_post_id_temp(temp_save)
-            delite_post(1)
-            c = conn.cursor()
-            caching.clear_cache()
-            st.success("Post saved!")
+            a = df_new['id_post'].unique() 
+            lista =[]
+            for i in a:
+                lista.append(i)
+            for j in user_lista:
+                df = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(int(j)),conn)
+                for i in lista:
+                    df_print = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+                    df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+                    if df_a_d_t.empty != True :
+                        temp_reading_time = d.get(i)
+                        st.write("temp_reading_time : ",temp_reading_time)
 
+                        st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
+                        for i in range(0,len(df_print)):
+                            if type(df_print['img'][i]) != str and df_print['img'][i] != None:
+                                test = np.frombuffer(df_print['img'][i], dtype=np.uint8)
+                                opencv_image = cv2.imdecode(test, 1)
+                                st.image(opencv_image, channels="BGR")
+                            elif type(df_print['article'][i]) == str and df_print['article'][i] != None:
+                                st.markdown(full_message_temp.format(df_print['article'][i]),unsafe_allow_html=True)
+                        st.success("end of post")
 
-            # username = return_username()
-            # i = (username[0])
-            # res = str(''.join(map(str, i)))
-            # return_user_idd = return_user_id(res)
-            # i = (return_user_idd[0])
-            # temp_save = int(''.join(map(str, i)))
-            # create_post_table()
-            # df = pd.read_sql_query('SELECT * FROM blog_table WHERE user_id = "{}"'.format(temp_save),conn)
-            # df_new = df[['id_post','author','user_id','title','article','img','postdate']]
-            # st.dataframe(df_new)
-            # df_new.to_sql('blog_table_temp_MAIN',con=conn,if_exists='append')
-            # delite_post(temp_save)
-            # st.success("Post saved!")
+    elif blog_option == "Search post by Author":
+        pass
