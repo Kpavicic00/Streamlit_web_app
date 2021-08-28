@@ -24,6 +24,7 @@ def app():
     
     i = (username[0])
     res = str(''.join(map(str, i)))
+
     return_user_idd = return_user_id(res)
     i = (return_user_idd[0])
     temp_save = int(''.join(map(str, i)))
@@ -130,7 +131,46 @@ def app():
             c = conn.cursor()
             caching.clear_cache()
             st.success("Post saved!")
+    
+    elif blog_option == "Search post by Title":
+        st.success("Search posts by the Title name")
+        df_title = pd.read_sql_query('SELECT title FROM blog_table_temp_MAIN',conn)
+        temp_title = df_title['title'].unique() 
+
+        title_lista =[]
+        for i in temp_title:
+            title_lista.append(i)
+        st.write(title_lista)
+
+        st.write("Ispis naslova :: ")
+        for i in title_lista:
+
+            st.write(i)
+
+        remeber = st.selectbox("Select title post", options= list(title_lista))
+        if st.button("Submit"):
+            df_title_temp = pd.read_sql_query('SELECT id_post,user_id FROM blog_table_temp_MAIN WHERE title = "{}"'.format(remeber),conn)
+            st.dataframe(df_title_temp)
+            j = df_title_temp['user_id'][0]
+            i = df_title_temp['id_post'][0]
+
+            df_title = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+            df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
+            if df_a_d_t.empty != True :
+                temp_reading_time = d.get(i)
+                st.write("temp_reading_time : ",temp_reading_time)
+
+                st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
+                for i in range(0,len(df_title)):
+                    if type(df_title['img'][i]) != str and df_title['img'][i] != None:
+                        test = np.frombuffer(df_title['img'][i], dtype=np.uint8)
+                        opencv_image = cv2.imdecode(test, 1)
+                        st.image(opencv_image, channels="BGR")
+                    elif type(df_title['article'][i]) == str and df_title['article'][i] != None:
+                        st.markdown(full_message_temp.format(df_title['article'][i]),unsafe_allow_html=True)
+
     elif blog_option == "Search post by Author":
+        st.success("Search posts by the Author name")
         df_autor = pd.read_sql_query('SELECT author FROM blog_table_temp_MAIN',conn)
         temp_autor = df_autor['author'].unique() 
 
@@ -178,5 +218,30 @@ def app():
                                 st.markdown(full_message_temp.format(df_print['article'][i]),unsafe_allow_html=True)
                         st.success("end of post")
 
-    elif blog_option == "Search post by Author":
-        pass
+    elif blog_option =="Delite post by Title":
+        st.success("Delit post")
+        df_autor = pd.read_sql_query('SELECT title FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(temp_save),conn)
+        temp_autor = df_autor['title'].unique() 
+        #st.dataframe(temp_autor)
+        #st.write("len",len(df_autor))
+        # if df_autor.empty() == True:
+        #     st.warning("Please create the post you haven't got any post  !!!")
+        # else :
+        if len(df_autor) > 0 and df_autor['title'][0] != None:
+            
+            title_autor =[]
+            for i in temp_autor:
+                title_autor.append(i)
+            st.write(title_autor)
+
+            st.write("Ispis naslova :: ")
+            for i in title_autor:
+
+                st.write(i)
+
+            autor_temp = st.selectbox("Select title post", options= list(title_autor))
+            if st.button("Delite"):
+                delite_post_by_title(autor_temp) 
+                st.warning("Post successfully deleted!!!")
+        else:
+            st.warning("Please first create the post !!")

@@ -46,6 +46,10 @@ def return_post_id_temp_MAIN():
 def create_post_table():
     c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,read_time REAL,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
 
+def delite_post_by_title(title):
+    c.execute('DELETE  FROM blog_table_temp_MAIN WHERE title=?',(title,))
+    conn.commit()
+
 # def add_data_to_post(id_post,author,user_id,title,article,img,postdate):
 #     c.execute('INSERT INTO blog_table(id_post,author,user_id,title,article,img,postdate) VALUES (?,?,?,?,?,?,?)',(id_post,author,user_id,title,article,img,postdate))
 #     conn.commit()
