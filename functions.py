@@ -234,13 +234,6 @@ def check_email(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     return re.match(regex, email)
 
-# def make_password(password):
-#     hashed= bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(12)) 
-#     return hashed
 
-# def check_hashes(password,hashed):
-#     if bcrypt.checkpw(password.encode('utf-8'),hashed):
-#         return password
-#     return None
 
 

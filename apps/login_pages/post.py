@@ -13,29 +13,55 @@ from subprocess import Popen, PIPE
 import numpy as np 
 from streamlit import caching
 from datetime import datetime
-from functions import readingTime
+from functions import *
 from html_temp import*
 
 def app():
     
     conn = sqlite3.connect('data.db', check_same_thread=False)
     username = return_username()
-    # create_counter()
-    
     i = (username[0])
     res = str(''.join(map(str, i)))
-
     return_user_idd = return_user_id(res)
     i = (return_user_idd[0])
     temp_save = int(''.join(map(str, i)))
     create_post_table_temp_MAIN()
-    #post_check_exisit = return_post_id(temp_save)
+
+    #######################################################
+
+
+    #dfsve = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN',conn)
+    # st.write("dataframe ")
+    # st.dataframe(dfsve)
+    df_user = pd.read_sql_query('SELECT DISTINCT user_id FROM blog_table_temp_MAIN',conn)
+    temp_user = df_user['user_id'].unique() 
+    df_post = pd.read_sql_query('SELECT DISTINCT id_post FROM blog_table_temp_MAIN',conn)
+    temp_post = df_post['id_post'].unique() 
+    # st.success("temp_post")
+    # st.dataframe(temp_post)
+
+    post_lista =[]
+    for i in temp_post:
+        post_lista.append(i)
+    user_lista =[]
+    for i in temp_user:
+        user_lista.append(i)
+    d = {}
+    for i in user_lista:
+        #st.write(" i :: ",i)
+        for j in post_lista:
+            #st.write(" j :: ",j)
+            df = pd.read_sql_query('SELECT author,read_time FROM blog_table_temp_MAIN WHERE id_post = "{}"'.format(int(j)),conn)
+            #st.dataframe(df)
+            Total = df['read_time'].sum()
+            add_if_key_not_exist(d,j,Total)
+
+    #######################################################
     st.info("Select option")
     blog_option = st.selectbox("Chose a option ",["Create new post","Search post by Author","Search post by Title","Delite post by Title"], key='post_options' )
     if blog_option == "Create new post":
         st.title('Create New Post')
         if st.checkbox("Add title "):
-
             blog_title = st.text_input("Enther Post title: ")
             if blog_title  == "":
                 st.warning("Please first Insert Blog Title !!")
@@ -57,9 +83,7 @@ def app():
                                         post_lista.append(i)    
                                     temp2 = max(post_lista)
                                     te = int(temp2) 
-                                    #st.write("te test : ",te)
                                     temp = te +1
-                                    #st.write("temp temp : ",temp)
                                     post__id = str(temp)
                                 df = pd.DataFrame()
                                 df.insert(0,'id_post',[post__id])
@@ -92,9 +116,7 @@ def app():
                                         post_lista.append(i)    
                                     temp2 = max(post_lista)
                                     te = int(temp2) 
-                                    #st.write("te test : ",te)
                                     temp = te +1
-                                    #st.write("temp temp : ",temp)
                                     post__id = str(temp)
                                 df = pd.DataFrame()
                                 df.insert(0,'id_post',[post__id])
@@ -125,7 +147,7 @@ def app():
             for i in range(0,size):
                 list1[i] = str(blog_post_date)
             df_new['postdate'] = list1
-            st.dataframe(df_new)
+            #st.dataframe(df_new)
             df_new.to_sql('blog_table_temp_MAIN',con=conn,if_exists='append')
             delite_post(temp_save)
             c = conn.cursor()
@@ -142,24 +164,19 @@ def app():
             title_lista.append(i)
         st.write(title_lista)
 
-        st.write("Ispis naslova :: ")
-        for i in title_lista:
-
-            st.write(i)
-
+        # st.write("Ispis naslova :: ")
+        # for i in title_lista:
+        #     st.write(i)
         remeber = st.selectbox("Select title post", options= list(title_lista))
         if st.button("Submit"):
             df_title_temp = pd.read_sql_query('SELECT id_post,user_id FROM blog_table_temp_MAIN WHERE title = "{}"'.format(remeber),conn)
-            st.dataframe(df_title_temp)
+            #st.dataframe(df_title_temp)
             j = df_title_temp['user_id'][0]
             i = df_title_temp['id_post'][0]
-
             df_title = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
             df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
             if df_a_d_t.empty != True :
                 temp_reading_time = d.get(i)
-                st.write("temp_reading_time : ",temp_reading_time)
-
                 st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
                 for i in range(0,len(df_title)):
                     if type(df_title['img'][i]) != str and df_title['img'][i] != None:
@@ -173,22 +190,17 @@ def app():
         st.success("Search posts by the Author name")
         df_autor = pd.read_sql_query('SELECT author FROM blog_table_temp_MAIN',conn)
         temp_autor = df_autor['author'].unique() 
-
         title_autor =[]
         for i in temp_autor:
             title_autor.append(i)
         st.write(title_autor)
-
-        st.write("Ispis naslova :: ")
-        for i in title_autor:
-
-            st.write(i)
-
+        # st.write("Ispis naslova :: ")
+        # for i in title_autor:
+        #     st.write(i)
         autor_temp = st.selectbox("Select title post", options= list(title_autor))
         if st.button("Submit author"):
-            st.write("autor_temp",autor_temp)
+            #st.write("autor_temp",autor_temp)
             df_title_temp = pd.read_sql_query('SELECT * FROM blog_table_temp_MAIN WHERE author = "{}"'.format(autor_temp),conn)
-            st.dataframe(df_title_temp)
             temp_user = df_title_temp['user_id'].unique() 
             user_lista =[]
             for i in temp_user:
@@ -206,8 +218,6 @@ def app():
                     df_a_d_t = pd.read_sql_query('SELECT DISTINCT title,author,postdate FROM blog_table_temp_MAIN WHERE user_id = "{}" AND id_post = "{}"'.format(int(j),int(i)),conn)
                     if df_a_d_t.empty != True :
                         temp_reading_time = d.get(i)
-                        st.write("temp_reading_time : ",temp_reading_time)
-
                         st.markdown(head_message_temp.format(df_a_d_t['title'][0],df_a_d_t['author'][0],df_a_d_t['postdate'][0],temp_reading_time),unsafe_allow_html=True)
                         for i in range(0,len(df_print)):
                             if type(df_print['img'][i]) != str and df_print['img'][i] != None:
@@ -222,22 +232,15 @@ def app():
         st.success("Delit post")
         df_autor = pd.read_sql_query('SELECT title FROM blog_table_temp_MAIN WHERE user_id = "{}"'.format(temp_save),conn)
         temp_autor = df_autor['title'].unique() 
-        #st.dataframe(temp_autor)
-        #st.write("len",len(df_autor))
-        # if df_autor.empty() == True:
-        #     st.warning("Please create the post you haven't got any post  !!!")
-        # else :
         if len(df_autor) > 0 and df_autor['title'][0] != None:
-            
             title_autor =[]
             for i in temp_autor:
                 title_autor.append(i)
-            st.write(title_autor)
 
-            st.write("Ispis naslova :: ")
-            for i in title_autor:
+            # st.write("Ispis naslova :: ")
+            # for i in title_autor:
 
-                st.write(i)
+            #     st.write(i)
 
             autor_temp = st.selectbox("Select title post", options= list(title_autor))
             if st.button("Delite"):

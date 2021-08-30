@@ -5,9 +5,6 @@ import pandas as pd
 import csv
 import sys
 from functions import *
-from data_functions_clubs import*
-from data_functions_league import*
-
 
 
 #functions meni unicate functions

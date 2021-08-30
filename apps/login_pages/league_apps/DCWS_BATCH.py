@@ -27,7 +27,6 @@ def app():
         st.info(" For restart data you must delete data and start over !!!")
         if st.checkbox("Process data "):
             create_DCWS_BATCH_temp()
-            #create_DCWS__LEAGUE_table()
             df = pd.read_sql('SELECT * FROM League_datas', conn)
             df_new = df[["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]]
             to_append,rememmberr,flag_option = DCWS_MAIN(df_new)
@@ -80,7 +79,6 @@ def app():
                         st.warning("Please reppet your choose in search filter")
                         st.info("Leagues, Years and Nationality are different datas!!!")
                         st.info("Or Delite perviuos data !")
-
         # Save datas
         my_form_save = st.form(key = "form1")
         st.info("For process data you must save data to database")

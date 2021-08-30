@@ -13,11 +13,6 @@ title_temp ="""
 	</div>
 	"""
 
-		# <h6>Author:{}</h6>
-		#<h4 style="color:white;text-align:center;">{}</h1>
-
-	#-------------------------------
-
 # EFPA.py templates
 html_vizaulazacija1 = """
 <style>
@@ -395,3 +390,36 @@ full_message_temp ="""
 		<p style="text-align:justify;color:black;padding:10px">{}</p>
 	</div>
 	"""
+
+home_message ="""
+<div style="background-color:silver;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+	<strong><h2 style="text-align:justify;color:black;padding:10px">{}</h2></strong>
+  <h4> 1.  ->  {} </h4>
+  <h4> 2.  ->  {} </h4>
+  <h4> 3.  ->  {} </h4>
+  <h4> 4.  ->  {} </h4>
+
+  <p style="text-align:justify;color:black;padding:10px">{}</p>
+  <h3>  {} </h3>
+  
+</div>
+"""
+
+about_mesage ="""
+<div style="background-color:silver;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+	<strong><h2 style="text-align:justify;color:black;padding:10px">{}</h2></strong>
+
+  <p style="text-align:justify;color:black;padding:10px">{}</p>
+  <h3>  {} </h3>
+  
+</div>
+"""
+faq = """
+<div style="background-color:silver;overflow-x: auto; padding:10px;border-radius:5px;margin:10px;">
+	<strong><h2 style="text-align:justify;color:black;padding:10px">{}</h2></strong>
+
+  <p style="text-align:justify;color:black;padding:10px">{}</p>
+  <h3>  {} </h3>
+  
+</div>
+"""

@@ -44,8 +44,6 @@ def app():
                 create_BFPD_LEAGUE_flag_option()
                 flag2 = return_id_BFPD__LEAGUE_flag_option(id)
                 if flag2 == []:
-                    #insert_BFPD_LEAGUE_flag_option(flag_option,id)
-
                     insert_BFPD_LEAGUE_flag_option(flag_option,rememmberr,id)
                     df = to_append
                     size = NumberOfRows(df)
