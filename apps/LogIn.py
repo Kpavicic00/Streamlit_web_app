@@ -33,7 +33,7 @@ from apps.login_pages import metrics, post
 ######################
 import sqlite3
 save_df = DataFrameFunc('datas/Ligaska_KONACAN_STAS.csv')
-conn = sqlite3.connect('data.db', check_same_thread=False)
+conn = sqlite3.connect('data_new.db', check_same_thread=False)
 c = conn.cursor()
 
 fp_clubs = 'datas/sportska_kubska_statsitika_OBRDENO.csv'
