@@ -9,6 +9,7 @@ streamlit = "*"
 pandas = "*"
 altair = "*"
 matplotlib = "*"
+opencv-python = "*"
 
 [dev-packages]
 
