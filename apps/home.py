@@ -68,7 +68,7 @@ import altair as alt
 # from vega_datasets import data
 from datetime import datetime
 from html_temp import *
-from plotnine import ggplot, aes, geom_line
+#from plotnine import ggplot, aes, geom_line
 import PIL.Image as Image
 from pathlib import Path
 from PIL import UnidentifiedImageError
