@@ -10,6 +10,7 @@ import os
 import time
 
 def app():
+    create_DCTAS()
     st.title('1. function DCTAS  process function')
     st.write('Welcome to metrics')
     username = return_username()

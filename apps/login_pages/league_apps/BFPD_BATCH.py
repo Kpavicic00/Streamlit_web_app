@@ -11,6 +11,7 @@ import os
 import time
 
 def app():
+    create_BFPD_BATCH()
     st.title('2. function BFPD_BATCH  process function')
     st.write('Welcome to metrics')
     username = return_username()

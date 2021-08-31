@@ -87,14 +87,14 @@ def app():
     # path_file = 'datas/sportska_kubska_statsitika_OBRDENO.csv'
     # def DataFrameFuncClubs(filePath):
 
-    #     colls = ["Order","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season"]
+    #     colls = ["Order_of_Expend","Club","State","Competition","Expenditures","Arrivals","Income","Departures","Balance","Season"]
     #     dat = pd.read_csv(filePath,header = None , names = colls)
     #     return dat
     # # def DataFrameFunc(filePath):
 
-    # #     colls = ["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]
-    # #     dat = pd.read_csv(filePath,header = None , names = colls)
-    # #     return dat
+    # # #     colls = ["0","Nationality","Competition","Expenditures","Arrivals","Income","Departures","Balance","Year"]
+    # # #     dat = pd.read_csv(filePath,header = None , names = colls)
+    # # #     return dat
     # save_df = DataFrameFuncClubs(path_file)
     # sqlite_table = "Clubs_datas"
     # save_df.to_sql(sqlite_table, con=conn, if_exists='fail')

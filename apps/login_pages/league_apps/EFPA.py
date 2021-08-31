@@ -10,6 +10,7 @@ import os
 import time
 
 def app():
+    create_EFPA()
     st.title('1. function EFPA  process function')
     st.write('Welcome to metrics')
     username = return_username()

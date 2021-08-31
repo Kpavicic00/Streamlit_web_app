@@ -4,16 +4,16 @@ def app():
     st.title('Metrics for  LEAGUES')
     st.write('Welcome to app1')
     PAGES = {
-        "Processed Data by average league EXPEND for player ARRIVALS": EFPA,
-        "Custom options for previous function ": EFPA_BATCH,
-        "Processed Data by average league INCOME for player DEPARTURES":IFPD,
-        "Custom options for previous function":IFPD_BATCH,
-        "Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
-        "Custom options for previous function":BFPD_BATCH,
-        "Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
-        "Custom options for previous function":DFLS_BATCH,
-        "Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
-        "Custom options for previous function":DCWS_BATCH    
+        " 1. Processed Data by average league EXPEND for player ARRIVALS": EFPA,
+        " 2. Custom options for previous function ": EFPA_BATCH,
+        " 3. Processed Data by average league INCOME for player DEPARTURES":IFPD,
+        " 4. Custom options for previous function":IFPD_BATCH,
+        " 5. Processed Data by average league BALANCE for player DEPARTURES":BFPD, 
+        " 6. Custom options for previous function":BFPD_BATCH,
+        " 7. Processed Data by average LEAGUE by AVG SESONS statistic":DFLS,
+        " 8. Custom options for previous function":DFLS_BATCH,
+        " 9. Processed Data by average -> LEAGUE by YEAR statistic":DCWS,
+        " 10. Custom options for previous function":DCWS_BATCH    
         }
     st.title('Meni')
     selection = st.selectbox("Go to", list(PAGES.keys()))

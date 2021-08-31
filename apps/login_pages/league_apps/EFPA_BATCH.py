@@ -11,6 +11,7 @@ import os
 import time
 
 def app():
+    create_EFPA_BATCH()
     st.title('2. function EFPA_BATCH  process function')
     st.write('Welcome to metrics')
     username = return_username()

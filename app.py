@@ -2,7 +2,6 @@
 import streamlit as st
 
 
-from pyngrok import ngrok
 from multiapp import MultiApp
 from apps import home, SingUp, LogIn, LogIn, Search , About , TandC_FAQ# import your app modules here
 

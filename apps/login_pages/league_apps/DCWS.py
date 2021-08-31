@@ -10,6 +10,7 @@ import os
 import time
 
 def app():
+    create_DCWS()
     st.title('1. function DCWS  process function')
     st.write('Welcome to metrics')
     username = return_username()

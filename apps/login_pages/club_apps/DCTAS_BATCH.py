@@ -11,6 +11,7 @@ import os
 import time
 
 def app():
+    create_DCTAS_BATCH()
     st.title('2. function DCTAS_BATCH  process function')
     st.write('Welcome to metrics')
     username = return_username()

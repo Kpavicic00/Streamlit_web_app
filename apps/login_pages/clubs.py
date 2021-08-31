@@ -6,10 +6,10 @@ def app():
     st.title('Metrics for  LEAGUES')
     st.write('Welcome to app1')
     PAGES = {
-        "Processed Data by Data CLUBS statistic without   SESONS": CDWS,
-        "Custom options for previous function": CDWS_BATCH,
-        "Processed Data by Data CLUBS statistic through all   SESONS":DCTAS,
-        "Custom options for previous function":DCTAS_BATCH 
+        "1. Processed Data by Data CLUBS statistic without   SESONS": CDWS,
+        "2. Custom options for previous function": CDWS_BATCH,
+        "3. Processed Data by Data CLUBS statistic through all   SESONS":DCTAS,
+        "4. Custom options for previous function":DCTAS_BATCH 
         }
     st.title('Meni')
     selection = st.selectbox("Go to", list(PAGES.keys()))

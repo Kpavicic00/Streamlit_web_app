@@ -71,10 +71,10 @@ def app():
 
         c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="EFPA_table"')
 
-        # if c.fetchone()[0]==1 : 
-        # 	st.write('Table exists.')
-        # else :
-        # 	st.write('Table does not exist.')
+        if c.fetchone()[0]==1 : 
+        	st.success('Successfully log  in!!')
+        else :
+        	st.error('The user does not exist !!')
 
         if result:
             PAGES = {
