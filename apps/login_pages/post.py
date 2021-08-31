@@ -7,6 +7,7 @@ import glob
 import numpy as np
 import sqlite3
 import cv2
+#from opencv-python import cv2
 from database import *
 from PIL import Image
 from subprocess import Popen, PIPE
