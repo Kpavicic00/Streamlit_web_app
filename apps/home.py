@@ -57,7 +57,7 @@ f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
 from matplotlib import animation
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-import seaborn as sns
+#import seaborn as sns
 import time
 import io
 import altair as alt
