@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sqlite3.dbapi2 import paramstyle
-import bcrypt
+#import bcrypt
 from functions import *
 from database import *
 import datetime
@@ -22,7 +22,7 @@ from Club_functions.CDTAS_func import*
 import matplotlib.pyplot as plt
 import altair as alt
 from bokeh.plotting import figure
-import duckdb
+i#mport duckdb
 #import subprocess
 from html_temp import *
 import os
