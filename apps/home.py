@@ -25,13 +25,13 @@ from database import*
 
 import os
 import altair as alt
-import duckdb
+#import duckdb
 import streamlit.components.v1 as components
 import sqlite3
 import os
 #import bar_chart_race as bcr
 #import base64
-import re
+#import re
 
 
 
