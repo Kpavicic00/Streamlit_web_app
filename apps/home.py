@@ -4,10 +4,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sqlite3.dbapi2 import paramstyle
-import bcrypt
+#import bcrypt
 from functions import check_email,make_password,check_hashes,GETCoefficients,remove_duplicates
 from database import create_usertable,add_user_data,check_double_email,check_double_username,login_user,check_userdatatable
-import datetime
+#import datetime
 #from data_functions_clubs import*
 #from data_functions_league import*
 import matplotlib
@@ -19,8 +19,8 @@ from Club_functions.CDWS_func import*
 from Club_functions.CDTAS_func import*
 #    import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
-import sqlite3
-import time
+#import sqlite3
+#import time
 from database import*
 
 import os
@@ -29,8 +29,8 @@ import duckdb
 import streamlit.components.v1 as components
 import sqlite3
 import os
-import bar_chart_race as bcr
-import base64
+#import bar_chart_race as bcr
+#import base64
 import re
 
 
