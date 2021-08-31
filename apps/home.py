@@ -72,15 +72,76 @@ from html_temp import *
 import PIL.Image as Image
 from pathlib import Path
 from PIL import UnidentifiedImageError
-#import cv2
+import cv2
 from streamlit import caching
 from html_temp import*
 from functions import*
 import pandas as pd
+import base64
+import textwrap
+# from keras.preprocessing.image import load_img
+# from keras.preprocessing.image import img_to_array
+# from keras.preprocessing.image import array_to_img
 
 
 
 def app():
+
+    
+    # svg = """
+    #     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+    #         <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+    #     </svg>
+    # """
+    # b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
+    # html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
+    # st.write(html, unsafe_allow_html=True)
+    
+    # uploaded_file = st.file_uploader("Choose a image file")
+    # # if uploaded_file is not None:
+    # #     # Convert the file to an opencv image.
+    #     #st.write("type(uploaded_file)",uploaded_file)
+    # file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+    # bytes = file_bytes.tobytes()
+    # result = Image.fromarray(bytes)
+
+    # def get_image_download_link(img):
+    # 	"""Generates a link allowing the PIL image to be downloaded
+    # 	in:  PIL image
+    # 	out: href string
+    # 	"""
+    # 	buffered = BytesIO()
+    # 	img.save(buffered, format="JPEG")
+    # 	img_str = base64.b64encode(buffered.getvalue()).decode()
+    # 	href = f'<a href="data:file/jpg;base64,{img_str}">Download result</a>'
+    # 	return href
+    # get_image_download_link(result)
+
+
+    uploaded_file = st.file_uploader("Choose a image file",key='321321')
+    if uploaded_file is not None:
+        # Convert the file to an opencv image.
+        st.write("type(uploaded_file)",uploaded_file)
+        file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+        bytes = file_bytes.tobytes()
+        #temp_string = file_bytes.decode("utf-8") 
+        #.write(" type file_bytes",type(bytes))
+        #insert_image(bytes,2)
+        test = np.frombuffer(bytes, dtype=np.uint8)
+        opencv_image = cv2.imdecode(test, 1)
+        st.image(opencv_image, channels="BGR")
+
+#########################################
+    # uploaded_file2 = st.file_uploader("Choose a image file")
+    # if uploaded_file2 is not None:
+    #     data = uploaded_file2.read()
+    #     img = load_img(data)
+    #     img_array = img_to_array(img)
+    #     img_pil = array_to_img(img_array)
+    #     st.image(img_pil)
+
+#######################################
+
     create_post_table_temp_MAIN()
     # conn = sqlite3.connect('data_new.db', check_same_thread=False)
     # c = conn.cursor()
