@@ -1,8 +1,8 @@
 import streamlit as st
 from html_temp import *
 from functions import *
-import sqlite3
-import cv2
+#import sqlite3
+#import cv2
 from database import *
 from streamlit import caching
 from datetime import datetime
