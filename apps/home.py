@@ -72,7 +72,7 @@ from html_temp import *
 import PIL.Image as Image
 from pathlib import Path
 from PIL import UnidentifiedImageError
-import cv2
+#import cv2
 from streamlit import caching
 from html_temp import*
 from functions import*
