@@ -21,8 +21,8 @@ from Club_functions.CDWS_func import*
 from Club_functions.CDTAS_func import*
 import matplotlib.pyplot as plt
 import altair as alt
-from bokeh.plotting import figure
-i#mport duckdb
+#rom bokeh.plotting import figure
+#mport duckdb
 #import subprocess
 from html_temp import *
 import os
