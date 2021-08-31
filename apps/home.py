@@ -53,7 +53,7 @@ f_datas = 'datas/exported/GetAVGExpendFORplayerArrivals.csv'
 #------------------------------------
 # from apps.login_pages import app1,app2
 #import login_pages.app1
-import bar_chart_race as bcr
+#import bar_chart_race as bcr
 from matplotlib import animation
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -61,11 +61,11 @@ import seaborn as sns
 import time
 import io
 import altair as alt
-from altair import Chart, X, Y, Axis, SortField, OpacityValue
-from altair.expr import datum, if_
-from vega_datasets import data
-import altair as alt
-from vega_datasets import data
+# from altair import Chart, X, Y, Axis, SortField, OpacityValue
+# from altair.expr import datum, if_
+# from vega_datasets import data
+# import altair as alt
+# from vega_datasets import data
 from datetime import datetime
 from html_temp import *
 from plotnine import ggplot, aes, geom_line
