@@ -1,7 +1,7 @@
 # functions
 from os import makedirs
 import streamlit as st
-import bcrypt
+#import bcrypt
 import re
 import hashlib
 import numpy as np
