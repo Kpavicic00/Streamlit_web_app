@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 import altair as alt
 from bokeh.plotting import figure
 import duckdb
-import subprocess
+#import subprocess
 from html_temp import *
 import os
 import time

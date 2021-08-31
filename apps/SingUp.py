@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sqlite3.dbapi2 import paramstyle
-import bcrypt
+#import bcrypt
 from functions import check_email,make_password,check_hashes,GETCoefficients,remove_duplicates
 from database import create_usertable,add_user_data,check_double_email,check_double_username,login_user,check_userdatatable
 import datetime
