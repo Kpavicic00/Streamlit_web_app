@@ -5,13 +5,50 @@ from pandas.core.frame import DataFrame
 conn = sqlite3.connect('data_new.db', check_same_thread=False)
 c = conn.cursor()
 
-# POST 
-def create_counter():
-    c.execute('CREATE TABLE IF NOT EXISTS Conuter(Conuter_id INTEGER PRIMARY KEY,counter INTEGER,user_id TEXT,FOREIGN KEY(Conuter_id) REFERENCES usertable(id))')
 
-def add_counter(counter,user_id):
-    c.execute('INSERT INTO Conuter(counter,user_id) VALUES(?) ',(counter,user_id))
+######################  TEST
+def create_IMAGE_FINAL():
+    c.execute('CREATE TABLE IF NOT EXISTS IMAGE_FINAL(Image_id INTEGER PRIMARY KEY,"index" INTEGER,blog_table_id TEXT,id_post TEXT,user_id TEXT,width INTEGER,height INTEGER,FOREIGN KEY(Image_id) REFERENCES blog_table_temp_MAIN(blog_table_id))')
+
+
+def create_image_table():
+    c.execute('CREATE TABLE IF NOT EXISTS table_Image(Image_id INTEGER PRIMARY KEY,blog_table_id TEXT,id_post TEXT,user_id TEXT,width INTEGER,height INTEGER,FOREIGN KEY(Image_id) REFERENCES blog_table_temp_MAIN(blog_table_id))')
+
+def add_data_to_image_to_table(id_post,user_id,width,height):
+    c.execute('INSERT INTO table_Image(id_post,user_id,width,height) VALUES(?,?,?,?) ',(id_post,user_id,width,height))
     conn.commit()
+
+def update_post_id_image(update_value,id_post,user_id):
+    c.execute('UPDATE table_Image SET blog_table_id=? WHERE user_id =? AND id_post = ? AND blog_table_id IS NULL',(update_value,id_post,user_id))
+    data = c.fetchall()
+    return data
+
+ #  img
+def return_img(user_id,id_post):
+    c.execute('SELECT img FROM table_Image WHERE user_id = {} AND id_post = {}'.format(user_id,id_post))
+    data = c.fetchall()
+    return data
+
+ #  width
+def return_width(user_id,id_post):
+    c.execute('SELECT width FROM table_Image WHERE user_id = {} AND id_post = {}'.format(user_id,id_post))
+    data = c.fetchall()
+    return data
+
+ #  height
+def return_height(user_id,id_post):
+    c.execute('SELECT height FROM table_Image WHERE user_id = {} AND id_post = {}'.format(user_id,id_post))
+    data = c.fetchall()
+    return data
+######################  TEST
+
+# POST 
+# def create_counter():
+#     c.execute('CREATE TABLE IF NOT EXISTS Conuter(Conuter_id INTEGER PRIMARY KEY,counter INTEGER,user_id TEXT,FOREIGN KEY(Conuter_id) REFERENCES usertable(id))')
+
+# def add_counter(counter,user_id):
+#     c.execute('INSERT INTO Conuter(counter,user_id) VALUES(?) ',(counter,user_id))
+#     conn.commit()
 
 def delite_counter(user_id):
     c.execute('DELETE  FROM Conuter WHERE user_id=?',(user_id,))
@@ -23,15 +60,21 @@ def return_counter(user_id):
     return data
 
 def create_post_table_temp_MAIN():
-    c.execute('CREATE TABLE IF NOT EXISTS blog_table_temp_MAIN(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,read_time REAL,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table_temp_MAIN(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,postdate TEXT,read_time REAL,img TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
 
 def return_post_id_temp_MAIN():
 	c.execute('SELECT DISTINCT id_post FROM blog_table_temp_MAIN')
 	data = c.fetchall()
 	return data
 
+def return_post_id_for_image(id_post,user_id):
+	c.execute('SELECT  blog_table_id FROM blog_table_temp_MAIN WHERE id_post = {} AND user_id = {} AND article IS NULL'.format(id_post,user_id))
+	data = c.fetchall()
+	return data
+
+
 def create_post_table():
-    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,img TEXT,postdate TEXT,read_time REAL,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
+    c.execute('CREATE TABLE IF NOT EXISTS blog_table(blog_table_id INTEGER PRIMARY KEY,"index" INTEGER,id_post TEXT,author TEXT,user_id TEXT,title TEXT,article TEXT,postdate TEXT,read_time REAL,img TEXT,FOREIGN KEY(blog_table_id) REFERENCES usertable(id))')
 
 def delite_post_by_title(title):
     c.execute('DELETE  FROM blog_table_temp_MAIN WHERE title=?',(title,))

@@ -15,6 +15,7 @@ from League_functions.EFPA_func import*
 #coef = 'file.txt'
 
 def app():
+    create_usertable()
     st.subheader("SingUp")
     # Username
     form = st.sidebar.form(key='my_form')

@@ -14,7 +14,36 @@ import pandas as pd
 import csv
 import sys
 import base64
+import io
+from io import BytesIO
+from PIL import Image
 coef = 'file.txt'
+
+def png_bytes_to_numpy(png):
+    return np.array(Image.open(BytesIO(png)))
+#@st.cache
+def load_image(image_file):
+    img = Image.open(image_file)
+    return img
+def image_to_byte_array(image:Image):
+    imgByteArr = io.BytesIO()
+    image.save(imgByteArr, format=image.format)
+    imgByteArr = imgByteArr.getvalue()
+    return imgByteArr
+
+def convert_img_to_byte(uploaded_file):
+    dimenzije = Image.open(uploaded_file)
+    width, height = dimenzije.size
+    img = load_image(uploaded_file)
+    a = image_to_byte_array(img)
+    bytes_temp = png_bytes_to_numpy(a)
+    return width, height, bytes_temp
+
+def convert_bytes_to_img(width,height,a):
+    data = np.zeros((height, width, 4), dtype=np.uint8)
+    data[0:2560, 0:2560] = a # red patch in upper left
+    img = Image.fromarray(data, 'RGBA')
+    return img
 
 def add_if_key_not_exist(dict_obj, key, value):
     if key not in dict_obj:
